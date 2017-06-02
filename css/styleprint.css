@@ -1,63 +1,9 @@
 /*Cuadro de login*/
-.form-login{
-	background-color: rgba(0,0,0,0.5);
-	text-align:center;
-	margin: 0 auto;
-	max-width: 500px;
-	padding: 15px 29px 15px 29px;
-	border: 2px solid white;
-	border-radius: 10px;
-	font-family:Tahoma, Geneva, sans-serif;
-	font-weight:lighter;
-}
-/*Texto de bienvenida*/
-#initial-text {
-	color:black;
-	text-align:center;
-}
-/*Texto del cuadro de login*/
-#text-loginbox {
-	color:white;
-	text-align:center;
-}
-/*Inputs del cuadro de login*/
-.form-login input[type="text"],
-.form-login input[type="password"]{
-    font-size: 16px;
-    height: 45px;
-    padding: 7px 9px;
-}
-/*
-		navbar.php
-*/
-/*Color de barra*/
-.navbar {
-	background-color: #0C1D46;
-}
-/*Color de textos*/
-.navbar-default .navbar-brand {
-    color: white;
-}
-/*Color cuando el mouse está encima*/
-.navbar-default:hover .navbar-brand:hover {
-	color:#B11928;
-}
-/*
-		sessionbar.php
-*/
-.dropdown-toggle {
-	color: white;
-}
-.dropdown-toggle:hover {
-	color: black;
-}
-/*
-			advertencias pop-up (alert)
-*/
-.alert {
-	border: 2px solid #610B0B;
-	color: white;
-	background-color: #B40404;
+html *
+{
+   font-size: 1em !important;
+   color: #000 !important;
+   font-family: Georgia !important;
 }
 /*
 			tablas
@@ -110,7 +56,7 @@ h3 {
 	padding: 0.5cm;
 }
 #name_bar{
-	font-family: "Arial", Times, serif;
+	/*font-family: "Arial", Times, serif;*/
 }
 #btn-submit{
 	height:45px;

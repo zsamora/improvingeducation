@@ -201,3 +201,15 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 </form>
 </div>
 <?php include('footer.php');?>
+<script type="text/javascript">
+//TODO: ARREGLAR
+$("td").click(function () {
+	$(this).find('input:radio').attr('checked', true);
+	if ($("input[type=radio]:checked").val()){
+		$(this).css("background-color", '#31B404');
+	}
+	else {
+		$(this).css("background-color", 'white');
+	}
+});
+</script>
