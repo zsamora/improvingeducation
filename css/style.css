@@ -89,6 +89,10 @@ td {
 thead, tbody {
 	border: 2px solid black;
 }
+h2 {
+	color:white;
+	text-align: center;
+}
 h3 {
 	color:white;
 	text-align: center;

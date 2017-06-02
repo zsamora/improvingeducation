@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if($_SESSION['id']!=1){ // Poner aquí las id de quien puede tener acceso

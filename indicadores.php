@@ -10,6 +10,8 @@ include('navbar.php');
 <div class="container">
 	<?php include('sessionbar.php'); ?>
 </div>
+<h2> Indicadores </h2>
+<br>
 <div class="container">
 <div class="table-responsive">
 	<table class="table">

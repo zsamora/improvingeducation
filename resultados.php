@@ -20,16 +20,16 @@ $comp_result = $conn->query($result_comp) or die("database error:". $conn->error
 ?>
 <div class="container">
 	<?php include('sessionbar.php'); ?>
-	<div class='alert alert-success'>
-		<button class='close' data-dismiss='alert'>&times;</button>
-			<h5> Informes por usuario </h5>
-	</div>
+<h2>Resultados</h2>
+</div>
+<br>
 <?php
 $users = "SELECT *
 						FROM trabaja
 						WHERE usuario_id != 1";
 $user_result = $conn->query($users) or die("database error:". $conn->error);
 ?>
+<div class="container">
 <div class="table-responsive">
 	<table class="table">
 		<thead>
