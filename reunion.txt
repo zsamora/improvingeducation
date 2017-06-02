@@ -1,0 +1,16 @@
+CAS Service for authenthication
+_________________
+
+Running server locally
+
+eng.ng.js.example
+
+Edit: serviceURL to localhost:3000
+Delete: .example
+____________
+
+Install meteor
+curl https://install.meteor.com/ ¬| sh
+meteor npm install
+meteor run (or just meteor)
+Run ->

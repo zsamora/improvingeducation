@@ -1,0 +1,248 @@
+##########################################
+                JavaScript
+##########################################
+El estándar para <script> es que debe tener un <script type="text/javascript">
+(esto es llamado tipo MIME)
+
+<noscript>Mensaje</noscript> = Se utiliza para enviar mensajes al usuario cuando
+su navegador no soporta JS
+
+Sintaxis:
+  - No se cuentan espacios ni tabulaciones
+  - Es case sensitive
+  - No se define el tipo de la variable
+  - Comentarios : /xxx/ y /*xxx*/
+
+Limitaciones:
+  - No se puede comunicar con elementos fuera desde el que se descargó el script
+  - Tampoco pueden cerrar ventanas externas, ni hacerlas no visibles (por tamaño,
+  visión, etc...)
+  - No pueden acceder a archivos del ordenador
+  *** Se puede superar lo anterior haciendo que el usuario firme digitalmente el
+  script, solicitando permiso para realizar esas acciones
+
+Variables
+  - se declara var x = xxx;
+  - Hay numéricos, cadenas de texto, booleans (true y false) y arrays ([a,b,c,d])
+  - Se parte desde el 0 para acceder al array
+
+Funciones predefinidas
+  - .length
+  - .concat(string)
+  - .charAt(index)
+  - .indexOf(char)
+  - .split(string)
+  - .join(string)
+  - .pop()
+  - .push(index)
+  - .shift()
+  - .unshift(element)
+  - .reverse()
+  - .isNaN(num)
+  - .toFixed(digitos)
+
+Declaración de funciones
+  - function nombre() { return algo; }
+
+Ámbito de las variables
+  - Scope es el nombre
+  - Existen variables globales y locales
+
+Break y Continue
+  - break termina el bucle
+  - continue salta el paso actual
+Do { ... } while(condicion);
+  - Siempre se ejecuta una vez las instrucciones del do (por lo menos)
+  - La condición se verifica después de las instrucciones
+
+Switch(variable) { case a: case b: ... default: } ;
+
+DOM
+  - Estructuración de un XHTML
+  - Crea un árbol de nodos con los elementos HTML
+
+Tipos de nodos
+  - Document (nodo raíz)
+  - Element (etiqueta HTML)
+  - Attr (atributos de la etiqueta)
+  - Text (texto encerrado por etiqueta)
+  - Comment (comentarios)
+
+Acceso directo a los nodos
+  - getElementsByTagName(nombre_etiqueta)
+    - Ej: Obtener todos los parrafos en x -> var x = document.getElementsByTagName("p");
+    - Ej: Primer párrafo -> x[0];
+    - Ej: Obtener enlaces del primer párrafo -> x[0].getElementsByTagName("a");
+  - getElementsByName(nombre)
+    - Busca en los atributos name
+    - name es único para los elementos que lo definen
+  - getElementById(nombre_id)
+    - id es único para cada elemento de la misma página
+
+Creación y Eliminación de nodos
+  - Para la creación hay cuatro pasos:
+    - Ej: Agregar al final del html
+    - var parrafo = document.createElement("p");
+    - var contenido = document.createTextNode("Hola Mundo!");
+    - parrafo.appendChild(contenido);
+    - document.body.appendChild(parrafo);
+  - Eliminación:
+    - La eliminación se llama desde el nodo padre
+    - nodohijo.parentNode.removeChild(nodohijo);
+    - Se borran los hijos del nodohijo automáticamente
+
+Acceso directo a los atributos
+  - elemento.atributo (para HTML)
+    - class (al estar reservada para JS) no puede accederse de esa forma, por lo
+    que se usa className
+  - elemento.style.atributo (para CSS)
+    - los atributos con guión (como font-style) se llaman como "attrAttr" (fontStyle)
+
+Modelos de Eventos
+  - Modelo básico de elementos
+    - Soportado por todos los navegadores
+  - Modelo de eventos estándar
+    - DOM nivel 2
+  - Modelo de IE (basuras)
+Tipos de Eventos
+  - los eventos tienen el prefijo on
+  - tabla: https://librosweb.es/libro/javascript/capitulo_6/modelo_basico_de_eventos_2.html
+  - Ej: Al pulsar <input type="submit"> se desencadenan los eventos
+    onmousedown, onclick, onmouseup y onsubmit de forma consecutiva.
+Event Handlers
+  - Tipo XHTML
+    - Se incluye como atributo con el evento (Ej: <input type="button" onclick="alert('s');"/>)
+    - Ej: <body onload="alert('La página se ha cargado completamente');">
+  - Variable this
+    - Se usa para referirse al elemento que provoca el evento
+  - Funciones externas
+    - Ej: (onclick = "funcion()")
+    - No se puede usar this, asi que usualmente se entrega el elemento como argumento
+      - onclick = "resalta(this)"
+  - Manejadores semánticos
+    - Separación de archivos (.js de .html)
+    - Se define la función, y se asigna al elemento en el archivo .js (por id si es único)
+    - La función se asigna sin paréntesis (para que no se ejecute)
+      - Ej: document.getElementById('hola') = saludar;
+    - Asegurarse que la página está cargada:
+      - window.onload = function { ... }
+
+Información del evento
+  - Se crea mágicamente el argumento event para el manejador de eventos
+  - event.type (igual al nombre del evento pero sin on)
+  - Para teclas se usa keypress (como type), sacando el keypress.charCode, que
+    es el símbolo que representa
+  - keyCode es la tecla mismo (la a y A es el mismo keycode)
+  - var mensaje = "Tipo de evento: " + evento.type + "<br>" +
+                "Propiedad keyCode: " + evento.keyCode + "<br>" +
+                "Propiedad charCode: " + evento.charCode + "<br>" +
+                "Carácter pulsado: " + String.fromCharCode(evento.charCode);
+  - .altKey, .ctrlKey y .shiftKey devuelven un valor booleano al ser apretadas
+  - Puntero del ratón con respecto a la ventana: clientX y clientY (con origen en la izq.sup)
+  - ""                    a la pantalla completa: screenX y screenY ("")
+  - ""                    al origen de la página: pageX y pageY
+
+Formularios
+  - Cuando se crea una página, se crea un array llamado forms (document.forms[0])
+  - Dentro de los forms hay elements de todo tipo (document.forms[0].elements[0])
+  - Como el orden cambia, es recomendable acceder por id o name
+  - Se puede acceder directamente desde el name (document.formulario o document.forms.elemento)
+  - Para acceder por la id (document.getElementById("formulario"))
+  - Luego de referenciarse se tiene las propiedades:
+    - type: indica el tipo en <input>, select-one en <select>, select-multiple
+     los <select> multiples y los <textarea> son textarea
+    - form: referencia al formulario mismo (Ej: document.getElementById("id").form)
+    - name: Solo para lectura (no se puede cambiar)
+    - value: Lectura y modificación. Texto para campos de texto, texto que se muestra
+    en el boton para button
+    - onclick: Se usa para (<input type="button">, <input type="submit">, <input type="image">)
+    - onchange: Cuando cambia <input type="text"> o <textarea> o cuando selecciona una
+    opcion en <select>
+    - onfocus: Seleccion de un elemento en un formulario
+    - onblur: Des-seleccion de un elemento ("perdida de foco")
+
+Valor de campo de formularios
+  - value: cuadro de texto y textarea
+  - checked: para radiobuttons (ver cual ha sido seleccionado) y value para valor.
+            También para checkbox (no son excluyentes)
+  - options: array con opciones de la lista (options[0] es el primero)
+  - selectedIndex: valor de esta propiedad indica el índice (de options) de la
+    opción seleccionada
+  - Ej: var lista = document.getElementById("opciones");
+        var valorSeleccionado = lista.options[lista.selectedIndex].value;
+        var valorSeleccionado = lista.options[lista.selectedIndex].text;
+
+Foco de un elemento
+  - El foco es en que elemento empieza la página (usuarios en FB)
+  - .focus() se usa para asignar foco
+  - No hay que hacer focus cuando el campo es hidden
+
+Doble envío de formularios
+  - Para evitar esto se usa en el boton onclick="this.disabled=true;
+  - se usa con type="button" y no type="submit" porque no envía nada
+
+Limitar los caracteres de un textarea
+  - se usa onkeypress="return limita(100);", con limita una función que verifica
+  la cantidad de caracteres utilizados y devuelve falso en caso que se supere
+
+Restringir caracteres en cuadro de texto
+  -  onsubmit="return validacion()"
+
+Campo de texto obligatorio
+  - valor = document.getElementById("campo").value;
+  - Ej: if( valor == null || valor.length == 0 || /^\s+$/.test(valor) ) {
+          return false;
+        }
+Valores numéricos
+  - valor = document.getElementById("campo").value;
+    if( isNaN(valor) ) {
+      return false;
+    }
+
+Chequear selección
+  - indice = document.getElementById("opciones").selectedIndex;
+    if( indice == null || indice == 0 ) {
+      return false;
+    }
+
+Validar e-mail
+  - valor = document.getElementById("campo").value;
+    if( !(/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)/.test(valor)) ) {
+      return false;
+    }
+
+Validar fecha
+  - var ano = document.getElementById("ano").value;
+    var mes = document.getElementById("mes").value;
+    var dia = document.getElementById("dia").value;
+    valor = new Date(ano, mes, dia);
+    if( !isNaN(valor) ) {
+      return false;
+    }
+
+Validar checkbox seleccionado
+  - elemento = document.getElementById("campo");
+    if( !elemento.checked ) {
+      return false;
+    }
+Validar radiobutton seleccionado
+  - opciones = document.getElementsByName("opciones");
+    var seleccionado = false;
+    for(var i=0; i<opciones.length; i++) {
+      if(opciones[i].checked) {
+        seleccionado = true;
+        break;
+      }
+    }
+    if(!seleccionado) {
+      return false;
+    }
+
+Tooltips (recuadros pequeños de información)
+  - Librería overLIB
+Menú Desplegable
+  - Yahoo UI Library
+
+##########################################
+                AJAX
+##########################################

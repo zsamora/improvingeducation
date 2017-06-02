@@ -1,0 +1,401 @@
+
+#################################################################################################################
+                Rellenar 'superiores' y 'superiores_id' (Agregar asignaturas y
+                verificar que solo sea un superior por persona)
+#################################################################################################################
+# Rellenado de superiores
+
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 1 , 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 2, 2 , 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 2 , 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (10, 4, 3 , 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (10, 4, 3 , 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (10, 4, 3 , 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 4 , 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 5 , 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 3, 6 , 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 7 , 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 8 , 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 9 , 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 10, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 3, 11, 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 12, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 13, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 14, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 15, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 15, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 15, 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 16, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (18, 4, 17, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (18, 4, 17, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (18, 4, 17, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 18, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (18, 4, 19, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (10, 4, 20, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 21, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (19, 1, 23, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 23, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 23, 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 23, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 24, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (19, 1, 24, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 30, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (29, 4, 30, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 2, 31, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 22, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 22, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 22, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 25, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 2, 25, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 26, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 2, 26, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 3, 26, 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 1, 27, 1);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 2, 27, 2);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (15, 3, 27, 3);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (14, 4, 28, 4);
+INSERT INTO `superiores` (`cargo_sup`,`ciclo_sup`,`cargo_id`,`ciclo_id`) VALUES (17, 4, 29, 4);
+
+# COMPROBAR
+SELECT c1.nombre, d1.nombre, c2.nombre, d2.nombre
+FROM cargos c1, cargos c2, ciclos d1, ciclos d2, superiores
+WHERE c1.id = cargo_id AND c2.id = cargo_sup AND d1.id = ciclo_id AND d2.id = ciclo_sup
+
+# Relleno de superiores_id
+INSERT INTO superiores_id (usuario_id, cargo_id, ciclo_id, asignatura_id, superior_id, cargo2_id, ciclo2_id, asignatura2_id)
+SELECT t1.usuario_id, t1.cargo_id, t1.ciclo_id, t1.asignatura_id, t2.usuario_id, t2.cargo_id, t2.ciclo_id, t2.asignatura_id
+FROM superiores, trabaja t1, trabaja t2
+WHERE t1.cargo_id = superiores.cargo_id
+AND t1.ciclo_id = superiores.ciclo_id
+AND t1.asignatura_id = superiores.asignatura_id
+AND t2.cargo_id = superiores.cargo_sup
+AND t2.ciclo_id = superiores.ciclo_sup
+AND t2.asignatura_id = superiores.asignatura_sup
+
+#################################################################################################################
+                                    Rellenar opinantes (evaluadores)
+#################################################################################################################
+
+# Auto-Evaluación (LISTO)
+
+INSERT INTO `opinantes`(`tipo_id`, `evaluado_id`, `perfil_id`, `cargo_id`, `asignatura_id`, `ciclo_id`,`evaluador_id`, `perfil_sup`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT 1, t1.usuario_id, t1.perfil_id, t1.cargo_id, t1.asignatura_id, t1.ciclo_id, t1.usuario_id, t1.perfil_id, t1.cargo_id, t1.ciclo_id, t1.asignatura_id
+FROM trabaja t1
+
+# Superior (Comisión Evaluadora)
+
+INSERT INTO `opinantes`(`tipo_id`, `evaluado_id`, `perfil_id`, `cargo_id`, `asignatura_id`, `ciclo_id`,`evaluador_id`, `perfil_sup`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT 2, t1.usuario_id, t1.perfil_id, t1.cargo_id, t1.asignatura_id, t1.ciclo_id, t2.usuario_id, t2.perfil_id, t2.cargo_id, t2.ciclo_id, t2.asignatura_id
+FROM trabaja t1, trabaja t2, superiores_id
+WHERE t1.usuario_id = superiores_id.usuario_id
+AND t1.cargo_id = superiores_id.cargo_id
+AND t1.ciclo_id = superiores_id.ciclo_id
+AND t1.asignatura_id = superiores_id.asignatura_id
+AND t2.usuario_id = superiores_id.superior_id
+AND t2.cargo_id = superiores_id.cargo2_id
+AND t2.ciclo_id = superiores_id.ciclo2_id
+AND t2.asignatura_id = superiores_id.asignatura2_id
+
+# Colaboradores
+
+INSERT INTO `opinantes`(`tipo_id`, `evaluado_id`, `perfil_id`, `cargo_id`, `asignatura_id`, `ciclo_id`,`evaluador_id`, `perfil_sup`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT 3, t1.usuario_id, t1.perfil_id, t1.cargo_id, t1.asignatura_id, t1.ciclo_id, t2.usuario_id, t2.perfil_id, t2.cargo_id, t2.ciclo_id, t2.asignatura_id
+FROM trabaja t1, trabaja t2, superiores_id
+WHERE t2.usuario_id = superiores_id.usuario_id
+AND t2.cargo_id = superiores_id.cargo_id
+AND t2.ciclo_id = superiores_id.ciclo_id
+AND t2.asignatura_id = superiores_id.asignatura_id
+AND t1.usuario_id = superiores_id.superior_id
+AND t1.cargo_id = superiores_id.cargo2_id
+AND t1.ciclo_id = superiores_id.ciclo2_id
+AND t1.asignatura_id = superiores_id.asignatura2_id
+
+#################################################################################################################
+                                RELLENAR EVALUACIONES DE INDICADORES
+#################################################################################################################
+
+# Evaluacion tipo Superior (Única que hay)
+
+INSERT INTO `evaluaciones_ind`(`meta_id`,`indicador_id`, `evaluado_id`, `cargo_id`, `ciclo_id`, `asignatura_id`, `evaluador_id`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT indicadores.meta_id, indicador_id, evaluado_id, opinantes.cargo_id, ciclo_id, asignatura_id, evaluador_id, cargo_sup, ciclo_sup, asignatura_sup
+FROM indicador_cargos, opinantes, indicadores
+WHERE opinantes.tipo_id = 2
+AND indicador_cargos.cargo_id = opinantes.cargo_id
+AND indicadores.id = indicador_cargos.indicador_id
+
+# Comprobar Evaluaciones de indicadores
+
+SELECT indicadores.descripcion, u1.nombre, u1.apellidop, c1.nombre, p1.nombre, u2.nombre, u2.apellidop, c2.nombre, p2.nombre
+FROM `evaluaciones_ind`,usuarios u1, usuarios u2, trabaja t1, trabaja t2, cargos c1, cargos c2, perfiles p1, perfiles p2, indicadores, indicador_cargos
+WHERE indicadores.id = indicador_cargos.indicador_id
+AND u1.id = t1.usuario_id
+AND u2.id = t2.usuario_id
+AND t1.usuario_id = evaluado_id
+AND t2.usuario_id = evaluador_id
+AND t1.cargo_id = c1.id
+AND t2.cargo_id = c2.id
+AND c1.perfil_id = p1.id
+AND c2.perfil_id = p2.id
+
+#################################################################################################################
+                                RELLENAR EVALUACIONES DE COMPETENCIAS
+#################################################################################################################
+
+
+# Evaluacion tipo Autoevaluacion
+
+INSERT INTO `evaluaciones_comp`(`tipo_id`, `competencia_id`, `criterio_id`, `evaluado_id`, `cargo_id`, `ciclo_id`, `asignatura_id`, `evaluador_id`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT opinantes.tipo_id, comp_perfiles.competencia_id, comp_crit.criterio_id, evaluado_id, opinantes.cargo_id, ciclo_id, asignatura_id, evaluador_id, cargo_sup, ciclo_sup, asignatura_sup
+FROM comp_perfiles, comp_crit, opinantes
+WHERE opinantes.tipo_id = 1
+AND comp_perfiles.competencia_id = comp_crit.competencia_id
+AND comp_perfiles.perfil_id = opinantes.perfil_id
+
+# Evaluacion tipo Superior
+
+INSERT INTO `evaluaciones_comp`(`tipo_id`, `competencia_id`, `criterio_id`, `evaluado_id`, `cargo_id`, `ciclo_id`, `asignatura_id`, `evaluador_id`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT opinantes.tipo_id, comp_perfiles.competencia_id, comp_crit.criterio_id, evaluado_id, opinantes.cargo_id, ciclo_id, asignatura_id, evaluador_id, cargo_sup, ciclo_sup, asignatura_sup
+FROM comp_perfiles, comp_crit, opinantes
+WHERE opinantes.tipo_id = 2
+AND comp_perfiles.competencia_id = comp_crit.competencia_id
+AND comp_perfiles.perfil_id = opinantes.perfil_id
+
+
+# Evaluacion tipo Colaborador (Rellenar)
+
+INSERT INTO `evaluaciones_comp`(`tipo_id`, `competencia_id`, `criterio_id`, `evaluado_id`, `cargo_id`, `ciclo_id`, `asignatura_id`, `evaluador_id`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`)
+SELECT opinantes.tipo_id, comp_perfiles.competencia_id, comp_crit.criterio_id, evaluado_id, opinantes.cargo_id, ciclo_id, asignatura_id, evaluador_id, cargo_sup, ciclo_sup, asignatura_sup
+FROM comp_perfiles, comp_crit, opinantes
+WHERE opinantes.tipo_id = 3
+AND comp_perfiles.competencia_id = comp_crit.competencia_id
+AND comp_perfiles.perfil_id = opinantes.perfil_id
+
+#COMPROBAR Evaluaciones de competencias
+
+SELECT competencias.nombre, u1.nombre, u1.apellidop, c1.nombre, p1.nombre, u2.nombre, u2.apellidop, c2.nombre, p2.nombre
+FROM usuarios u1, usuarios u2, trabaja t1, trabaja t2, competencias, cargos c1, cargos c2, perfiles p1, perfiles p2, evaluaciones_comp
+WHERE competencias.id = evaluaciones_comp.competencia_id
+AND u1.id = t1.usuario_id
+AND u2.id = t2.usuario_id
+AND t1.usuario_id = evaluado_id
+AND t2.usuario_id = evaluador_id
+AND t1.cargo_id = c1.id
+AND t2.cargo_id = c2.id
+AND c1.perfil_id = p1.id
+AND c2.perfil_id = p2.id
+
+#################################################################################################################
+                                ASIGNATURAS 
+#################################################################################################################
+("Ingles"), ("Lenguaje"), ("Religion"), ("Arte"), ("Danza"), ("Futbol Varones"),("Fisica"),
+("Staff"),("Educacion Fisica"), ("Basketball Varones"), ("Biologia"), ("Historia"), ("Manualidades"),
+ ("Quimica"), ("Coro Liturgico"), ("Musica"), ("Voleibol Mixto"), ("Tecnologia"),("Matematicas"),
+  ("Pintura"), ("Handball Varones"), ("Computacion"), ("Filosofia"), ("Basketball Damas"),
+  ("Gimnasia Artistica"), ("Futbol Damas")
+
+#################################################################################################################
+                            RELLENAR CARGOS ASOCIADOS A COMPETENCIAS (REVISAR BIEN ESTO DETALLES CON COLEGIO)
+#################################################################################################################
+
+# Liderazgo Gasparino
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`)
+SELECT DISTINCT 1, id
+FROM cargos
+WHERE perfil_id in (2,4) OR id in (10,15,18,19,29);
+# Comprobar cargos
+SELECT nombre
+FROM cargos,comp_cargos
+WHERE cargos.id = comp_cargos.id
+AND competencia_id = 1
+
+# Trabajo en Equipo
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 2 ,id FROM cargos WHERE perfil_id in (1,2,4) OR id in (10,15,18,19,29);# Comprobar cargos
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 2
+
+# Orientación a la Excelencia con Iniciativa e Innovación
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 3 ,id FROM cargos
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 3
+
+# Compromiso Institucional
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 4 , id FROM cargos
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 4
+
+# Relaciones Interpersonales
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 5 ,id FROM cargos
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 5
+
+# Calidad de la Enseñanza
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 6 , id FROM cargos WHERE perfil_id = 4
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 6
+
+# Liderazgo Directivo
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 7 , id FROM cargos WHERE perfil_id = 3
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 7
+
+# Liderazgo para una Gestión Administrativa Efectiva
+INSERT INTO `comp_cargos`(`competencia_id`, `cargo_id`) SELECT DISTINCT 8 , id FROM cargos WHERE id = 14
+# Comprobar cargos
+SELECT nombre FROM cargos,comp_cargos WHERE cargos.id = comp_cargos.id AND competencia_id = 8
+
+#################################################################################################################
+                            RELLENAR CARGOS ASOCIADOS A METAS/INDICADORES
+#################################################################################################################
+
+# Agente de Convivencia Escolar (2)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7)
+# Agente de Pastoral (3)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (3,6),(3,8),(3,9),(3,10),(3,11),(3,12)
+# Co-Educadora 1° Básico (5)
+# Co-Educadora de Párvulos (6)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (6,13),(6,14),(6,15),(6,16)
+# DIRECTOR DE PASTORAL (10)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (10,17),(10,18),(10,19),(10,20),(10,21),(10,22),(10,23)
+# EDUCADORA DE PÁRVULOS (11)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (11,14),(11,15),(11,16),(11,24),(11,25)
+# GERENTE DE ADMINISTRACIÓN Y FINANZAS (14)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (14,26),(14,27),(14,28),(14,29),(14,30),(14,31),(14,32)
+# JEFE DE CICLO (15)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (15,23),(15,33),(15,34),(15,35),(15,36),(15,37)
+# JEFE DE DEPARTAMENTO (17)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (17,38),(17,39),(17,40),(17,41),(17,42),(17,43)
+# JEFE DE UTP (18)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (18,44),(18,45),(18,46),(18,47),(18,48),(18,49)
+# JEFE UTP BASICA (19)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (19,38),(19,50),(19,51),(19,52),(19,53),(19,54),(19,55)
+# ORIENTADORA EDUCACIÓN BÁSICA (21)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (21,56),(21,57),(21,58),(21,59),(21,60),(21,61),(21,62)
+# ORIENTADORA EDUCACIÓN MEDIA (31)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (31,56),(31,57),(31,58),(31,59),(31,60),(31,61),(31,62),(31,63)
+# PROFESOR DE ACLE (22)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (22,64),(22,65),(22,66),(22,67),(22,68)
+# PROFESOR DE ASIGNATURA (23)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (23,69),(23,70),(23,71),(23,72),(23,73)
+# PROFESOR DE STAFF (24)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (24,70),(24,72),(24,73),(24,74),(24,75)
+# PROFESOR JEFE (25)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (25,76),(25,77),(25,78),(25,79),(25,80),(25,81)
+# PSICOPEDAGOGA (26)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (26,88),(26,89),(26,90),(26,91),(26,92)
+# PSICÓLOGA (27)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (27,82),(27,83),(27,84),(27,85),(27,86),(27,87)
+# Rector (29)
+INSERT INTO `indicador_cargos`(`cargo_id`,`indicador_id`) VALUES (29,93),(29,94),(29,95),(29,96),(29,97),(29,98),(29,99)
+
+
+#################################################################################################################
+                                COMPROMBAR COMPETENCIAS Y CARGOS
+#################################################################################################################
+
+SELECT competencias.nombre, cargos.nombre, perfiles.nombre FROM `comp_cargos`,cargos, perfiles, competencias WHERE competencia_id = competencias.id AND cargo_id = cargos.id AND perfiles.id = cargos.perfil_id
+
+#################################################################################################################
+                                RESULTADOS EJEMPLO
+#################################################################################################################
+
+###### ELIMINAR TODAS LAS EVALUACIONES ######
+
+DELETE FROM resultados_comp;
+DELETE FROM resultados_ind
+
+###### SOLO CON IDS #########
+
+####### COMPETENCIA #########
+# Ingresar evaluado_id, cargo_id, ciclo_id
+SELECT competencia_id, criterio_id, respuesta
+FROM `resultados_comp`, evaluaciones_comp
+WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+AND evaluaciones_comp.evaluado_id = 3
+AND evaluaciones_comp.cargo_id = 26
+AND evaluaciones_comp.ciclo_id = 2
+
+####### METAS #########
+# Ingresar evaluado_id, cargo_id, ciclo_id
+SELECT meta_id, indicador_id, respuesta, ponderacion as porcentaje_ponderacion
+FROM `resultados_ind`, evaluaciones_ind, indicadores
+WHERE resultados_ind.evaluacion_id = evaluaciones_ind.id
+AND indicadores.id = evaluaciones_ind.indicador_id
+AND evaluaciones_ind.evaluado_id = 30
+AND evaluaciones_ind.cargo_id = 15
+AND evaluaciones_ind.ciclo_id = 2
+
+##### CON NOMBRES #######
+
+####### COMPETENCIA #########
+# Ingresar evaluado_id, cargo_id, ciclo_id
+SELECT competencias.nombre, criterios.descripcion, respuesta
+FROM `resultados_comp`, evaluaciones_comp, competencias, criterios
+WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+AND competencia_id = competencias.id
+AND criterios.id = criterio_id
+AND evaluaciones_comp.evaluado_id = 3
+AND evaluaciones_comp.cargo_id = 26
+AND evaluaciones_comp.ciclo_id = 2
+
+##### Descripcion Total #######
+
+##### COMPETENCIA ########
+
+SELECT resultados_comp.evaluacion_id as Evaluacion,
+       competencias.id as Competencia,
+       competencias.nombre as Descripcion,
+       criterios.id as Criterio,
+       criterios.descripcion as Descripcion,
+       respuesta as Respuesta,
+       t1.usuario_id as Evaluado,
+       u1.nombre as Nombre,
+       u1.apellidop as Apellido,
+       t1.cargo_id as Cargo,
+       t1.ciclo_id as Ciclo,
+       t2.usuario_id as Evaluador,
+       u2.nombre as Nombre,
+       u2.apellidop as Apellido,
+       t2.cargo_id as Cargo,
+       t2.ciclo_id as Ciclo
+FROM `resultados_comp`, evaluaciones_comp,
+      competencias, criterios,
+      trabaja t1, trabaja t2,
+      usuarios u1, usuarios u2
+WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+AND evaluaciones_comp.competencia_id = competencias.id
+AND evaluaciones_comp.criterio_id = criterios.id
+AND evaluaciones_comp.evaluado_id = t1.usuario_id
+AND evaluaciones_comp.evaluador_id = t2.usuario_id
+AND evaluaciones_comp.evaluado_id = u1.id
+AND evaluaciones_comp.evaluador_id = u2.id
+
+
+#################################################################################################################
+                                                TABLAS
+#################################################################################################################
+
+cargos (id, nombre, perfil_id)
+perfiles (id, nombre)
+ciclos (id, nombre)
+establecimiento (id, nombre)
+
+procesos (id, nombre, establecimiento_id, año, finicio, ftermino)
+
+evaluaciones_ind (indicador_id, usuario_id, evaluador_id) -> Rellenar
+evaluaciones_comp (competencia_id, usuario_id, evaluador_id )
+
+resultados_ind ()
+resultados_comp
+
+competencias (id, nombre, descripcion)
+criterios (id, descripcion, minimo, en_desarrollo, desarrollado, superior)
+comp_crit (competencia_id, criterio_id)
+comp_cargos (competencia_id, cargos_id)
+
+metas (id, descripcion)
+indicadores (id, meta_id, descripcion, no_cumplido, minimo, esperado, sobre_esperado, ponderacion)
+
+usuarios (id, username, password, rut, nombre, apellidop, apellidom, email)
+trabaja (usuario_id, cargo_id, ciclo_id, establecimiento_id)
+superiores (cargo_id, ciclo_id, cargo_sup, ciclo_sup)
+superiores_id (usuario_id, superior_id)
