@@ -12,7 +12,7 @@ include_once("db_connect.php");
 <div>
 	<div class="col-md-1"></div>
 	<div class="col-md-2"><br><img src="logosgc.png"></div>
-  <div id="initial-text" class="col-md-6"><h1>Sistema de Evaluaaaaación del Desempeño</h1><h2>Saint Gaspar Colege</h2></div>
+  <div id="initial-text" class="col-md-6"><h1>Sistema de Evaluación del Desempeño</h1><h2>Saint Gaspar Colege</h2></div>
 	<div class="col-md-3"></div>
 </div>
 <div>

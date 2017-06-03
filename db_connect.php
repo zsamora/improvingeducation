@@ -1,8 +1,8 @@
 <?php
 // MySQL Connection
 $servername = "localhost";
-$username = "root";
-$password = "mysqlproject123";
+$username = "mysqluser";
+$password = "mysqluser123";
 $dbname = "sesiones";
 $conn = new mysqli($servername, $username, $password, $dbname);
 $conn->set_charset("utf8"); //Mysql en español
