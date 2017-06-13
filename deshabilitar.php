@@ -5,7 +5,16 @@ $usuario=$_GET["id"];
 $deshabilitar = "UPDATE usuarios
                  SET habilitado = 0
                WHERE id = $usuario";
-if ($conn->query($deshabilitar) === TRUE) {
+$deshabilitar_ecomp = "UPDATE evaluaciones_comp
+                 SET estado = 0
+               WHERE evaluado_id = $usuario
+               OR evaluador_id = $usuario";
+$deshabilitar_eind = "UPDATE evaluaciones_ind
+                 SET estado = 0
+               WHERE evaluado_id = $usuario
+               OR evaluador_id = $usuario";
+if ($conn->query($deshabilitar) && $conn->query($deshabilitar_ecomp) &&
+    $conn->query($deshabilitar_eind)) {
   header("Location: usuarios.php");
 } else {
     echo "Error: " . $deshabilitar . "<br>" . $conn->error;

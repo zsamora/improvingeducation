@@ -90,9 +90,11 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 						</button>
 						<ul class="dropdown-menu" role="menu">
 								<?php echo "<li><a href='actualizar.php?id_el=" . $fila["p_id"]. "'>Actualizar evaluaciones</a></li>"?>
+								<?php echo "<li><a href='abrir.php?id_el=" . $fila["p_id"]. "'>Abrir evaluaciones</a></li>"?>
+								<?php echo "<li><a href='cerrar.php?id_el=" . $fila["p_id"]. "'>Cerrar evaluaciones</a></li>"?>
 								<?php echo "<li><a href='borrarresult.php?id_el=" . $fila["p_id"]. "'>Borrar resultados</a></li>"?>
-								<?php echo "<li><a href='eliminar6.php?id_el=" . $fila["p_id"]. "'>Eliminar</a></li>"?>
 								<?php echo "<li><a href='deshabilitar2.php?id=" . $fila["p_id"]. "'>Deshabilitar</a></li>"?>
+								<?php echo "<li><a href='eliminar6.php?id_el=" . $fila["p_id"]. "'>Eliminar</a></li>"?>
 						</ul>
 					</div>
 				</td>
@@ -193,7 +195,7 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 			<td>
 				<select name='comp' class="custom-select mb-2 mr-sm-2 mb-sm-0">
 				 <?php while($fila_comp = $comp_result->fetch_assoc()) {
-					 echo "<option value=".$fila_comp['id'].">".$fila_comp['nombre']."</option>";
+					 echo "<option value=".$fila_comp['id'].">".$fila_comp['id'].") ".$fila_comp['nombre']."</option>";
 				 } ?>
 			 </select>
 			</td>
@@ -233,7 +235,7 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 				</td>
 			<?php
 				echo "<td>" . $fila["proc"] . "</td>";
-				echo "<td>" . $fila["comp"] . "</td>";
+				echo "<td>" . $fila['competencia_id'].") " . $fila["comp"] . "</td>";
     		echo "</tr>";
 			} ?>
 		</tbody>

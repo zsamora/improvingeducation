@@ -86,6 +86,37 @@ include('navbar.php');
 							 WHERE id = $tipo_eval";
 		$tipo_res = $conn->query($tipo) or die("database error:". $conn->error);
 		$tipo_row = $tipo_res->fetch_assoc();
+		$neval = "SELECT COUNT(*) as res
+							  FROM evaluaciones_ind
+							 WHERE tipo_id = $tipo_eval
+							 	 AND evaluado_id = $evaluado_id
+								 AND cargo_id = $evaluado_cargo
+								 AND ciclo_id = $evaluado_ciclo
+								 AND asignatura_id = $evaluado_asignatura
+								 AND evaluador_id = $evaluador
+								 AND cargo_sup = $evaluador_cargo
+								 AND ciclo_sup = $evaluador_ciclo
+								 AND asignatura_sup = $evaluador_asignatura
+								 AND estado = 1";
+		$neval_res = $conn->query($neval) or die("database error:". $conn->error);
+		$neval_row = $neval_res->fetch_assoc();
+		$nresp = "SELECT COUNT(*) as res
+								FROM resultados_ind
+							 WHERE evaluacion_id
+							 		IN (SELECT id
+												FROM evaluaciones_ind
+											 WHERE tipo_id = $tipo_eval
+												 AND evaluado_id = $evaluado_id
+												 AND cargo_id = $evaluado_cargo
+												 AND ciclo_id = $evaluado_ciclo
+												 AND asignatura_id = $evaluado_asignatura
+												 AND evaluador_id = $evaluador
+												 AND cargo_sup = $evaluador_cargo
+												 AND ciclo_sup = $evaluador_ciclo
+												 AND asignatura_sup = $evaluador_asignatura)";
+		$nresp_res = $conn->query($nresp) or die("database error:". $conn->error);
+		$nresp_row = $nresp_res->fetch_assoc();
+		//echo " eval: ".$neval_row['res']." -  resp: ". $nresp_row['res']. " - ";
 		echo "<tr>";
 		echo "<td>". $tipo_row["nombre"] . "</td>";
 		echo "<td>" . $nombre_row["nombre"] . " " . $nombre_row["apellidop"] . "</td>";
@@ -96,7 +127,22 @@ include('navbar.php');
 		echo "<td>" . $cargo_row["cargo2"] . "</td>";
 		echo "<td>" . $ciclo_row["ciclo2"] . "</td>";
 		echo "<td>" . $asignatura_row["asignatura2"]  . "</td>";
-		if ($fila_ind['estado']==1) {
+		if ($neval_row['res'] == 0){
+			echo "<td> Finalizada </td>";
+		}
+		else if ($nresp_row['res']==$neval_row['res']){
+			echo "<td> <a href='evaluacionind.php?
+				eval_id=".$fila_ind['evaluado_id']."
+				&car_id=".$fila_ind['cargo_id']."
+				&cic_id=".$fila_ind['ciclo_id']."
+				&asi_id=".$fila_ind['asignatura_id']."
+				&car2_id=".$fila_ind['cargo_sup']."
+				&cic2_id=".$fila_ind['ciclo_sup']."
+				&asi2_id=".$fila_ind['asignatura_sup']."
+				&tipo_eval=".$fila_ind['tipo_id']."
+				'> Respondida </a></td>";
+		}
+		else if ($nresp_row['res']==0){
 			echo "<td> <a href='evaluacionind.php?
 				eval_id=".$fila_ind['evaluado_id']."
 				&car_id=".$fila_ind['cargo_id']."
@@ -108,7 +154,7 @@ include('navbar.php');
 				&tipo_eval=".$fila_ind['tipo_id']."
 				'> Disponible </a></td>";
 		}
-		else if ($fila_ind['estado']==2) {
+		else if ($nresp_row['res'] <= $neval_row['res']){
 			echo "<td> <a href='evaluacionind.php?
 				eval_id=".$fila_ind['evaluado_id']."
 				&car_id=".$fila_ind['cargo_id']."
@@ -119,9 +165,6 @@ include('navbar.php');
 				&asi2_id=".$fila_ind['asignatura_sup']."
 				&tipo_eval=".$fila_ind['tipo_id']."
 				'> Continuar </a></td>";
-		}
-		else {
-			echo "<td> Finalizada </td>";
 		}
     echo "</tr>";
 } ?>
@@ -186,6 +229,37 @@ include('navbar.php');
 							 WHERE id = $tipo_eval";
 		$tipo_res = $conn->query($tipo) or die("database error:". $conn->error);
 		$tipo_row = $tipo_res->fetch_assoc();
+		$neval = "SELECT COUNT(*) as res
+							  FROM evaluaciones_comp
+							 WHERE tipo_id = $tipo_eval
+							 	 AND evaluado_id = $evaluado_id
+								 AND cargo_id = $evaluado_cargo
+								 AND ciclo_id = $evaluado_ciclo
+								 AND asignatura_id = $evaluado_asignatura
+								 AND evaluador_id = $evaluador
+								 AND cargo_sup = $evaluador_cargo
+								 AND ciclo_sup = $evaluador_ciclo
+								 AND asignatura_sup = $evaluador_asignatura
+								 AND estado = 1";
+		$neval_res = $conn->query($neval) or die("database error:". $conn->error);
+		$neval_row = $neval_res->fetch_assoc();
+		$nresp = "SELECT COUNT(*) as res
+								FROM resultados_comp
+							 WHERE evaluacion_id
+							 		IN (SELECT id
+												FROM evaluaciones_comp
+											 WHERE tipo_id = $tipo_eval
+												 AND evaluado_id = $evaluado_id
+												 AND cargo_id = $evaluado_cargo
+												 AND ciclo_id = $evaluado_ciclo
+												 AND asignatura_id = $evaluado_asignatura
+												 AND evaluador_id = $evaluador
+												 AND cargo_sup = $evaluador_cargo
+												 AND ciclo_sup = $evaluador_ciclo
+												 AND asignatura_sup = $evaluador_asignatura)";
+		$nresp_res = $conn->query($nresp) or die("database error:". $conn->error);
+		$nresp_row = $nresp_res->fetch_assoc();
+		//echo " eval: ".$neval_row['res']." -  resp: ". $nresp_row['res']. " - ";
 		echo "<tr>";
 		echo "<td>". $tipo_row["nombre"] . "</td>";
     echo "<td>" . $row["nombre"] . " " . $row["apellidop"] . "</td>";
@@ -196,29 +270,47 @@ include('navbar.php');
 		echo "<td>" . $cargo_row["cargo2"] . "</td>";
 		echo "<td>" . $ciclo_row["ciclo2"] . "</td>";
 		echo "<td>" . $asignatura_row["asignatura2"]  . "</td>";
-		if ($fila_comp['estado']==1) echo "<td> <a href='evaluacioncomp.php?
-					eval_id=".$fila_comp['evaluado_id']."
-					&car_id=".$fila_comp['cargo_id']."
-					&cic_id=".$fila_comp['ciclo_id']."
-					&asi_id=".$fila_comp['asignatura_id']."
-					&car2_id=".$fila_comp['cargo_sup']."
-					&cic2_id=".$fila_comp['ciclo_sup']."
-					&asi2_id=".$fila_comp['asignatura_sup']."
-					&tipo_eval=".$fila_comp['tipo_id']."
-				'> Disponible </a></td>";
-		else if ($fila_comp['estado']==2) echo "<td> <a href='evaluacioncomp.php?
-					eval_id=".$fila_comp['evaluado_id']."
-					&car_id=".$fila_comp['cargo_id']."
-					&cic_id=".$fila_comp['ciclo_id']."
-					&asi_id=".$fila_comp['asignatura_id']."
-					&car2_id=".$fila_comp['cargo_sup']."
-					&cic2_id=".$fila_comp['ciclo_sup']."
-					&asi2_id=".$fila_comp['asignatura_sup']."
-					&tipo_eval=".$fila_comp['tipo_id']."
-				'> Continuar </a></td>";
-		else echo "<td> Finalizada </td>";
+		if ($neval_row['res'] == 0){
+			echo "<td> Finalizada </td>";
+		}
+		else if ($nresp_row['res']==$neval_row['res']){
+			echo "<td> <a href='evaluacioncomp.php?
+				eval_id=".$fila_comp['evaluado_id']."
+				&car_id=".$fila_comp['cargo_id']."
+				&cic_id=".$fila_comp['ciclo_id']."
+				&asi_id=".$fila_comp['asignatura_id']."
+				&car2_id=".$fila_comp['cargo_sup']."
+				&cic2_id=".$fila_comp['ciclo_sup']."
+				&asi2_id=".$fila_comp['asignatura_sup']."
+				&tipo_eval=".$fila_comp['tipo_id']."
+				'> Respondida </a></td>";
+		}
+		else if ($nresp_row['res']==0) {
+			echo "<td> <a href='evaluacioncomp.php?
+						eval_id=".$fila_comp['evaluado_id']."
+						&car_id=".$fila_comp['cargo_id']."
+						&cic_id=".$fila_comp['ciclo_id']."
+						&asi_id=".$fila_comp['asignatura_id']."
+						&car2_id=".$fila_comp['cargo_sup']."
+						&cic2_id=".$fila_comp['ciclo_sup']."
+						&asi2_id=".$fila_comp['asignatura_sup']."
+						&tipo_eval=".$fila_comp['tipo_id']."
+					'> Disponible </a></td>";
+		}
+		else if ($nresp_row['res'] <= $neval_row['res']){
+			echo "<td> <a href='evaluacioncomp.php?
+						eval_id=".$fila_comp['evaluado_id']."
+						&car_id=".$fila_comp['cargo_id']."
+						&cic_id=".$fila_comp['ciclo_id']."
+						&asi_id=".$fila_comp['asignatura_id']."
+						&car2_id=".$fila_comp['cargo_sup']."
+						&cic2_id=".$fila_comp['ciclo_sup']."
+						&asi2_id=".$fila_comp['asignatura_sup']."
+						&tipo_eval=".$fila_comp['tipo_id']."
+					'> Continuar </a></td>";
+		}
     echo "</tr>";
-} ?>
+		} ?>
 		</tbody>
 	</table>
 </div>

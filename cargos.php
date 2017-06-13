@@ -122,7 +122,7 @@ $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
       <td>
       <select name='ind' class="custom-select mb-2 mr-sm-2 mb-sm-0">
 			 <?php while($fila_ind = $ind_result->fetch_assoc()) {
-				 echo "<option value=".$fila_ind['id'].">".$fila_ind['descripcion']."</option>";
+				 echo "<option value=".$fila_ind['id'].">".$fila_ind['id'].") ".$fila_ind['descripcion']."</option>";
 			 } ?>
 			</select>
       </td>

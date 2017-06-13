@@ -5,7 +5,14 @@ $proceso=$_GET["id"];
 $deshabilitar = "UPDATE procesos
                  SET habilitado = 0
                WHERE id = $proceso";
-if ($conn->query($deshabilitar) === TRUE) {
+$deshabilitar_ecomp = "UPDATE evaluaciones_comp
+                       SET estado = 0
+                     WHERE proceso_id = $proceso";
+$deshabilitar_eind = "UPDATE evaluaciones_ind
+                      SET estado = 0
+                    WHERE proceso_id = $proceso";
+if ($conn->query($deshabilitar) && $conn->query($deshabilitar_eind) &&
+    $conn->query($deshabilitar_ecomp)) {
   header("Location: procesos.php");
 } else {
     echo "Error: " . $deshabilitar . "<br>" . $conn->error;

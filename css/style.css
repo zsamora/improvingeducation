@@ -132,8 +132,11 @@ h3 {
 */
 input[type="radio"],
 input[type="checkbox"]{
-  display: none;
+	display:none;
 }
 #select:hover{
   background-color: #D8D8D8;
+}
+#desc{
+	background-color: #6FA3A9;
 }

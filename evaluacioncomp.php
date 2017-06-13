@@ -121,7 +121,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Competencia</th>
+						<th id='desc'>Competencia</th>
 						<th>Descripción </th>
 					</tr>
 				</thead>
@@ -142,7 +142,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 			<thead>
 				<tr>
 					<!--<th>Evaluacion ID</th>-->
-					<th>Criterios </th>
+					<th id='desc'>Criterios </th>
 					<th>Mínimo</th>
 					<th>En Desarrollo</th>
 	        <th>Desarrollado</th>
@@ -178,15 +178,60 @@ $tipo_row = $tipo_res->fetch_assoc();
 									WHERE criterios.id = $crit_id";
 				$info_result = $conn->query($info) or die("database error:". $conn->error);
 				$info_row = $info_result->fetch_assoc();
-				echo "<tr>";
-				//echo "<td>".$eval_id."</td>";
-				echo "<td>".$info_row["crit_desc"]."</td>";
-				echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
-				echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
-				echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
-				echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
-				echo "<td>". $info_row["ponderacion"]."%</td>";
-				echo "</tr>";
+				$resultado = "SELECT respuesta FROM resultados_comp WHERE evaluacion_id = $eval_id";
+				$resultado_result = $conn->query($resultado) or die("database error:". $conn->error);
+				$estado = $resultado_result->num_rows;
+				if ($estado == 1) {
+					$resultado_row = $resultado_result->fetch_assoc();
+					echo "<tr>";
+					//echo "<td>".$eval_id."</td>";
+					echo "<td>".$info_row["crit_desc"]."</td>";
+					// Primer cuadro
+					if ($resultado_row['respuesta'] == 1) {
+						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='1' checked='checked'";
+					}
+					else {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'";
+					}
+					echo ">" . $info_row["minimo"]."</td>";
+					// Segundo cuadro
+					if ($resultado_row['respuesta'] == 2) {
+						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='2' checked='checked'";
+					}
+					else {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'";
+					}
+					echo ">" . $info_row["en_desarrollo"]."</td>";
+					// Tercer cuadro
+					if ($resultado_row['respuesta'] == 3) {
+						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='3' checked='checked'";
+					}
+					else {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'";
+					}
+					echo ">" . $info_row["desarrollado"]."</td>";
+					// Cuarto cuadro
+					if ($resultado_row['respuesta'] == 4) {
+						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='4' checked='checked'";
+					}
+					else {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'";
+					}
+					echo ">" . $info_row["superior"]."</td>";
+					echo "<td>". $info_row["ponderacion"]."%</td>";
+					echo "</tr>";
+				}
+				else {
+					echo "<tr>";
+					//echo "<td>".$eval_id."</td>";
+					echo "<td>".$info_row["crit_desc"]."</td>";
+					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
+					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
+					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
+					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
+					echo "<td>". $info_row["ponderacion"]."%</td>";
+					echo "</tr>";
+				}
 				}?>
 			</tbody>
 		</table>
@@ -196,7 +241,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 		<div class="form-group">
 			<center>
 				<button type="submit" class="btn btn-default" name="send_button2" id="send_button2">
-					<span class="glyphicon glyphicon-send"></span> &nbsp; Enviar Resultados
+					<span class="glyphicon glyphicon-send"></span> &nbsp; Enviar Resultados (Guardar)
 				</button>
 			</center>
 		</div>
@@ -204,14 +249,11 @@ $tipo_row = $tipo_res->fetch_assoc();
 	</div>
 	<?php include('footer.php');?>
 	<script type="text/javascript">
-	//TODO: ARREGLAR
-	$("td").click(function () {
-		$(this).find('input:radio').attr('checked', true);
-		if ($("input[type=radio]:checked").val()){
-			$(this).css("background-color", '#31B404');
-		}
-		else {
-			$(this).css("background-color", 'white');
-		}
-	});
+		//Funciona bien para seleccionar
+		//$('td').click(e => $(e.currentTarget).find('input').prop('checked',true));
+		$('td').click(function(){
+			$(this).css('background-color','green');
+			$(this).siblings().css( "background-color",'white');
+			$(this).find('input').prop('checked',true);
+		});
 	</script>

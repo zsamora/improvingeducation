@@ -1,4 +1,4 @@
-$("table.table tr th").bind("click", headerClick);
+/*$("table.table tr th").bind("click", headerClick);
 $("table.table tr td").bind("click", dataClick);
 $("#saveButton").bind("click",saveButton);
 //$("#editar").bind("click",)
@@ -25,4 +25,4 @@ function saveButton(){
         console.log(td);
         console.log(index);
     });
-}
+}*/

@@ -2,12 +2,26 @@
 include_once("db_connect.php");
 $id=$_GET["id_el"];
 //TODO: ARREGLAR INYECCIONES Y ENVIAR MENSAJE DE SUCCESS, Y ARREGLAR ESTABLECIMIENTO
-$evalcomp = "DELETE FROM evaluaciones_comp
+$evalcomp = "SELECT id FROM evaluaciones_comp
 									 WHERE proceso_id = $id";
-$evalind = "DELETE FROM evaluaciones_ind
+$evalind = "SELECT id FROM evaluaciones_ind
 									WHERE proceso_id = $id";
 $evalcomp_result = $conn->query($evalcomp) or die ("database error:".$conn->error);
 $evalind_result = $conn->query($evalind) or die ("database error:".$conn->error);
+while ($fila = $evalcomp_result->fetch_assoc()){
+	$id = $fila['id'];
+	$eliminar_evalcomp = "DELETE FROM evaluaciones_comp WHERE id = $id";
+	$eliminar_evalcomp_result = $conn->query($eliminar_evalcomp) or die ("database error:".$conn->error);
+  $eliminar_rescomp = "DELETE FROM resultados_comp WHERE evaluacion_id = $id";
+	$eliminar_rescomp_result = $conn->query($eliminar_rescomp) or die ("database error:".$conn->error);
+}
+while ($fila = $evalind_result->fetch_assoc()){
+	$id = $fila['id'];
+	$eliminar_evalind = "DELETE FROM evaluaciones_ind WHERE id = $id";
+	$eliminar_evalind_result = $conn->query($eliminar_evalind) or die ("database error:".$conn->error);
+  $eliminar_resind = "DELETE FROM resultados_ind WHERE evaluacion_id = $id";
+	$eliminar_resind_result = $conn->query($eliminar_resind) or die ("database error:".$conn->error);
+}
 $evalind = "INSERT INTO `evaluaciones_ind`(`tipo_id`, `meta_id`,`indicador_id`, `evaluado_id`, `cargo_id`,
                         `ciclo_id`, `asignatura_id`, `evaluador_id`, `cargo_sup`, `ciclo_sup`, `asignatura_sup`,`proceso_id`)
                  SELECT 2, indicadores.meta_id, indicadores.id, opinantes.evaluado_id,
