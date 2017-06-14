@@ -97,6 +97,7 @@ if ($respind_row['res'] == 0 && $respcomp_row['res'] == 0){ ?>
 <?php
 	include('footer.php');
 }
+// Respuestas solo de indicadores
 else if ($respcomp_row['res'] == 0) { ?>
 	<h3>Solo hay respuestas de indicadores (o no tiene evaluaciones de competencias)</h3>
 	<br>
@@ -137,6 +138,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 		</table>
 		<br>
 		<canvas id="myChart" width="10" height="3"></canvas>
+		<button id="save-btn" class="btn btn-danger">Save Chart Image</button>
 		<br><br>
 	</div>
 	<?php
@@ -270,30 +272,37 @@ else if ($respcomp_row['res'] == 0) { ?>
 		},
 		options: {
 				legend: {
-					fontColor:"white",
+					fontColor:"black",
 					fontSize: 18,
 					display: false
 				},
 				scales: {
 						yAxes: [{
 								ticks: {
-										fontColor: "white",
+										fontColor: "black",
 										beginAtZero:true
 								}
 						}],
 						xAxes: [{
 								ticks: {
-									fontColor: "white",
+									fontColor: "black",
 									beginAtZero:true
 								}
 						}]
 				}
 		}
 	});
+	$("#save-btn").click(function() {
+ 	    $("#myChart").get(0).toBlob(function(blob) {
+    		saveAs(blob, "GraficoGeneral.png");
+		});
+	});
 	};
 	</script>
 <?php
 }
+
+// Caso Solo respuestas de competencia
 else if ($respind_row['res'] == 0) { ?>
 	<h3>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h3>
 	<br>
@@ -629,7 +638,7 @@ else if ($respind_row['res'] == 0) { ?>
 				<tr>
 					<td> <?php echo $fila_crit["descr"]." (".$fila_crit["id"].")" ?></td>
 					<td> <?php echo $fila_crit["ponderacion"] ?></td>
-				<tr>
+				</tr>
 			</tbody>
 		</table>
 		<?php
@@ -700,6 +709,7 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>Colaboradores</td>";
 						echo "<td>15%</td>";
 						echo "<td>".$fila_col['resultado']."%</td>";
+						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
@@ -769,13 +779,13 @@ else if ($respind_row['res'] == 0) { ?>
 			scales: {
 					yAxes: [{
 							ticks: {
-									fontColor: "white",
+									fontColor: "black",
 									beginAtZero:true
 							}
 					}],
 					xAxes: [{
 							ticks: {
-								fontColor: "white",
+								fontColor: "black",
 								beginAtZero:true
 							}
 					}]
@@ -831,18 +841,18 @@ else if ($respind_row['res'] == 0) { ?>
 	},
 	options: {
 		legend: {
-			labels: {fontColor: "white"}
+			labels: {fontColor: "black"}
 		},
 		scales: {
 				yAxes: [{
 						ticks: {
-								fontColor: "white",
+								fontColor: "black",
 								beginAtZero:true
 						}
 				}],
 				xAxes: [{
 						ticks: {
-							fontColor: "white",
+							fontColor: "black",
 							beginAtZero:true,
 							autoSkip: false,
 							maxRotation: 20,
@@ -872,20 +882,20 @@ else if ($respind_row['res'] == 0) { ?>
 					},
 					options: {
 						legend: {
-							fontColor:"white",
+							fontColor:"black",
 							fontSize: 18,
 							display: false
 						},
 						scales: {
 							yAxes: [{
 								ticks: {
-										fontColor: "white",
+										fontColor: "black",
 										beginAtZero:true
 									}
 								}],
 								xAxes: [{
 									ticks: {
-										fontColor: "white",
+										fontColor: "black",
 										beginAtZero:true
 									}
 								}]
@@ -1487,20 +1497,20 @@ window.onload = function(){
 	},
 	options: {
 			legend: {
-				fontColor:"white",
+				fontColor:"black",
 				fontSize: 18,
 				display: false
 			},
 			scales: {
 					yAxes: [{
 							ticks: {
-									fontColor: "white",
+									fontColor: "black",
 									beginAtZero:true
 							}
 					}],
 					xAxes: [{
 							ticks: {
-								fontColor: "white",
+								fontColor: "black",
 								beginAtZero:true
 							}
 					}]
@@ -1539,13 +1549,13 @@ window.onload = function(){
 		scales: {
 				yAxes: [{
 						ticks: {
-								fontColor: "white",
+								fontColor: "black",
 								beginAtZero:true
 						}
 				}],
 				xAxes: [{
 						ticks: {
-							fontColor: "white",
+							fontColor: "black",
 							beginAtZero:true
 						}
 				}]
@@ -1601,18 +1611,18 @@ data: {
 },
 options: {
 	legend: {
-		labels: {fontColor: "white"}
+		labels: {fontColor: "black"}
 	},
 	scales: {
 			yAxes: [{
 					ticks: {
-							fontColor: "white",
+							fontColor: "black",
 							beginAtZero:true
 					}
 			}],
 			xAxes: [{
 					ticks: {
-						fontColor: "white",
+						fontColor: "black",
 						beginAtZero:true,
 						autoSkip: false,
 						maxRotation: 20,
@@ -1642,20 +1652,20 @@ data: {
 },
 options: {
 		legend: {
-			fontColor:"white",
+			fontColor:"black",
 			fontSize: 18,
 			display: false
 		},
 		scales: {
 				yAxes: [{
 						ticks: {
-								fontColor: "white",
+								fontColor: "black",
 								beginAtZero:true
 						}
 				}],
 				xAxes: [{
 						ticks: {
-							fontColor: "white",
+							fontColor: "black",
 							beginAtZero:true
 						}
 				}]
