@@ -21,6 +21,8 @@ $cargo_id = $_SESSION['car_id'];
 $ciclo_id = $_SESSION['cic_id'];
 $asi_id = $_SESSION['asi_id'];
 $proceso = $_SESSION['proceso_id'];
+require_once 'dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
 // Información del Usuario
 $usuario_info = "SELECT usuarios.nombre as nombre, usuarios.apellidop as apellido,
 												cargos.nombre as cargo, ciclos.nombre as ciclo,
@@ -37,12 +39,12 @@ $resultado = $usuario_result->fetch_assoc();
 // Tabla información de usuario ?>
 <div class="container">
 	<?php include('sessionbar.php');
-	echo "<a href='pdfresult.php?usuario_id=".$usuario_id."
+	echo "<a id='pdf-btn' href='pdfresult.php?usuario_id=".$usuario_id."
 																	&car_id=".$cargo_id."
 																	&cic_id=".$ciclo_id."
 																	&asi_id=".$asi_id."
-																	'class='btn btn-danger'> Descargar PDF </a>";
-	?>
+																	' class='btn btn-danger'> Descargar PDF </a>";
+  ?>
 <br><br>
 <div class="table-responsive">
 	<table class="table">
@@ -97,7 +99,7 @@ if ($respind_row['res'] == 0 && $respcomp_row['res'] == 0){ ?>
 <?php
 	include('footer.php');
 }
-// Respuestas solo de indicadores
+// Caso solo de indicadores
 else if ($respcomp_row['res'] == 0) { ?>
 	<h3>Solo hay respuestas de indicadores (o no tiene evaluaciones de competencias)</h3>
 	<br>
@@ -138,7 +140,6 @@ else if ($respcomp_row['res'] == 0) { ?>
 		</table>
 		<br>
 		<canvas id="myChart" width="10" height="3"></canvas>
-		<button id="save-btn" class="btn btn-danger">Save Chart Image</button>
 		<br><br>
 	</div>
 	<?php
@@ -183,7 +184,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 	 								 			 		 AND cargo_id = $cargo_id
 									 				   AND ciclo_id = $ciclo_id
 									 				   AND asignatura_id = $asi_id
-									 				   AND proceso_id = $proceso";
+									 				   AND proceso_id = $proceso
+												ORDER BY id";
 				$meta_result = $conn->query($meta) or die("database error:". $conn->error);
 				$total = 0;
 				while($fila_meta = $meta_result->fetch_assoc()){
@@ -280,7 +282,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 						yAxes: [{
 								ticks: {
 										fontColor: "black",
-										beginAtZero:true
+										beginAtZero:true,
+										max: 140
 								}
 						}],
 						xAxes: [{
@@ -292,13 +295,21 @@ else if ($respcomp_row['res'] == 0) { ?>
 				}
 		}
 	});
-	$("#save-btn").click(function() {
- 	    $("#myChart").get(0).toBlob(function(blob) {
-    		saveAs(blob, "GraficoGeneral.png");
+	$("#pdf-btn").click(function() {
+		var dataURL = document.getElementById("myChart").toDataURL("image/png");
+		dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		$.ajax({
+			type: "POST",
+			url: 'saveimage.php',
+			data: {image1 : dataURL},
+			success: function(respond){
+				console.log(respond);
+			}
 		});
 	});
 	};
 	</script>
+
 <?php
 }
 
@@ -351,7 +362,7 @@ else if ($respind_row['res'] == 0) { ?>
 	  	</tbody>
 		</table>
 		<br>
-		<canvas id="myChart4" width="10" height="3"></canvas>
+		<canvas id="myChart" width="10" height="3"></canvas>
 		<br><br>
 		</div>
 		<h3> Competencias del Perfil: <?php echo $perfil; ?></h3>
@@ -398,10 +409,32 @@ else if ($respind_row['res'] == 0) { ?>
 				</tr>
 			</tbody>
 		</table>
-	<canvas id="myChart2" width="10" height="3"></canvas>
-	<br></br>
-	<canvas id="myChart3" width="12" height="5"></canvas>
-	<?php
+		<?php
+		$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+											FROM resultados_comp, evaluaciones_comp, valores
+										 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+											 AND resultados_comp.respuesta = valores.id
+											 AND evaluado_id = $usuario_id
+											 AND cargo_id = $cargo_id
+											 AND ciclo_id = $ciclo_id
+											 AND asignatura_id = $asi_id
+											 AND proceso_id = $proceso
+											 AND tipo_id = 3";
+		$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
+		$fila_col = $colaborador_result->fetch_assoc();
+		$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+		if ($verificador){ ?>
+			<canvas id="myChart2" width="10" height="3"></canvas>
+			<br><br>
+			<canvas id="myChart3" width="12" height="5"></canvas>
+		<?php
+		}
+		else { ?>
+			<canvas id="myChart4" width="10" height="3"></canvas>
+			<br><br>
+			<canvas id="myChart5" width="12" height="5"></canvas>
+		<?php
+		}
 	// Competencias
 	// Necesito una constante de array para guardar las competencias
 	$comp_array = new ArrayObject();
@@ -436,7 +469,8 @@ else if ($respind_row['res'] == 0) { ?>
 										ponderacion
 							 FROM comp_crit, criterios
 							WHERE comp_crit.competencia_id = $competencia_id
-								AND comp_crit.criterio_id = criterios.id";
+								AND comp_crit.criterio_id = criterios.id
+					 ORDER BY id";
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		$resultado_competencia = 0;
 		$resultado_autoeval = 0;
@@ -623,21 +657,22 @@ else if ($respind_row['res'] == 0) { ?>
 										ponderacion
 							 FROM comp_crit, criterios
 							WHERE comp_crit.competencia_id = $competencia_id
-								AND comp_crit.criterio_id = criterios.id";
+								AND comp_crit.criterio_id = criterios.id
+					 ORDER BY id";
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		while ($fila_crit = $crit_result->fetch_assoc()){
 			$criterio = $fila_crit["id"];?>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Criterio </th>
+					<th>Criterio N°<?php echo $fila_crit["id"]?></th>
 					<th>Ponderación </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td> <?php echo $fila_crit["descr"]." (".$fila_crit["id"].")" ?></td>
-					<td> <?php echo $fila_crit["ponderacion"] ?></td>
+					<td> <?php echo $fila_crit["descr"]?></td>
+					<td> <?php echo $fila_crit["ponderacion"] ?>%</td>
 				</tr>
 			</tbody>
 		</table>
@@ -747,9 +782,51 @@ else if ($respind_row['res'] == 0) { ?>
 	window.onload = function(){
 		var competencias = <?php echo $comp_general ?>;
 		var general = <?php echo $prom_general ?>;
+		var ctx = document.getElementById("myChart");
+		var myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ["Competencias","General"],
+				datasets: [{
+						data: [competencias, general],
+						backgroundColor: [
+								'rgba(255, 14, 44, 0.5)',
+								'rgba(255, 80, 0, 0.5)'
+							],
+							borderColor: [
+								'rgba(255, 14, 44, 1)',
+								'rgba(255, 80, 0, 1)'
+							],
+							borderWidth: 2
+						}]
+					},
+					options: {
+						legend: {
+							fontColor:"black",
+							fontSize: 18,
+							display: false
+						},
+						scales: {
+							yAxes: [{
+								ticks: {
+										fontColor: "black",
+										beginAtZero:true,
+										max: 140
+									}
+								}],
+								xAxes: [{
+									ticks: {
+										fontColor: "black",
+										beginAtZero:true
+									}
+								}]
+							}
+						}
+		});
 		var autoeval = <?php echo $resultado_autoeval2 ?>;
 		var superior = <?php echo $resultado_superior2 ?>;
 		var colaborador = <?php echo $resultado_colaborador2 ?>;
+		if (colaborador != 0){
 		var ctx2 = document.getElementById("myChart2");
 		var myChart2 = new Chart(ctx2, {
 		type: 'bar',
@@ -780,7 +857,8 @@ else if ($respind_row['res'] == 0) { ?>
 					yAxes: [{
 							ticks: {
 									fontColor: "black",
-									beginAtZero:true
+									beginAtZero:true,
+									max: 140
 							}
 					}],
 					xAxes: [{
@@ -794,19 +872,14 @@ else if ($respind_row['res'] == 0) { ?>
 	});
 	var nombres = <?php echo json_encode($comp_nombres) ?>;
 	var nombres_arr = Object.keys(nombres).map(function (key) { return nombres[key]; });
-	console.log(nombres_arr);
 	var autoeval = <?php echo json_encode($comp_autoeval) ?>;
 	var autoeval_arr = Object.keys(autoeval).map(function (key) { return autoeval[key]; });
-	console.log(autoeval_arr);
 	var superior = <?php echo json_encode($comp_superior) ?>;
 	var superior_arr = Object.keys(superior).map(function (key) { return superior[key]; });
-	console.log(superior_arr);
 	var colaborador = <?php echo json_encode($comp_colaborador) ?>;
 	var colaborador_arr = Object.keys(colaborador).map(function (key) { return colaborador[key]; });
-	console.log(colaborador_arr);
 	var suma = <?php echo json_encode($comp_suma) ?>;
 	var suma_arr = Object.keys(suma).map(function (key) { return suma[key]; });
-	console.log(suma_arr);
 	var ctx3 = document.getElementById("myChart3");
 	var myChart3 = new Chart(ctx3, {
 	type: 'bar',
@@ -847,7 +920,8 @@ else if ($respind_row['res'] == 0) { ?>
 				yAxes: [{
 						ticks: {
 								fontColor: "black",
-								beginAtZero:true
+								beginAtZero:true,
+								max: 140
 						}
 				}],
 				xAxes: [{
@@ -862,50 +936,153 @@ else if ($respind_row['res'] == 0) { ?>
 		}
 	}
 	});
-		var ctx4 = document.getElementById("myChart4");
-		var myChart4 = new Chart(ctx4, {
-			type: 'bar',
-			data: {
-				labels: ["Competencias","General"],
-				datasets: [{
-						data: [competencias, general],
-						backgroundColor: [
-								'rgba(255, 14, 44, 0.5)',
-								'rgba(255, 80, 0, 0.5)'
-							],
-							borderColor: [
-								'rgba(255, 14, 44, 1)',
-								'rgba(255, 80, 0, 1)'
-							],
-							borderWidth: 2
-						}]
-					},
-					options: {
-						legend: {
-							fontColor:"black",
-							fontSize: 18,
-							display: false
-						},
-						scales: {
-							yAxes: [{
-								ticks: {
-										fontColor: "black",
-										beginAtZero:true
-									}
-								}],
-								xAxes: [{
-									ticks: {
-										fontColor: "black",
-										beginAtZero:true
-									}
-								}]
-							}
+	}
+	else {
+	var autoeval = <?php echo $resultado_autoeval2 ?>;
+	var superior = <?php echo $resultado_superior2 ?>;
+	var ctx4 = document.getElementById("myChart4");
+	var myChart4 = new Chart(ctx4, {
+	type: 'bar',
+	data: {
+	labels: ["General","Auto-Evaluación","Superior"],
+	datasets: [{
+			data: [competencias,autoeval,superior],
+			backgroundColor: [
+					'rgba(129, 20, 112, 0.5)',
+					'rgba(255, 99, 132, 0.5)',
+					'rgba(54, 162, 235, 0.5)'
+			],
+			borderColor: [
+					'rgba(129, 20, 112, 1)',
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)'
+			],
+			borderWidth: 2
+	}]
+	},
+	options: {
+		legend: {
+			display: false
+		},
+		scales: {
+				yAxes: [{
+						ticks: {
+								fontColor: "black",
+								beginAtZero:true,
+								max:140
 						}
+				}],
+				xAxes: [{
+						ticks: {
+							fontColor: "black",
+							beginAtZero:true
+						}
+				}]
+		}
+	}
+	});
+	var nombres = <?php echo json_encode($comp_nombres) ?>;
+	var nombres_arr = Object.keys(nombres).map(function (key) { return nombres[key]; });
+	var autoeval = <?php echo json_encode($comp_autoeval) ?>;
+	var autoeval_arr = Object.keys(autoeval).map(function (key) { return autoeval[key]; });
+	var superior = <?php echo json_encode($comp_superior) ?>;
+	var superior_arr = Object.keys(superior).map(function (key) { return superior[key]; });
+	var suma = <?php echo json_encode($comp_suma) ?>;
+	var suma_arr = Object.keys(suma).map(function (key) { return suma[key]; });
+	var ctx5 = document.getElementById("myChart5");
+	var myChart5 = new Chart(ctx5, {
+	type: 'bar',
+	data: {
+		labels: nombres_arr,
+		datasets: [{
+			label: "General",
+			data: suma_arr,
+			backgroundColor: 'rgba(129, 20, 112, 0.5)',
+			borderColor: 'rgba(129, 20, 112, 1)',
+			borderWidth: 2
+			}, {
+			label: "Auto-Evaluación",
+			data: autoeval_arr,
+			backgroundColor: 'rgba(255, 99, 132, 0.5)',
+			borderColor: 'rgba(255, 99, 132, 1)',
+			borderWidth: 2
+			}, {
+			label: "Superior",
+			data: superior_arr,
+			backgroundColor: 'rgba(54, 162, 235, 0.5)',
+			borderColor: 'rgba(54, 162, 235, 1)',
+			borderWidth: 2
+			},
+		]
+	},
+	options: {
+		legend: {
+			labels: {fontColor: "black"}
+		},
+		scales: {
+				yAxes: [{
+						ticks: {
+								fontColor: "black",
+								beginAtZero:true,
+								max:140
+						}
+				}],
+				xAxes: [{
+						ticks: {
+							fontColor: "black",
+							beginAtZero:true,
+							autoSkip: false,
+							maxRotation: 20,
+							minRotation: 0
+						}
+				}]
+		}
+	}
+	});
+	}
+		$("#pdf-btn").click(function() {
+			var dataURL = document.getElementById("myChart").toDataURL("image/png");
+			dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+			if (colaborador != 0){
+				var dataURL2 = document.getElementById("myChart2").toDataURL("image/png");
+				var dataURL3 = document.getElementById("myChart3").toDataURL("image/png");
+				dataURL2.replace(/^data:image\/(png|jpg);base64,/, "");
+				dataURL3.replace(/^data:image\/(png|jpg);base64,/, "");
+				$.ajax({
+					type: "POST",
+					url: 'saveimage.php',
+					data: {image1 : dataURL,
+							 	 image2 : dataURL2,
+								 image3 : dataURL3},
+					success: function(respond){
+						console.log(respond);
+					}
 					});
-				};
+			}
+			else {
+				var dataURL4 = document.getElementById("myChart4").toDataURL("image/png");
+				var dataURL5 = document.getElementById("myChart5").toDataURL("image/png");
+				dataURL4.replace(/^data:image\/(png|jpg);base64,/, "");
+				dataURL5.replace(/^data:image\/(png|jpg);base64,/, "");
+				$.ajax({
+					type: "POST",
+					url: 'saveimage.php',
+					data: {image1 : dataURL,
+								 image2 : dataURL4,
+								 image3 : dataURL5},
+					success: function(respond){
+						console.log(respond);
+					}
+					});
+			}
+		});
+	};
 	</script>
 	<?php
 }
+
+
+// Caso ambas respuestas
 else {
 $respuesta_info = "SELECT comp_table.resultado as comp_result,
 													 meta_table.resultado as meta_result,
@@ -1016,7 +1193,8 @@ $prom_general = $resultado['total_result'];
  								 			 		 AND cargo_id = $cargo_id
 								 				   AND ciclo_id = $ciclo_id
 								 				   AND asignatura_id = $asi_id
-								 				   AND proceso_id = $proceso";
+								 				   AND proceso_id = $proceso
+											ORDER BY id";
 			$meta_result = $conn->query($meta) or die("database error:". $conn->error);
 			$total = 0;
 			while($fila_meta = $meta_result->fetch_assoc()){
@@ -1125,10 +1303,32 @@ $prom_general = $resultado['total_result'];
 			</tbody>
 		</table>
 	</div>
-	<canvas id="myChart2" width="10" height="3"></canvas>
-	<br></br>
-	<canvas id="myChart3" width="12" height="5"></canvas>
 	<?php
+	$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+										FROM resultados_comp, evaluaciones_comp, valores
+									 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+										 AND resultados_comp.respuesta = valores.id
+										 AND evaluado_id = $usuario_id
+										 AND cargo_id = $cargo_id
+										 AND ciclo_id = $ciclo_id
+										 AND asignatura_id = $asi_id
+										 AND proceso_id = $proceso
+										 AND tipo_id = 3";
+	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
+	$fila_col = $colaborador_result->fetch_assoc();
+	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+	if ($verificador){ ?>
+		<canvas id="myChart2" width="10" height="3"></canvas>
+		<br><br>
+		<canvas id="myChart3" width="12" height="5"></canvas>
+	<?php
+	}
+	else { ?>
+		<canvas id="myChart4" width="10" height="3"></canvas>
+		<br><br>
+		<canvas id="myChart5" width="12" height="5"></canvas>
+	<?php
+	}
 	// Competencias
 	// Necesito una constante de array para guardar las competencias
 	$comp_array = new ArrayObject();
@@ -1163,7 +1363,8 @@ $prom_general = $resultado['total_result'];
 										ponderacion
 							 FROM comp_crit, criterios
 							WHERE comp_crit.competencia_id = $competencia_id
-								AND comp_crit.criterio_id = criterios.id";
+								AND comp_crit.criterio_id = criterios.id
+					 ORDER BY id";
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		$resultado_competencia = 0;
 		$resultado_autoeval = 0;
@@ -1307,6 +1508,7 @@ $prom_general = $resultado['total_result'];
 						elseif ($resultado_colaborador <= 66.66) { echo "<td>2</td>";}
 						elseif ($resultado_colaborador <= 99.99) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
+						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
@@ -1350,21 +1552,22 @@ $prom_general = $resultado['total_result'];
 										ponderacion
 							 FROM comp_crit, criterios
 							WHERE comp_crit.competencia_id = $competencia_id
-								AND comp_crit.criterio_id = criterios.id";
+								AND comp_crit.criterio_id = criterios.id
+					 ORDER BY id";
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		while ($fila_crit = $crit_result->fetch_assoc()){
 			$criterio = $fila_crit["id"];?>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Criterio </th>
+					<th>Criterio N°<?php echo $fila_crit["id"]?></th>
 					<th>Ponderación </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td> <?php echo $fila_crit["descr"]." (".$fila_crit["id"].")" ?></td>
-					<td> <?php echo $fila_crit["ponderacion"] ?></td>
+					<td> <?php echo $fila_crit["descr"]?></td>
+					<td> <?php echo $fila_crit["ponderacion"] ?>%</td>
 				<tr>
 			</tbody>
 		</table>
@@ -1436,6 +1639,7 @@ $prom_general = $resultado['total_result'];
 						echo "<td>Colaboradores</td>";
 						echo "<td>15%</td>";
 						echo "<td>".$fila_col['resultado']."%</td>";
+						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
@@ -1505,7 +1709,8 @@ window.onload = function(){
 					yAxes: [{
 							ticks: {
 									fontColor: "black",
-									beginAtZero:true
+									beginAtZero:true,
+									max:140
 							}
 					}],
 					xAxes: [{
@@ -1520,6 +1725,7 @@ window.onload = function(){
 	var autoeval = <?php echo $resultado_autoeval2 ?>;
 	var superior = <?php echo $resultado_superior2 ?>;
 	var colaborador = <?php echo $resultado_colaborador2 ?>;
+	if (colaborador != 0) {
 	var ctx2 = document.getElementById("myChart2");
 	var myChart2 = new Chart(ctx2, {
 	type: 'bar',
@@ -1550,7 +1756,8 @@ window.onload = function(){
 				yAxes: [{
 						ticks: {
 								fontColor: "black",
-								beginAtZero:true
+								beginAtZero:true,
+								max:140
 						}
 				}],
 				xAxes: [{
@@ -1564,19 +1771,14 @@ window.onload = function(){
 });
 var nombres = <?php echo json_encode($comp_nombres) ?>;
 var nombres_arr = Object.keys(nombres).map(function (key) { return nombres[key]; });
-console.log(nombres_arr);
 var autoeval = <?php echo json_encode($comp_autoeval) ?>;
 var autoeval_arr = Object.keys(autoeval).map(function (key) { return autoeval[key]; });
-console.log(autoeval_arr);
 var superior = <?php echo json_encode($comp_superior) ?>;
 var superior_arr = Object.keys(superior).map(function (key) { return superior[key]; });
-console.log(superior_arr);
 var colaborador = <?php echo json_encode($comp_colaborador) ?>;
 var colaborador_arr = Object.keys(colaborador).map(function (key) { return colaborador[key]; });
-console.log(colaborador_arr);
 var suma = <?php echo json_encode($comp_suma) ?>;
 var suma_arr = Object.keys(suma).map(function (key) { return suma[key]; });
-console.log(suma_arr);
 var ctx3 = document.getElementById("myChart3");
 var myChart3 = new Chart(ctx3, {
 type: 'bar',
@@ -1617,7 +1819,8 @@ options: {
 			yAxes: [{
 					ticks: {
 							fontColor: "black",
-							beginAtZero:true
+							beginAtZero:true,
+							max:140
 					}
 			}],
 			xAxes: [{
@@ -1632,45 +1835,145 @@ options: {
 	}
 }
 });
+}
+else {
+var autoeval = <?php echo $resultado_autoeval2 ?>;
+var superior = <?php echo $resultado_superior2 ?>;
 var ctx4 = document.getElementById("myChart4");
 var myChart4 = new Chart(ctx4, {
 type: 'bar',
 data: {
-		labels: ["Competencias","General"],
-		datasets: [{
-				data: [competencias, general],
-				backgroundColor: [
-						'rgba(255, 14, 44, 0.5)',
-						'rgba(255, 80, 0, 0.5)'
-				],
-				borderColor: [
-					'rgba(255, 14, 44, 1)',
-					'rgba(255, 80, 0, 1)'
-				],
-				borderWidth: 2
-		}]
+labels: ["General","Auto-Evaluación","Superior"],
+datasets: [{
+		data: [competencias,autoeval,superior],
+		backgroundColor: [
+				'rgba(129, 20, 112, 0.5)',
+				'rgba(255, 99, 132, 0.5)',
+				'rgba(54, 162, 235, 0.5)'
+		],
+		borderColor: [
+				'rgba(129, 20, 112, 1)',
+				'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)'
+		],
+		borderWidth: 2
+}]
 },
 options: {
-		legend: {
-			fontColor:"black",
-			fontSize: 18,
-			display: false
-		},
-		scales: {
-				yAxes: [{
-						ticks: {
-								fontColor: "black",
-								beginAtZero:true
-						}
-				}],
-				xAxes: [{
-						ticks: {
+	legend: {
+		display: false
+	},
+	scales: {
+			yAxes: [{
+					ticks: {
 							fontColor: "black",
-							beginAtZero:true
-						}
-				}]
-		}
+							beginAtZero:true,
+							max:140
+					}
+			}],
+			xAxes: [{
+					ticks: {
+						fontColor: "black",
+						beginAtZero:true
+					}
+			}]
+	}
 }
 });
+var nombres = <?php echo json_encode($comp_nombres) ?>;
+var nombres_arr = Object.keys(nombres).map(function (key) { return nombres[key]; });
+var autoeval = <?php echo json_encode($comp_autoeval) ?>;
+var autoeval_arr = Object.keys(autoeval).map(function (key) { return autoeval[key]; });
+var superior = <?php echo json_encode($comp_superior) ?>;
+var superior_arr = Object.keys(superior).map(function (key) { return superior[key]; });
+var suma = <?php echo json_encode($comp_suma) ?>;
+var suma_arr = Object.keys(suma).map(function (key) { return suma[key]; });
+var ctx5 = document.getElementById("myChart5");
+var myChart5 = new Chart(ctx5, {
+type: 'bar',
+data: {
+	labels: nombres_arr,
+	datasets: [{
+		label: "General",
+		data: suma_arr,
+		backgroundColor: 'rgba(129, 20, 112, 0.5)',
+		borderColor: 'rgba(129, 20, 112, 1)',
+		borderWidth: 2
+		}, {
+		label: "Auto-Evaluación",
+		data: autoeval_arr,
+		backgroundColor: 'rgba(255, 99, 132, 0.5)',
+		borderColor: 'rgba(255, 99, 132, 1)',
+		borderWidth: 2
+		}, {
+		label: "Superior",
+		data: superior_arr,
+		backgroundColor: 'rgba(54, 162, 235, 0.5)',
+		borderColor: 'rgba(54, 162, 235, 1)',
+		borderWidth: 2
+		},
+	]
+},
+options: {
+	legend: {
+		labels: {fontColor: "black"}
+	},
+	scales: {
+			yAxes: [{
+					ticks: {
+							fontColor: "black",
+							beginAtZero:true,
+							max:140
+					}
+			}],
+			xAxes: [{
+					ticks: {
+						fontColor: "black",
+						beginAtZero:true,
+						autoSkip: false,
+						maxRotation: 20,
+						minRotation: 0
+					}
+			}]
+	}
+}
+});
+}
+	$("#pdf-btn").click(function() {
+		var dataURL = document.getElementById("myChart").toDataURL("image/png");
+		dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		if (colaborador != 0){
+			var dataURL2 = document.getElementById("myChart2").toDataURL("image/png");
+			var dataURL3 = document.getElementById("myChart3").toDataURL("image/png");
+			dataURL2.replace(/^data:image\/(png|jpg);base64,/, "");
+			dataURL3.replace(/^data:image\/(png|jpg);base64,/, "");
+			$.ajax({
+				type: "POST",
+				url: 'saveimage.php',
+				data: {image1 : dataURL,
+							 image2 : dataURL2,
+							 image3 : dataURL3},
+				success: function(respond){
+					console.log(respond);
+				}
+				});
+		}
+		else {
+			var dataURL4 = document.getElementById("myChart4").toDataURL("image/png");
+			var dataURL5 = document.getElementById("myChart5").toDataURL("image/png");
+			dataURL4.replace(/^data:image\/(png|jpg);base64,/, "");
+			dataURL5.replace(/^data:image\/(png|jpg);base64,/, "");
+			$.ajax({
+				type: "POST",
+				url: 'saveimage.php',
+				data: {image1 : dataURL,
+							 image2 : dataURL4,
+							 image3 : dataURL5},
+				success: function(respond){
+					console.log(respond);
+				}
+				});
+		}
+	});
 };
 </script>

@@ -9,8 +9,13 @@ html *
 			tablas
 */
 table {
-	background-color: white;
 	border: 2px solid black;
+  border-collapse: collapse;
+}
+thead:before, thead:after { display: none; }
+tbody:before, tbody:after { display: none; }
+thead, tbody {
+	border: 1px solid black;
 }
 th {
 	color:black;/*#8A0808;*/
@@ -24,8 +29,8 @@ td {
 	font-weight: bold;
 	border: 2px solid black;
 }
-thead, tbody {
-	border: 2px solid black;
+.chica {
+  font-size: 10px;
 }
 h3 {
 	color:white;
@@ -47,12 +52,21 @@ h3 {
 	border: 2px solid black;
 	padding: 0.5cm;
 }
+.resumen {
+  background-color: rgba(255, 14, 44, 0.6);
+}
 .total {
 	color:white;
 	background-color: lightgray;
 	text-align: center;
 	font-weight: bold;
 	padding: 0.5cm;
+  border: 1px solid black;
+  font-size: 20px;
+}
+.signature {
+    border: 0;
+    border-bottom: 2px solid #000;
 }
 #name_bar{
 	/*font-family: "Arial", Times, serif;*/
@@ -68,7 +82,7 @@ h1 {
   width: 400px;
   height: 100px;
   position: absolute;
-  top:160;
+  top:200;
   bottom: 0;
   left: 120;
   right: 0;
@@ -81,7 +95,7 @@ h2 {
   width: 400px;
   height: 100px;
   position: absolute;
-  top:200;
+  top:240;
   bottom: 0;
   left: 120;
   right: 0;

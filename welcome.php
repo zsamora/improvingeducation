@@ -6,10 +6,10 @@ if(!isset($_SESSION['id'])){
 $_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
 include('header.php');
 include_once("db_connect.php");
-$procesos = "SELECT id, nombre, finicio, ftermino, habilitado
-							 FROM procesos, trabaja
-							WHERE trabaja.establecimiento_id = procesos.establecimiento_id
-								AND usuario_id = ".$_SESSION['id']."";
+$procesos = "SELECT DISTINCT  id, nombre, finicio, ftermino, habilitado
+							 					FROM procesos, trabaja
+											 WHERE trabaja.establecimiento_id = procesos.establecimiento_id
+											 	 AND usuario_id = ".$_SESSION['id']."";
 $proc_result = $conn->query($procesos);
 include('navbar.php');
 ?>
