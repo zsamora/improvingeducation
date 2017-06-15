@@ -14,10 +14,6 @@
 <script type="text/javascript" src="script/resultados.js"></script>
 <script type="text/javascript" src="script/desplegable.js"></script>
 <script type="text/javascript" src="script/tabla.js"></script>
-<script type="text/javascript" src="script/canvas-toBlob.js"></script>
-<script type="text/javascript" src="script/FileSaver.js"></script>
-<script type="text/javascript" src="script/FileSaver.min.js"></script>
-<script type="text/javascript" src="script/canvastoimg.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
 </head>
