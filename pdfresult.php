@@ -774,7 +774,7 @@ else {
 											FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 														FROM
 															(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
-															 FROM evaluacioanes_ind, resultados_ind, indicadores, valores
+															 FROM evaluaciones_ind, resultados_ind, indicadores, valores
 															 WHERE evaluaciones_ind.id = evaluacion_id
 															 AND respuesta = valores.id
 															 AND evaluado_id = $usuario_id
@@ -1299,10 +1299,10 @@ $html.="</body>
 $dompdf = new Dompdf();
 $dompdf->load_html($html);
 $dompdf->render();
-$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
-exit(0);
+//$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
+//exit(0);
 // Descomentar para PDF descargable
-//$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
+$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
 ////////////////////////////////////
 
 /*$dompdf->load_html_file("'informe.php?usuario_id=".$usuario_id."
