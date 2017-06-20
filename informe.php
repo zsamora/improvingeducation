@@ -318,6 +318,43 @@ else if ($respind_row['res'] == 0) { ?>
 	<h3>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h3>
 	<br>
 	<?php
+	$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+										FROM resultados_comp, evaluaciones_comp, valores
+									 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+										 AND resultados_comp.respuesta = valores.id
+										 AND evaluado_id = $usuario_id
+										 AND cargo_id = $cargo_id
+										 AND ciclo_id = $ciclo_id
+										 AND asignatura_id = $asi_id
+										 AND proceso_id = $proceso
+										 AND tipo_id = 3";
+	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
+	$fila_col = $colaborador_result->fetch_assoc();
+	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+	if (!$verificador) {
+		$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
+										FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
+														FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
+																		FROM (SELECT evaluador_id, competencia_id, tipo_id,
+																					ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as res_previo
+																						FROM evaluaciones_comp, resultados_comp, criterios, valores
+																					 WHERE evaluaciones_comp.id = evaluacion_id
+																						 AND respuesta = valores.id
+																						 AND evaluado_id = $usuario_id
+																						 AND cargo_id = $cargo_id
+																						 AND ciclo_id = $ciclo_id
+																						 AND asignatura_id = $asi_id
+																						 AND proceso_id = $proceso
+																						 AND criterios.id = criterio_id
+																				GROUP BY evaluador_id, competencia_id, tipo_id
+																			) as por_evaluador, ponderacion_tipo2
+																	 WHERE ponderacion_tipo2.id = tipo_id
+																GROUP BY competencia_id, tipo_id
+													) as tabla, ponderacion_tipo2
+									WHERE ponderacion_tipo2.id = tipo_id
+							 GROUP BY competencia_id) as tablita";
+	}
+	else {
 	$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
 		 							FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
 						 							FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
@@ -339,6 +376,7 @@ else if ($respind_row['res'] == 0) { ?>
 												) as tabla, ponderacion_tipo
 							 	WHERE ponderacion_tipo.id = tipo_id
 						 GROUP BY competencia_id) as tablita";
+	}
 	$respuesta_result = $conn->query($respuesta) or die("database error:". $conn->error);
 	$resultado = $respuesta_result->fetch_assoc();
 	$comp_general = $resultado['resultado'];

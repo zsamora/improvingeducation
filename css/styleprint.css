@@ -64,9 +64,17 @@ h3 {
   border: 1px solid black;
   font-size: 20px;
 }
-.signature {
-    border: 0;
+.signature1 {
+    border: 1;
     border-bottom: 2px solid #000;
+    position: relative;
+    left: 400px;
+}
+.signature2 {
+  border: 1;
+  border-bottom: 2px solid #000;
+  position: relative;
+    left: 200px;
 }
 #name_bar{
 	/*font-family: "Arial", Times, serif;*/
