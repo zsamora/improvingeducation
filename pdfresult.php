@@ -243,8 +243,8 @@ else if ($respcomp_row['res'] == 0) {
 						}
 						$html.='<h3 class="total"> Total: '.ROUND($total,2).' %</h3>';
 						$html.='<br><br><br><br><br>';
-						$html.='<input type="text" class="signature"/>';
-						$html.='<span>firma</span>';
+						$html.='<pre style="padding-left:60px;background-color: white;border: 0px;">_______________________________________                               _______________________________________
+						<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
 						$html.="</body>
 										</html>";
 }
@@ -255,6 +255,43 @@ else if ($respind_row['res'] == 0) {
 	$img2 = $_SESSION['image2'];
 	$img3 = $_SESSION['image3'];
 	$html.='<h3>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h3><br>';
+	$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+										FROM resultados_comp, evaluaciones_comp, valores
+									 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+										 AND resultados_comp.respuesta = valores.id
+										 AND evaluado_id = $usuario_id
+										 AND cargo_id = $cargo_id
+										 AND ciclo_id = $ciclo_id
+										 AND asignatura_id = $asi_id
+										 AND proceso_id = $proceso
+										 AND tipo_id = 3";
+	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
+	$fila_col = $colaborador_result->fetch_assoc();
+	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay respuestas de valor
+	if (!$verificador) {
+		$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
+										FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
+														FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
+																		FROM (SELECT evaluador_id, competencia_id, tipo_id,
+																					ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as res_previo
+																						FROM evaluaciones_comp, resultados_comp, criterios, valores
+																					 WHERE evaluaciones_comp.id = evaluacion_id
+																						 AND respuesta = valores.id
+																						 AND evaluado_id = $usuario_id
+																						 AND cargo_id = $cargo_id
+																						 AND ciclo_id = $ciclo_id
+																						 AND asignatura_id = $asi_id
+																						 AND proceso_id = $proceso
+																						 AND criterios.id = criterio_id
+																				GROUP BY evaluador_id, competencia_id, tipo_id
+																			) as por_evaluador, ponderacion_tipo2
+																	 WHERE ponderacion_tipo2.id = tipo_id
+																GROUP BY competencia_id, tipo_id
+													) as tabla, ponderacion_tipo2
+									WHERE ponderacion_tipo2.id = tipo_id
+							 GROUP BY competencia_id) as tablita";
+	}
+	else {
 	$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
 		 							FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
 						 							FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
@@ -276,6 +313,7 @@ else if ($respind_row['res'] == 0) {
 												) as tabla, ponderacion_tipo
 							 	WHERE ponderacion_tipo.id = tipo_id
 						 GROUP BY competencia_id) as tablita";
+	}
 	$respuesta_result = $conn->query($respuesta) or die("database error:". $conn->error);
 	$resultado = $respuesta_result->fetch_assoc();
 	$comp_general = $resultado['resultado'];
@@ -404,19 +442,19 @@ else if ($respind_row['res'] == 0) {
 							 			AND tipo_id = 1";
 		$autoeval_result = $conn->query($autoeval) or die("database error:". $conn->error);
 		$fila_autoeval = $autoeval_result->fetch_assoc();
-		$autoeval2 = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+		/*$autoeval2 = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 								 FROM resultados_comp, evaluaciones_comp, valores
-								WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
 									AND resultados_comp.respuesta = valores.id
 									AND evaluado_id = $usuario_id
+									WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
 									AND cargo_id = $cargo_id
 									AND ciclo_id = $ciclo_id
 									AND asignatura_id = $asi_id
 									AND proceso_id = $proceso
 									AND criterio_id = $criterio
 									AND tipo_id = 1";
-	$autoeval2_result = $conn->query($autoeval2) or die("database error:". $conn->error);
-	$fila_autoeval2 = $autoeval2_result->fetch_assoc();
+		$autoeval2_result = $conn->query($autoeval2) or die("database error:". $conn->error);
+		$fila_autoeval2 = $autoeval2_result->fetch_assoc();*/
 		$superior = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 									 FROM resultados_comp, evaluaciones_comp, valores
 									WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
@@ -662,6 +700,9 @@ else if ($respind_row['res'] == 0) {
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 	$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
+	$html.='<br>';
+	$html.='<pre style="padding-left:60px;background-color: white;border: 0px;">_______________________________________                               _______________________________________
+	<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
 	$html.='</div>
 					</body>
 					</html>';
@@ -935,7 +976,7 @@ while($fila_comp = $comp_result->fetch_assoc()){
 									AND criterio_id = $criterio
 									AND tipo_id = 1";
 	$autoeval_result = $conn->query($autoeval) or die("database error:". $conn->error);
-	$fila_autoeval = $autoeval_result->fetch_assoc();
+	$fila_autoeval = $autoeval_result->fetch_assoc();/*
 	$autoeval2 = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 							 FROM resultados_comp, evaluaciones_comp, valores
 							WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
@@ -948,7 +989,7 @@ while($fila_comp = $comp_result->fetch_assoc()){
 								AND criterio_id = $criterio
 								AND tipo_id = 1";
 $autoeval2_result = $conn->query($autoeval2) or die("database error:". $conn->error);
-$fila_autoeval2 = $autoeval2_result->fetch_assoc();
+$fila_autoeval2 = $autoeval2_result->fetch_assoc();*/
 	$superior = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 								 FROM resultados_comp, evaluaciones_comp, valores
 								WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
@@ -1189,17 +1230,24 @@ $html.="</tbody>
 $resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 $resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 $resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
-$html.="</div>";
+$html.="</div><br><br>";
+$html.='<pre style="padding-left:60px;background-color: white;border: 0px;">_______________________________________                               _______________________________________
+<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
+/*$html.='<div class="signature1>"<input type="text"/></div>';
+$html.='<input type="text" class="signature2"/>';
+$html.='<br>';
+$html.='<span class="signature1">'.$nombre.' '.$apellido.'</span>';
+//$html.='<span class="signature2">'.$nombre.' '.$apellido.'</span>';*/
 $html.="</body>
 				</html>";
 }
 $dompdf = new Dompdf();
 $dompdf->load_html($html);
 $dompdf->render();
-//$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
-//exit(0);
+$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
+exit(0);
 // Descomentar para PDF descargable
-$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
+//$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
 ////////////////////////////////////
 
 /*$dompdf->load_html_file("'informe.php?usuario_id=".$usuario_id."
