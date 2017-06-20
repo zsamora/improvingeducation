@@ -227,7 +227,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 			echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["minimo"]."</td>";
 			echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["esperado"]."</td>";
 			echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["sobre_esperado"]."</td>";
-			echo "<td id='select'>". $info_row["ponderacion"]."</td>";
+			echo "<td id='select'>". $info_row["ponderacion"]." %</td>";
 			echo "</tr>";
 		}
 

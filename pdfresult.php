@@ -714,44 +714,99 @@ else {
 $img = $_SESSION['image1'];
 $img2 = $_SESSION['image2'];
 $img3 = $_SESSION['image3'];
-$respuesta_info = "SELECT comp_table.resultado as comp_result,
-													 meta_table.resultado as meta_result,
-													 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
-									 	FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
-													FROM
-														(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
-														 FROM evaluaciones_ind, resultados_ind, indicadores, valores
-														 WHERE evaluaciones_ind.id = evaluacion_id
-														 AND respuesta = valores.id
-														 AND evaluado_id = $usuario_id
-														 AND cargo_id = $cargo_id
-														 AND ciclo_id = $ciclo_id
-														 AND asignatura_id = $asi_id
-														 AND indicadores.id = indicador_id
-														 GROUP BY evaluador_id
-													 	 ) as por_evaluador
-												 ) as meta_table,
-												 (SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
-												 		FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
-														 			  FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
-																						FROM (SELECT evaluador_id, competencia_id, tipo_id,
-																												 ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as res_previo
-																										FROM evaluaciones_comp, resultados_comp, criterios, valores
-																									 WHERE evaluaciones_comp.id = evaluacion_id
-																									 	 AND respuesta = valores.id
-																										 AND evaluado_id = $usuario_id
-																										 AND cargo_id = $cargo_id
-																										 AND ciclo_id = $ciclo_id
-																										 AND asignatura_id = $asi_id
-																										 AND criterios.id = criterio_id
-																										 GROUP BY evaluador_id, competencia_id, tipo_id
-																									 	 ) as por_evaluador,
-																									 	      ponderacion_tipo
-																					 WHERE ponderacion_tipo.id = tipo_id
-																			  GROUP BY competencia_id, tipo_id
-																							 ) as tabla, ponderacion_tipo
-																		  WHERE ponderacion_tipo.id = tipo_id
-																   GROUP BY competencia_id) as tablita) as comp_table";
+$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+									FROM resultados_comp, evaluaciones_comp, valores
+								 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+									 AND resultados_comp.respuesta = valores.id
+									 AND evaluado_id = $usuario_id
+									 AND cargo_id = $cargo_id
+									 AND ciclo_id = $ciclo_id
+									 AND asignatura_id = $asi_id
+									 AND proceso_id = $proceso
+									 AND tipo_id = 3";
+$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
+$fila_col = $colaborador_result->fetch_assoc();
+$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+if (!$verificador) {
+	$respuesta_info = "SELECT comp_table.resultado as comp_result,
+														 meta_table.resultado as meta_result,
+														 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+											FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
+														FROM
+															(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
+															 FROM evaluaciones_ind, resultados_ind, indicadores, valores
+															 WHERE evaluaciones_ind.id = evaluacion_id
+															 AND respuesta = valores.id
+															 AND evaluado_id = $usuario_id
+															 AND cargo_id = $cargo_id
+															 AND ciclo_id = $ciclo_id
+															 AND asignatura_id = $asi_id
+															 AND indicadores.id = indicador_id
+															 GROUP BY evaluador_id
+															 ) as por_evaluador
+													 ) as meta_table,
+													 (SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
+															FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
+																			FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
+																							FROM (SELECT evaluador_id, competencia_id, tipo_id,
+																													 ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as res_previo
+																											FROM evaluaciones_comp, resultados_comp, criterios, valores
+																										 WHERE evaluaciones_comp.id = evaluacion_id
+																											 AND respuesta = valores.id
+																											 AND evaluado_id = $usuario_id
+																											 AND cargo_id = $cargo_id
+																											 AND ciclo_id = $ciclo_id
+																											 AND asignatura_id = $asi_id
+																											 AND criterios.id = criterio_id
+																											 GROUP BY evaluador_id, competencia_id, tipo_id
+																											 ) as por_evaluador,
+																														ponderacion_tipo2
+																						 WHERE ponderacion_tipo2.id = tipo_id
+																					GROUP BY competencia_id, tipo_id
+																				) as tabla, ponderacion_tipo2
+																				WHERE ponderacion_tipo2.id = tipo_id
+																		 GROUP BY competencia_id) as tablita) as comp_table";
+}
+else {
+	$respuesta_info = "SELECT comp_table.resultado as comp_result,
+														 meta_table.resultado as meta_result,
+														 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+											FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
+														FROM
+															(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
+															 FROM evaluacioanes_ind, resultados_ind, indicadores, valores
+															 WHERE evaluaciones_ind.id = evaluacion_id
+															 AND respuesta = valores.id
+															 AND evaluado_id = $usuario_id
+															 AND cargo_id = $cargo_id
+															 AND ciclo_id = $ciclo_id
+															 AND asignatura_id = $asi_id
+															 AND indicadores.id = indicador_id
+															 GROUP BY evaluador_id
+															 ) as por_evaluador
+													 ) as meta_table,
+													 (SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
+															FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
+																			FROM (SELECT competencia_id, tipo_id, SUM(res_previo)/COUNT(res_previo) as resultado
+																							FROM (SELECT evaluador_id, competencia_id, tipo_id,
+																													 ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as res_previo
+																											FROM evaluaciones_comp, resultados_comp, criterios, valores
+																										 WHERE evaluaciones_comp.id = evaluacion_id
+																											 AND respuesta = valores.id
+																											 AND evaluado_id = $usuario_id
+																											 AND cargo_id = $cargo_id
+																											 AND ciclo_id = $ciclo_id
+																											 AND asignatura_id = $asi_id
+																											 AND criterios.id = criterio_id
+																											 GROUP BY evaluador_id, competencia_id, tipo_id
+																											 ) as por_evaluador,
+																														ponderacion_tipo
+																						 WHERE ponderacion_tipo.id = tipo_id
+																					GROUP BY competencia_id, tipo_id
+																				) as tabla, ponderacion_tipo
+																				WHERE ponderacion_tipo.id = tipo_id
+																		 GROUP BY competencia_id) as tablita) as comp_table";
+}
 $respuesta_result = $conn->query($respuesta_info) or die("database error:". $conn->error);
 $resultado = $respuesta_result->fetch_assoc();
 $comp_general = $resultado['comp_result'];
@@ -1135,7 +1190,7 @@ $html.="<table class='table'>
 	<tbody>
 		<tr>
 			<td>".$fila_crit["descr"]."</td>
-			<td>".$fila_crit["ponderacion"]."</td>
+			<td>".$fila_crit["ponderacion"]."%</td>
 		</tr>
 	</tbody>
 </table>";
