@@ -48,6 +48,7 @@ $html.='<link href="css/styleprint.css" rel="stylesheet" type="text/css" media="
 $html.="<h1>Informe: </h1><br><h2>";
 $html.=$nombre." ".$apellido." - ".$cargo;
 $html.="</h2><p class='saltodepagina'/>";
+$html.=$img;
 $html.='<div class="table-responsive">
 	<table class="table">
 		<thead>
