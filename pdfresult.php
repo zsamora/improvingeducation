@@ -48,7 +48,6 @@ $html.='<link href="css/styleprint.css" rel="stylesheet" type="text/css" media="
 $html.="<h1>Informe: </h1><br><h2>";
 $html.=$nombre." ".$apellido." - ".$cargo;
 $html.="</h2><p class='saltodepagina'/>";
-$html.=$img;
 $html.='<div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -912,7 +911,7 @@ while($fila_comp = $comp_result->fetch_assoc()){
 						 FROM comp_crit, criterios
 						WHERE comp_crit.competencia_id = $competencia_id
 							AND comp_crit.criterio_id = criterios.id
-				 ORDER BY id";
+					ORDER BY id";
 	$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 	$resultado_competencia = 0;
 	$resultado_autoeval = 0;
