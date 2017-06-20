@@ -250,7 +250,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 <script type="text/javascript">
 	//Funciona bien para seleccionar
 	//$('td').click(e => $(e.currentTarget).find('input').prop('checked',true));
-	$('#select').click(function(){
+	$('td').click(function(){
 		$(this).css('background-color','green');
 		$(this).siblings().css( "background-color",'white');
 		$(this).find('input').prop('checked',true);
