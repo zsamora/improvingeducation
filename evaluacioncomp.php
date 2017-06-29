@@ -249,10 +249,8 @@ $tipo_row = $tipo_res->fetch_assoc();
 	</div>
 	<?php include('footer.php');?>
 	<script type="text/javascript">
-		//Funciona bien para seleccionar
-		//$('td').click(e => $(e.currentTarget).find('input').prop('checked',true));
-		$('td').click(function(){
-			$(this).css('background-color','green');
+		$('td#select').click(function(){
+			$(this).css('background-color','lightblue');
 			$(this).siblings().css( "background-color",'white');
 			$(this).find('input').prop('checked',true);
 		});

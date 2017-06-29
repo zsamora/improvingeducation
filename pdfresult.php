@@ -45,10 +45,17 @@ $perfil = $resultado['perfil'];
 $html="";
 $html.='<link rel="stylesheet" media="screen" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">'; // VER QUE HACER CON BOOTSTRAP
 $html.='<link href="css/styleprint.css" rel="stylesheet" type="text/css" media="screen">';
-$html.="<h1>Informe: </h1><br><h2>";
-$html.=$nombre." ".$apellido." - ".$cargo;
-$html.="</h2><p class='saltodepagina'/>";
-$html.='<div class="table-responsive">
+$html.='<div>
+				<div class="col-md-1"></div>
+				<div class="col-md-2"><br><img src="logosgc.png"></div>
+				<div class="col-md-9"></div>
+				</div>';
+$html.="<h1>Evaluación del Desempeño </h1><br><h2>Funcionario: ";
+$html.=$nombre." ".$apellido."</h2><br><h5>Cargo: ".$cargo."</h5>";
+$html.='<pre class="signature">_______________________________________                               _______________________________________
+<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
+$html.="<p class='saltodepagina'/>";
+$html.='
 	<table class="table">
 		<thead>
       <tr>
@@ -68,8 +75,8 @@ $html.='<div class="table-responsive">
 				  <td>' . $resultado['asignatura'] . '</td>
 				</tr>
 			</tbody>
-	</table>
-</div>';
+	</table>';
+
 // CONDICIONES
 // Consultas con resultados generales
 $respind = "SELECT COUNT(respuesta) as res
@@ -125,8 +132,8 @@ else if ($respcomp_row['res'] == 0) {
 		<table class="table">
 			<thead>
 	      <tr>
-					<th style="background-color:rgba(255, 255, 0 ,0.8)">Resultado Metas (100%)</th>
-					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+					<th>Resultado Metas (100%)</th>
+					<th>Resultado General</th>
 	      </tr>
 	    </thead>
 			<tbody style="text-align:center">
@@ -155,19 +162,19 @@ else if ($respcomp_row['res'] == 0) {
 					<tbody>
 						<tr>
 							<td> No Cumplido </td>
-							<td> 33 % </td>
+							<td> 33.33 % </td>
 						</tr>
 						<tr>
 							<td> Mínimo </td>
-							<td> 67 % </td>
+							<td> 66.66 % </td>
 						</tr>
 						<tr>
 							<td> Esperado </td>
-							<td> 100 % </td>
+							<td> 99.99 % </td>
 						</tr>
 						<tr>
 							<td> Sobre lo esperado </td>
-							<td> 133 % </td>
+							<td> 133.32% </td>
 						</tr>
 					</tbody>
 				</table>
@@ -324,8 +331,8 @@ else if ($respind_row['res'] == 0) {
 		<table class="table">
 			<thead>
 	      <tr>
-	        <th style="background-color:rgba(255, 14, 44 ,0.8)">Resultado Competencias (100%)</th>
-					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+	        <th>Resultado Competencias (100%)</th>
+					<th>Resultado General</th>
 	      </tr>
 	    </thead>
 			<tbody style="text-align:center">
@@ -510,8 +517,8 @@ else if ($respind_row['res'] == 0) {
 		}
 		$html.='<h4 class="comp"> Competencia N°'.$competencia_id.' : '.$competencia_nombre.'</h4>';
 		$html.='
-			<table class="table table-condensed">
-			<thead>
+			<table class="tablelight table-condensed">
+			<thead class="theadlight">
 					<tr>
 						<th class="resumen">Evaluador </th>
 						<th class="resumen">Peso opinante</th>
@@ -519,7 +526,7 @@ else if ($respind_row['res'] == 0) {
 						<th class="resumen">Nivel </th>
 					</tr>
 			</thead>
-			<tbody>
+			<tbody class="tbodylight">
 					<tr>
 					<td>Auto-Evaluación</td>
 					<td>10%</td>
@@ -593,20 +600,7 @@ else if ($respind_row['res'] == 0) {
 		while ($fila_crit = $crit_result->fetch_assoc()){
 			$criterio = $fila_crit["id"];
 			$html.='
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Criterio N°'.$fila_crit["id"].'</th>
-						<th>Ponderación </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>'.$fila_crit["descr"].'</td>
-						<td>'.$fila_crit["ponderacion"].'%</td>
-					</tr>
-				</tbody>
-			</table>';
+			<p>Criterio N°'.$fila_crit["id"].': '.$fila_crit["descr"].'('.$fila_crit["ponderacion"].'%)</p>';
 		// Resultados por tipo encuesta
 		$autoeval = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 									 FROM resultados_comp, evaluaciones_comp, valores
@@ -649,7 +643,7 @@ else if ($respind_row['res'] == 0) {
 		$fila_col = $colaborador_result->fetch_assoc();
 		$verificador = $fila_col['resultado'] != NULL; // Si es distinto de null, hay un valor
 		$html.='
-		<table class="table">
+		<table class="detalle">
 			<thead>
 					<tr>
 						<th>Evaluador </th>
@@ -696,6 +690,7 @@ else if ($respind_row['res'] == 0) {
 							</table>
 							<br><br>';
 			}
+			$html.="<p class='saltodepagina'/>";
 	}
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
@@ -817,9 +812,9 @@ $html.='
 	<table class="table">
 		<thead>
       <tr>
-				<th style="background-color:rgba(255, 255, 0 ,0.8)">Resultado Metas (50%)</th>
-        <th style="background-color:rgba(255, 14, 44 ,0.8)">Resultado Competencias (50%)</th>
-				<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+				<th>Resultado Metas (50%)</th>
+        <th>Resultado Competencias (50%)</th>
+				<th>Resultado General (100%)</th>
       </tr>
     </thead>
 		<tbody>
@@ -829,10 +824,10 @@ $html.='
 					  <td>'. $prom_general.'%</td>
 					</tr>
   	</tbody>
-	</table><br>';
+	</table><br><br>';
 	if (isset($_SESSION['image1'])){
 		//$img = base64_decode($img);
-		$html.='<img width=740 src='.$img.' /><br><br><br>';
+		$html.='<img width=740 src='.$img.' /><br><br><br><br><br>';
 	}
 $html.="<h3> Metas del Cargo: ".$cargo."</h3>
 	<br>
@@ -846,23 +841,23 @@ $html.="<h3> Metas del Cargo: ".$cargo."</h3>
 		<tbody>
 			<tr>
 				<td> No Cumplido </td>
-				<td> 33 % </td>
+				<td> 33.33 % </td>
 			</tr>
 			<tr>
 				<td> Mínimo </td>
-				<td> 67 % </td>
+				<td> 66.66 % </td>
 			</tr>
 			<tr>
 				<td> Esperado </td>
-				<td> 100 % </td>
+				<td> 99.99 % </td>
 			</tr>
 			<tr>
 				<td> Sobre lo esperado </td>
-				<td> 133 % </td>
+				<td> 133.32 % </td>
 			</tr>
 		</tbody>
 	</table>
-	<br><br><br><br><br><br>";
+	<p class='saltodepagina'>";
 $meta = "SELECT DISTINCT metas.descripcion as meta_desc,
 													 metas.id as id
 											FROM evaluaciones_ind, metas
@@ -888,7 +883,7 @@ while($fila_meta = $meta_result->fetch_assoc()){
 									 AND indicador_cargos.cargo_id = $cargo_id
 									 AND indicador_cargos.indicador_id = indicadores.id";
 $indicador_result = $conn->query($indicador) or die ("database error:". $conn->error);
-$html.="<div class='table-responsive'>
+$html.="
 <h4 class='meta'>Meta N°".$meta." ".$meta_desc."</h4>
 <table class='table'>
 	<thead>
@@ -930,9 +925,9 @@ $html.="
 		</tr>";
 $total += $fila_evaluacion['resultado'] * ($ponderacion / 100.0);
 	}
-$html.="</tbody></table>";
+$html.="</tbody></table><br>";
 }
-$html.="<h3 class='total'> Total: ".ROUND($total,2)." %</h3>";
+$html.="<h4 class='total'> TOTAL: ". ROUND($total,2) ."%</h4>";
 $html.="<p class='saltodepagina'/>";
 $html.="<h3> Competencias del Perfil: ".$perfil."</h3>
 <br>
@@ -977,15 +972,15 @@ $html.="<h3> Competencias del Perfil: ".$perfil."</h3>
 		<td></td>
 	</tr>
 </tbody>
-</table>";
+</table><br><br>";
 if (isset($_SESSION['image2'])){
-	//$img = base64_decode($img);
 	$html.='<img width=740 src='.$img2.'/><br><br><br>';
 }
+//TODO: TIRAR HACIA LA IZQUIERDA!!!!!!! (Me parece que se modifica desde informe.php)
 if (isset($_SESSION['image3'])){
-	//$img = base64_decode($img);
-	$html.='<img width=740 src='.$img3.' /><br><br>';
+	$html.='<img width=740 src='.$img3.'/>';
 }
+//$html.="<p class='saltodepagina'/>";
 $comp = "SELECT DISTINCT competencia_id, competencias.nombre as nombre
 										FROM evaluaciones_comp, competencias
 										WHERE proceso_id = $proceso
@@ -1098,8 +1093,9 @@ $fila_autoeval2 = $autoeval2_result->fetch_assoc();*/
 	else {
 		$resultado_competencia = ROUND($resultado_autoeval * 0.1 + $resultado_superior * 0.9,2);
 	}
+$html.="<p class='saltodepagina'/>";
 $html.="<h4 class='comp'>Competencia N° ".$competencia_id." : ".$competencia_nombre."</h4>
-	<table class='table table-condensed'>
+	<table class='tablelight table-condensed'>
 		<thead>
 				<tr>
 					<th class='resumen'>Evaluador </th>
@@ -1169,7 +1165,7 @@ $html.="<h4 class='comp'>Competencia N° ".$competencia_id." : ".$competencia_no
 			}
 $html.="</tbody>
 				</table>
-				<br>";
+				<br><br>";
 $crit = "SELECT criterios.descripcion as descr,
 								criterios.id as id,
 								ponderacion
@@ -1180,20 +1176,8 @@ $crit = "SELECT criterios.descripcion as descr,
 $crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 while ($fila_crit = $crit_result->fetch_assoc()){
 	$criterio = $fila_crit["id"];
-$html.="<table class='table'>
-	<thead>
-		<tr>
-			<th>Criterio N°".$fila_crit['id']."</th>
-			<th>Ponderación </th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>".$fila_crit["descr"]."</td>
-			<td>".$fila_crit["ponderacion"]."%</td>
-		</tr>
-	</tbody>
-</table>";
+$html.='<div class="containerx"><div class="item"><p class="criterio">Criterio N°'.$fila_crit["id"].': </p>';
+$html.='<p class="descripcion">'.$fila_crit["descr"].' ('.$fila_crit["ponderacion"].'%)</p></div>';
 $autoeval = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 							 FROM resultados_comp, evaluaciones_comp, valores
 							WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
@@ -1234,60 +1218,59 @@ $colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 $colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 $fila_col = $colaborador_result->fetch_assoc();
 $verificador = $fila_col['resultado'] != NULL;
-$html.="<table class='table'>
+$html.="
+<table class='item'>
 	<thead>
 			<tr>
-				<th>Evaluador </th>
-				<th>Peso opinante</th>
-				<th>Porcentaje </th>
+				<th class='detalleth'>Evaluador </th>
+				<th class='detalleth'>Peso opinante</th>
+				<th class='detalleth'>Porcentaje </th>
 			</tr>
 	</thead>
 	<tbody>
 		<tr>
-		<td>Auto-Evaluación</td>
-		<td>10%</td>
-		<td>".$fila_autoeval['resultado']."%</td>
+		<td class='detalletd'>Auto-Evaluación</td>
+		<td class='detalletd'>10%</td>
+		<td class='detalletd'>".$fila_autoeval['resultado']."%</td>
 		</tr>";
 		if ($verificador){
 				$html.="<tr>
-				<td>Superior</td>
-				<td>75%</td>
-				<td>".$fila_sup['resultado']."%</td>
+				<td class='detalletd'>Superior</td>
+				<td class='detalletd'>75%</td>
+				<td class='detalletd'>".$fila_sup['resultado']."%</td>
 				</tr>
 				<tr>
-				<td>Colaboradores</td>
-				<td>15%</td>
-				<td>".$fila_col['resultado']."%</td>
+				<td class='detalletd'>Colaboradores</td>
+				<td class='detalletd'>15%</td>
+				<td class='detalletd'>".$fila_col['resultado']."%</td>
 				</tr>
 				<tr>
-				<td>Total</td>
-				<td>100%</td>
-				<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>
+				<td class='detalletd'>Total</td>
+				<td class='detalletd'>100%</td>
+				<td class='detalletd'>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>
 				</tr>";
 			}
 		else {
 			$html.="<tr>
-			<td>Superior</td>
-			<td>90%</td>
-			<td>".$fila_sup['resultado']."%</td>
+			<td class='detalletd'>Superior</td>
+			<td class='detalletd'>90%</td>
+			<td class='detalletd'>".$fila_sup['resultado']."%</td>
 			</tr>
 			<tr>
-			<td>Total</td>
-			<td>100%</td>
-			<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>
+			<td class='detalletd'>Total</td>
+			<td class='detalletd'>100%</td>
+			<td class='detalletd'>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>
 			</tr>";
 		}
-$html.="</tbody>
-				</table>
-				<br><br>";
+		$html.="</tbody>
+						</table></div>";
 	}
 }
-$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
-$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
-$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
-$html.="</div><br><br>";
-$html.='<pre style="padding-left:60px;background-color: white;border: 0px;">_______________________________________                               _______________________________________
-<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
+//$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
+//$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
+//$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
+//$html.='<pre style="padding-left:60px;background-color: white;border: 0px;">_______________________________________                               _______________________________________
+//<br>                        '.$nombre.' '.$apellido.'                                                                                     Superior</pre>';
 /*$html.='<div class="signature1>"<input type="text"/></div>';
 $html.='<input type="text" class="signature2"/>';
 $html.='<br>';
@@ -1299,10 +1282,10 @@ $html.="</body>
 $dompdf = new Dompdf();
 $dompdf->load_html($html);
 $dompdf->render();
-//$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
+$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
 //exit(0);
 // Descomentar para PDF descargable
-$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
+//$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
 ////////////////////////////////////
 
 /*$dompdf->load_html_file("'informe.php?usuario_id=".$usuario_id."

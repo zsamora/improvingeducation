@@ -125,7 +125,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-					<th style="background-color:rgba(255, 255, 0 ,0.8)">Resultado Metas (100%)</th>
+					<th style="background-color:rgba(113, 171, 21 ,0.8)">Resultado Metas (100%)</th>
 					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
 	      </tr>
 	    </thead>
@@ -262,11 +262,11 @@ else if ($respcomp_row['res'] == 0) { ?>
 				datasets: [{
 						data: [metas, general],
 						backgroundColor: [
-								'rgba(255, 255, 0, 0.5)',
+								'rgba(113, 171, 21, 0.5)',
 								'rgba(255, 80, 0, 0.5)'
 						],
 						borderColor: [
-							'rgba(255, 255, 0, 1)',
+							'rgba(113, 171, 21, 1)',
 							'rgba(255, 80, 0, 1)'
 						],
 						borderWidth: 2
@@ -386,7 +386,7 @@ else if ($respind_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-	        <th style="background-color:rgba(255, 14, 44 ,0.8)">Resultado Competencias (100%)</th>
+	        <th style="background-color:rgba(41, 230, 160 ,0.8)">Resultado Competencias (100%)</th>
 					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
 	      </tr>
 	    </thead>
@@ -828,11 +828,11 @@ else if ($respind_row['res'] == 0) { ?>
 				datasets: [{
 						data: [competencias, general],
 						backgroundColor: [
-								'rgba(255, 14, 44, 0.5)',
+								'rgba(41, 230, 220, 0.5)',
 								'rgba(255, 80, 0, 0.5)'
 							],
 							borderColor: [
-								'rgba(255, 14, 44, 1)',
+								'rgba(41, 230, 220, 1)',
 								'rgba(255, 80, 0, 1)'
 							],
 							borderWidth: 2
@@ -853,6 +853,9 @@ else if ($respind_row['res'] == 0) { ?>
 									}
 								}],
 								xAxes: [{
+									gridLines: {
+                		offsetGridLines: false
+            			},
 									ticks: {
 										fontColor: "black",
 										beginAtZero:true
@@ -1225,8 +1228,8 @@ $prom_general = $resultado['total_result'];
 	<table class="table">
 		<thead>
       <tr>
-				<th style="background-color:rgba(255, 255, 0 ,0.8)">Resultado Metas (50%)</th>
-        <th style="background-color:rgba(255, 14, 44 ,0.8)">Resultado Competencias (50%)</th>
+				<th style="background-color:rgba(113, 171, 21 ,0.8)">Resultado Metas (50%)</th>
+        <th style="background-color:rgba(41, 230, 160, 0.8)">Resultado Competencias (50%)</th>
 				<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
       </tr>
     </thead>
@@ -1780,13 +1783,13 @@ window.onload = function(){
 			datasets: [{
 					data: [metas, competencias, general],
 					backgroundColor: [
-							'rgba(255, 255, 0, 0.5)',
-							'rgba(255, 14, 44, 0.5)',
+							'rgba(113, 171, 21, 0.5)',
+							'rgba(41, 230, 220, 0.5)',
 							'rgba(255, 80, 0, 0.5)'
 					],
 					borderColor: [
-						'rgba(255, 255, 0, 1)',
-						'rgba(255, 14, 44, 1)',
+						'rgba(113, 171, 21, 1)',
+						'rgba(41, 230, 220, 1)',
 						'rgba(255, 80, 0, 1)'
 					],
 					borderWidth: 2

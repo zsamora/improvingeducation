@@ -113,6 +113,10 @@ h3 {
 	border: 2px solid black;
 	padding: 0.5cm;
 }
+.criterio {
+	width: 50%;
+	align:left;
+}
 .total {
 	color:white;
 	background-color: rgba(0,0,0,0.6);

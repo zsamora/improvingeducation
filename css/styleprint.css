@@ -1,87 +1,10 @@
-/*Cuadro de login*/
+/* Todas las letras son negras y la fuente es Georgia */
 html *
 {
-   /*font-size: 1em !important;*/
    color: #000 !important;
    font-family: Georgia !important;
 }
-/*
-			tablas
-*/
-table {
-	border: 2px solid black;
-  border-collapse: collapse;
-}
-thead:before, thead:after { display: none; }
-tbody:before, tbody:after { display: none; }
-thead, tbody {
-	border: 1px solid black;
-}
-th {
-	color:black;/*#8A0808;*/
-	text-align:center;
-	border: 2px solid black;
-	background-color: lightgray;
-}
-td {
-	color:black;
-	text-align:center;
-	font-weight: bold;
-	border: 2px solid black;
-}
-.chica {
-  font-size: 10px;
-}
-h3 {
-	color:white;
-	text-align: center;
-}
-.meta {
-	color:black;
-	background-color: rgba(255,255,0,0.8);
-	text-align: center;
-	font-weight: bold;
-	border: 2px solid black;
-	padding: 0.5cm;
-}
-.comp {
-	color:black;
-	background-color: rgba(255, 14, 44, 0.6);
-	text-align: center;
-	font-weight: bold;
-	border: 2px solid black;
-	padding: 0.5cm;
-}
-.resumen {
-  background-color: rgba(255, 14, 44, 0.6);
-}
-.total {
-	color:white;
-	background-color: lightgray;
-	text-align: center;
-	font-weight: bold;
-	padding: 0.5cm;
-  border: 1px solid black;
-  font-size: 20px;
-}
-.signature1 {
-    border: 1;
-    border-bottom: 2px solid #000;
-    position: relative;
-    left: 400px;
-}
-.signature2 {
-  border: 1;
-  border-bottom: 2px solid #000;
-  position: relative;
-    left: 200px;
-}
-#name_bar{
-	/*font-family: "Arial", Times, serif;*/
-}
-#btn-submit{
-	height:45px;
-}
+/* Titulo: Evaluacion del Desempeño */
 h1 {
   text-align: center;
   color:black;
@@ -96,20 +19,110 @@ h1 {
   right: 0;
   margin: auto;
 }
+/* Subtitulo: Funcionario: Nombre */
 h2 {
   text-align: center;
   color:black;
-  font-size: 250%;
-  width: 400px;
+  font-size: 195%;
+  width: 500px;
   height: 100px;
   position: absolute;
-  top:240;
+  top:290;
   bottom: 0;
-  left: 120;
+  left: 80;
   right: 0;
   margin: auto;
 }
-p.saltodepagina
-{
-page-break-after: always;
+/* Subtitulo: Cargo: Nombre */
+h5 {
+  text-align: center;
+  color:black;
+  font-size: 190%;
+  width: 500px;
+  height: 100px;
+  position: absolute;
+  top:320;
+  bottom: 0;
+  left: 80;
+  right: 0;
+  margin: auto;
+}
+/* Firmas */
+.signature {
+  padding-left:60px;
+  padding-top:650px;
+  background-color: white;
+  border: 0px;
+}
+/* Salto de página */
+p.saltodepagina {
+  page-break-after: always;
+}
+/*	Tablas */
+table {
+	border: 2px solid black;
+  border-collapse: collapse;
+}
+th {
+	text-align:center;
+	border: 2px solid black;
+  background-color: lightgray;
+}
+td {
+	color:black;
+	text-align:center;
+	font-weight: bold;
+	border: 2px solid black;
+}
+/* Titulos generales */
+h3 {
+	text-align: center;
+}
+/* Título: Meta N° */
+.meta {
+	background-color: rgba(255,255,0,0.8);
+	text-align: center;
+	font-weight: bold;
+	border: 2px solid black;
+	padding: 0.5cm;
+}
+/* Tamaño letra Descripción en Indicadores */
+.chica {
+  font-size: 10px;
+}
+/* Total de Metas */
+.total {
+	background-color: lightgray;
+	text-align: center;
+	font-weight: bold;
+	padding: 0.5cm;
+  border: 2px solid black;
+  font-size: 20px;
+}
+/* Título: Competencia N° */
+.comp {
+	background-color: rgba(255,255,0,0.8);
+	text-align: center;
+	font-weight: bold;
+	border: 2px solid black;
+	padding: 0.5cm;
+}
+/* Head Resumen Competencias */
+.resumen {
+  background-color: rgba(255,255,0,0.8);
+  border = 0px;
+}
+/* Tabla Resumen Competencias */
+.tablelight {
+  margin: 0px auto;
+}
+/* Criterio N° */
+.criterio {
+  width: 50%;
+  font-weight: bold;
+  font-size: 100%;
+}
+.descripcion {
+  width: 50%;
+  font-size: 90%;
 }
