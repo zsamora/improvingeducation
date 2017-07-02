@@ -20,6 +20,7 @@ $('document').ready(function() {
           window.location.replace("proceso.php?proceso_id="+response);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
+          console.log("error");
           console.log(errorThrown);
           console.log(textStatus);
           alert("Status: " + textStatus); alert("Error: " + errorThrown);
