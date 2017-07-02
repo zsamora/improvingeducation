@@ -14,8 +14,6 @@ $('document').ready(function() {
 			url  : 'enviar.php',
 			data : {id_result: id_result, seleccion_result: seleccion_result},
       success : function(response){
-        setTimeout(' window.location.href = "welcome.php"; ',1000);
-        //alert("Encuesta enviada");
       }
     });
   });
@@ -34,8 +32,6 @@ $('document').ready(function() {
       url  : 'enviar2.php',
       data : {id_result: id_result, seleccion_result: seleccion_result},
       success : function(response){
-        setTimeout(' window.location.href = "welcome.php"; ',1000);
-        //alert("Encuesta enviada");
       }
     });
   });

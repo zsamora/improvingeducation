@@ -188,7 +188,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 					echo "<td>".$info_row["crit_desc"]."</td>";
 					// Primer cuadro
 					if ($resultado_row['respuesta'] == 1) {
-						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='1' checked='checked'";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='1' checked='checked'";
 					}
 					else {
 						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'";
@@ -196,7 +196,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 					echo ">" . $info_row["minimo"]."</td>";
 					// Segundo cuadro
 					if ($resultado_row['respuesta'] == 2) {
-						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='2' checked='checked'";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='2' checked='checked'";
 					}
 					else {
 						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'";
@@ -204,7 +204,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 					echo ">" . $info_row["en_desarrollo"]."</td>";
 					// Tercer cuadro
 					if ($resultado_row['respuesta'] == 3) {
-						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='3' checked='checked'";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='3' checked='checked'";
 					}
 					else {
 						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'";
@@ -212,7 +212,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 					echo ">" . $info_row["desarrollado"]."</td>";
 					// Cuarto cuadro
 					if ($resultado_row['respuesta'] == 4) {
-						echo "<td id='select' style='background-color:green'><input type='radio' name='".$eval_id."' value ='4' checked='checked'";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='4' checked='checked'";
 					}
 					else {
 						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'";

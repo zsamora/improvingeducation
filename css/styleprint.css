@@ -20,39 +20,93 @@ h1 {
   margin: auto;
 }
 /* Subtitulo: Funcionario: Nombre */
-h2 {
-  text-align: center;
+.func {
   color:black;
-  font-size: 195%;
-  width: 500px;
+  font-size: 160%;
+  width: 600px;
   height: 100px;
   position: absolute;
-  top:290;
+  top:340;
   bottom: 0;
-  left: 80;
+  left: 50;
+  right: 0;
+  margin: auto;
+}
+/* Subtitulo: Funcionario: Nombre */
+.func-name {
+  color:black;
+  font-size: 160%;
+  width: 600px;
+  height: 100px;
+  position: absolute;
+  top:340;
+  bottom: 0;
+  left: 153;
   right: 0;
   margin: auto;
 }
 /* Subtitulo: Cargo: Nombre */
-h5 {
-  text-align: center;
+.cargo {
   color:black;
-  font-size: 190%;
+  font-size: 160%;
   width: 500px;
   height: 100px;
   position: absolute;
-  top:320;
+  top:390;
   bottom: 0;
-  left: 80;
+  left: 96;
+  right: 0;
+  margin: auto;
+}
+/* Subtitulo: Cargo: Nombre */
+.cargo-name {
+  color:black;
+  font-size: 160%;
+  width: 500px;
+  height: 100px;
+  position: absolute;
+  top:390;
+  bottom: 0;
+  left: 153;
   right: 0;
   margin: auto;
 }
 /* Firmas */
-.signature {
-  padding-left:60px;
-  padding-top:650px;
-  background-color: white;
-  border: 0px;
+.signature1 {
+  text-align: center;
+  position: absolute;
+  font-weight: bold;
+  top:620;
+  bottom: 0;
+  left: -260;
+  right: 0;
+}
+.signature2 {
+  text-align: center;
+  position: absolute;
+  font-weight: bold;
+  top:620;
+  bottom: 0;
+  left: 260;
+  right: 0;
+}
+.name1 {
+  text-align: center;
+  font-style: italic;
+  position: absolute;
+  top:640;
+  bottom: 0;
+  left: -260;
+  right: 0;
+}
+.name2 {
+  text-align: center;
+  font-style: italic;
+  position: absolute;
+  top:640;
+  bottom: 0;
+  left:260;
+  right: 0;
 }
 /* Salto de página */
 p.saltodepagina {
@@ -60,19 +114,19 @@ p.saltodepagina {
 }
 /*	Tablas */
 table {
-	border: 2px solid black;
+	border: 0px solid black;
   border-collapse: collapse;
 }
 th {
 	text-align:center;
-	border: 2px solid black;
+	border: 0px solid black;
   background-color: lightgray;
 }
 td {
 	color:black;
 	text-align:center;
 	font-weight: bold;
-	border: 2px solid black;
+	border: 0px solid black;
 }
 /* Titulos generales */
 h3 {
@@ -120,9 +174,22 @@ h3 {
 .criterio {
   width: 50%;
   font-weight: bold;
-  font-size: 100%;
+  font-size: 90%;
+  position:absolute;
+  top:20px;
 }
 .descripcion {
   width: 50%;
-  font-size: 90%;
+  font-size: 80%;
+  position:absolute;
+  top: 45px;
+}
+/* Tabla detalle de resultados criterios */
+.detalle {
+  position:absolute;
+  right:300px;
+  top: 20px;
+}
+.container-relative {
+  position: relative;
 }

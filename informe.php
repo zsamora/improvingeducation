@@ -95,13 +95,13 @@ $respcomp = "SELECT COUNT(respuesta) as res
 $respcomp_result = $conn->query($respcomp) or die ("database error: " . $conn->error);
 $respcomp_row = $respcomp_result->fetch_assoc();
 if ($respind_row['res'] == 0 && $respcomp_row['res'] == 0){ ?>
-	<h3>No se enviaron respuestas para el evaluado</h3>
+	<h2>No se enviaron respuestas para el evaluado</h2>
 <?php
 	include('footer.php');
 }
 // Caso solo de indicadores
 else if ($respcomp_row['res'] == 0) { ?>
-	<h3>Solo hay respuestas de indicadores (o no tiene evaluaciones de competencias)</h3>
+	<h2>Solo hay respuestas de indicadores (o no tiene evaluaciones de competencias)</h2>
 	<br>
 	<?php
 	$respuesta = "SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
@@ -125,8 +125,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-					<th style="background-color:rgba(113, 171, 21 ,0.8)">Resultado Metas (100%)</th>
-					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+					<th class="titulo-meta">Resultado Metas (100%)</th>
+					<th class="titulo-gen">Resultado General (100%)</th>
 	      </tr>
 	    </thead>
 			<tbody style="text-align:center">
@@ -145,7 +145,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 	<?php
 	// Tabla con resultados generales de Metas ?>
 		<div class="table-responsive">
-			<h3> Metas del Cargo: <?php echo $cargo ?> </h3>
+			<h2> Metas del Cargo: <?php echo $cargo ?> </h2>
 			<br>
 			<table class="table">
 				<thead>
@@ -284,13 +284,19 @@ else if ($respcomp_row['res'] == 0) { ?>
 										fontColor: "black",
 										beginAtZero:true,
 										max: 140
-								}
+								},
+								gridLines: {
+                    display:false
+                }
 						}],
 						xAxes: [{
 								ticks: {
 									fontColor: "black",
 									beginAtZero:true
-								}
+								},
+								gridLines: {
+                    display:false
+                }
 						}]
 				}
 		}
@@ -315,7 +321,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 
 // Caso Solo respuestas de competencia
 else if ($respind_row['res'] == 0) { ?>
-	<h3>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h3>
+	<h2>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h2>
 	<br>
 	<?php
 	$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
@@ -386,11 +392,11 @@ else if ($respind_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-	        <th style="background-color:rgba(41, 230, 160 ,0.8)">Resultado Competencias (100%)</th>
-					<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+	        <th class="titulo-comp">Resultado Competencias (100%)</th>
+					<th class="titulo-gen">Resultado General (100%)</th>
 	      </tr>
 	    </thead>
-			<tbody style="text-align:center">
+			<tbody>
 				<?php
 						echo "<tr>";
 						echo "<td id='comp' value='".$comp_general."'>". $comp_general."%</td>";
@@ -403,7 +409,7 @@ else if ($respind_row['res'] == 0) { ?>
 		<canvas id="myChart" width="10" height="3"></canvas>
 		<br><br>
 		</div>
-		<h3> Competencias del Perfil: <?php echo $perfil; ?></h3>
+		<h2> Competencias del Perfil: <?php echo $perfil; ?></h2>
 		<br>
 		<table class="table">
 			<thead>
@@ -446,7 +452,7 @@ else if ($respind_row['res'] == 0) { ?>
 					<td></td>
 				</tr>
 			</tbody>
-		</table>
+		</table><br><br>
 		<?php
 		$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 											FROM resultados_comp, evaluaciones_comp, valores
@@ -612,6 +618,7 @@ else if ($respind_row['res'] == 0) { ?>
 			$comp_suma->append($resultado_competencia);
 		}
 		?>
+		<br>
 		<table class="table table-condensed">
 			<h4 class="comp"> <?php echo "Competencia N°".$competencia_id." : ".$competencia_nombre?> </h4>
 			<thead>
@@ -687,7 +694,6 @@ else if ($respind_row['res'] == 0) { ?>
 			</tbody>
 		</table>
 		<br>
-	<div class="table-responsive">
 		<?php
 		// Criterios
 		$crit = "SELECT criterios.descripcion as descr,
@@ -700,20 +706,9 @@ else if ($respind_row['res'] == 0) { ?>
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		while ($fila_crit = $crit_result->fetch_assoc()){
 			$criterio = $fila_crit["id"];?>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Criterio N°<?php echo $fila_crit["id"]?></th>
-					<th>Ponderación </th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td> <?php echo $fila_crit["descr"]?></td>
-					<td> <?php echo $fila_crit["ponderacion"] ?>%</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="container-relative">
+			<p class="criterio"> <?php echo "Criterio N°".$fila_crit["id"].":" ?> </p>
+			<p class="descripcion"><?php echo $fila_crit["descr"]." (".$fila_crit["ponderacion"]."%)" ?></p>
 		<?php
 		// Resultados por tipo encuesta
 		$autoeval = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
@@ -757,7 +752,7 @@ else if ($respind_row['res'] == 0) { ?>
 		$fila_col = $colaborador_result->fetch_assoc();
 		$verificador = $fila_col['resultado'] != NULL; // Si es distinto de null, hay un valor
 		?>
-		<table class="table">
+		<table class="table-condensed detalle">
 			<thead>
 					<tr>
 						<th>Evaluador </th>
@@ -804,9 +799,8 @@ else if ($respind_row['res'] == 0) { ?>
 				?>
 			</tbody>
 		</table>
+	</div><br><br><br><br><br>
 		<?php }?>
-	</div>
-	<br>
 	<?php }
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
@@ -850,16 +844,19 @@ else if ($respind_row['res'] == 0) { ?>
 										fontColor: "black",
 										beginAtZero:true,
 										max: 140
-									}
+									},
+									gridLines: {
+	                    display:false
+	                }
 								}],
 								xAxes: [{
-									gridLines: {
-                		offsetGridLines: false
-            			},
 									ticks: {
 										fontColor: "black",
 										beginAtZero:true
-									}
+									},
+									gridLines: {
+                		display:false
+            			}
 								}]
 							}
 						}
@@ -900,12 +897,18 @@ else if ($respind_row['res'] == 0) { ?>
 									fontColor: "black",
 									beginAtZero:true,
 									max: 140
+							},
+							gridLines: {
+									display:false
 							}
 					}],
 					xAxes: [{
 							ticks: {
 								fontColor: "black",
 								beginAtZero:true
+							},
+							gridLines: {
+									display:false
 							}
 					}]
 			}
@@ -963,6 +966,9 @@ else if ($respind_row['res'] == 0) { ?>
 								fontColor: "black",
 								beginAtZero:true,
 								max: 140
+						},
+						gridLines: {
+								display:false
 						}
 				}],
 				xAxes: [{
@@ -972,6 +978,9 @@ else if ($respind_row['res'] == 0) { ?>
 							autoSkip: false,
 							maxRotation: 20,
 							minRotation: 0
+						},
+						gridLines: {
+								display:false
 						}
 				}]
 		}
@@ -1011,12 +1020,19 @@ else if ($respind_row['res'] == 0) { ?>
 								fontColor: "black",
 								beginAtZero:true,
 								max:140
+						},
+						gridLines: {
+								display:false
 						}
 				}],
 				xAxes: [{
 						ticks: {
 							fontColor: "black",
 							beginAtZero:true
+						}
+						,
+						gridLines: {
+								display:false
 						}
 				}]
 		}
@@ -1066,6 +1082,9 @@ else if ($respind_row['res'] == 0) { ?>
 								fontColor: "black",
 								beginAtZero:true,
 								max:140
+						},
+						gridLines: {
+								display:false
 						}
 				}],
 				xAxes: [{
@@ -1075,6 +1094,9 @@ else if ($respind_row['res'] == 0) { ?>
 							autoSkip: false,
 							maxRotation: 20,
 							minRotation: 0
+						},
+						gridLines: {
+								display:false
 						}
 				}]
 		}
@@ -1228,12 +1250,12 @@ $prom_general = $resultado['total_result'];
 	<table class="table">
 		<thead>
       <tr>
-				<th style="background-color:rgba(113, 171, 21 ,0.8)">Resultado Metas (50%)</th>
-        <th style="background-color:rgba(41, 230, 160, 0.8)">Resultado Competencias (50%)</th>
-				<th style="background-color:rgba(255, 80, 0 ,0.7)">Resultado General</th>
+				<th class="titulo-meta">Resultado Metas (50%)</th>
+        <th class="titulo-comp">Resultado Competencias (50%)</th>
+				<th class="titulo-gen">Resultado General</th>
       </tr>
     </thead>
-		<tbody style="text-align:center">
+		<tbody>
 			<?php
 					echo "<tr>";
 					echo "<td id='meta' value='".$meta_general."'>". $meta_general."%</td>";
@@ -1250,7 +1272,7 @@ $prom_general = $resultado['total_result'];
 <?php
 // Tabla con resultados generales de Metas ?>
 	<div class="table-responsive">
-		<h3> Metas del Cargo: <?php echo $cargo ?> </h3>
+		<h2> Metas del Cargo: <?php echo $cargo ?> </h2>
 		<br>
 		<table class="table">
 			<thead>
@@ -1354,7 +1376,7 @@ $prom_general = $resultado['total_result'];
 				<h3 class="total"> Total: <?php echo ROUND($total,2); ?> %</h3>
 			</div>
 		<br><br><br><br>
-		<h3> Competencias del Perfil: <?php echo $perfil; ?></h3>
+		<h2> Competencias del Perfil: <?php echo $perfil; ?></h2>
 		<br>
 		<table class="table">
 			<thead>
@@ -1564,6 +1586,7 @@ $prom_general = $resultado['total_result'];
 			$comp_suma->append($resultado_competencia);
 		}
 		?>
+		<br>
 		<table class="table table-condensed">
 			<h4 class="comp"> <?php echo "Competencia N°".$competencia_id." : ".$competencia_nombre?> </h4>
 			<thead>
@@ -1640,7 +1663,6 @@ $prom_general = $resultado['total_result'];
 			</tbody>
 		</table>
 		<br>
-	<div class="table-responsive">
 		<?php
 		// Criterios
 		$crit = "SELECT criterios.descripcion as descr,
@@ -1653,20 +1675,9 @@ $prom_general = $resultado['total_result'];
 		$crit_result = $conn->query($crit) or die ("database error:". $conn->error);
 		while ($fila_crit = $crit_result->fetch_assoc()){
 			$criterio = $fila_crit["id"];?>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Criterio N°<?php echo $fila_crit["id"]?></th>
-					<th>Ponderación </th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td> <?php echo $fila_crit["descr"]?></td>
-					<td> <?php echo $fila_crit["ponderacion"] ?>%</td>
-				<tr>
-			</tbody>
-		</table>
+			<div class="container-relative">
+				<p class="criterio"> <?php echo "Criterio N°".$fila_crit["id"].":" ?> </p>
+				<p class="descripcion"><?php echo $fila_crit["descr"]." (".$fila_crit["ponderacion"]."%)" ?></p>
 		<?php
 		// Resultados por tipo encuesta
 		$autoeval = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
@@ -1710,7 +1721,7 @@ $prom_general = $resultado['total_result'];
 		$fila_col = $colaborador_result->fetch_assoc();
 		$verificador = $fila_col['resultado'] != NULL; // Si es distinto de null, hay un valor
 		?>
-		<table class="table">
+		<table class="table-condensed detalle">
 			<thead>
 					<tr>
 						<th>Evaluador </th>
@@ -1757,9 +1768,8 @@ $prom_general = $resultado['total_result'];
 				?>
 			</tbody>
 		</table>
+		</div><br><br><br><br><br>
 		<?php }?>
-	</div>
-	<br>
 	<?php }
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
@@ -1807,12 +1817,18 @@ window.onload = function(){
 									fontColor: "black",
 									beginAtZero:true,
 									max:140
+							},
+							gridLines: {
+									display:false
 							}
 					}],
 					xAxes: [{
 							ticks: {
 								fontColor: "black",
 								beginAtZero:true
+							},
+							gridLines: {
+									display:false
 							}
 					}]
 			}
@@ -1854,12 +1870,18 @@ window.onload = function(){
 								fontColor: "black",
 								beginAtZero:true,
 								max:140
+						},
+						gridLines: {
+								display:false
 						}
 				}],
 				xAxes: [{
 						ticks: {
 							fontColor: "black",
 							beginAtZero:true
+						},
+						gridLines: {
+								display:false
 						}
 				}]
 		}
@@ -1917,6 +1939,9 @@ options: {
 							fontColor: "black",
 							beginAtZero:true,
 							max:140
+					},
+					gridLines: {
+							display:false
 					}
 			}],
 			xAxes: [{
@@ -1926,6 +1951,9 @@ options: {
 						autoSkip: false,
 						maxRotation: 20,
 						minRotation: 0
+					},
+					gridLines: {
+							display:false
 					}
 			}]
 	}
@@ -1965,12 +1993,18 @@ options: {
 							fontColor: "black",
 							beginAtZero:true,
 							max:140
+					},
+					gridLines: {
+							display:false
 					}
 			}],
 			xAxes: [{
 					ticks: {
 						fontColor: "black",
 						beginAtZero:true
+					},
+					gridLines: {
+							display:false
 					}
 			}]
 	}
@@ -2020,6 +2054,9 @@ options: {
 							fontColor: "black",
 							beginAtZero:true,
 							max:140
+					},
+					gridLines: {
+							display:false
 					}
 			}],
 			xAxes: [{
@@ -2029,6 +2066,9 @@ options: {
 						autoSkip: false,
 						maxRotation: 20,
 						minRotation: 0
+					},
+					gridLines: {
+							display:false
 					}
 			}]
 	}

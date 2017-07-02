@@ -20,8 +20,9 @@
           <a href='cargos.php' class='navbar-brand'> Cargos </a>
           <a href='ciclos.php' class='navbar-brand'> Ciclos </a>
           <a href='asignaturas.php' class='navbar-brand'> Asignaturas </a>
-      <?php } ?>
-      <a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
+      <?php }
+        //<a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
+      ?>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav"></ul>

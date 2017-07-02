@@ -7,9 +7,13 @@ if(!isset($_SESSION['id'])){
 if(!isset($_SESSION['proceso_id'])){
 	header("Location: welcome.php");
 }
+$proceso=$_SESSION['proceso_id'];
+/* Saltar a resultados si es admin */
+if($_SESSION['id'] == 1) {
+	header("Location: resultados.php?proceso_id=".$proceso);
+}
 include('header.php');
 include_once("db_connect.php");
-$proceso=$_SESSION['proceso_id'];
 $evaluador=$_SESSION['id'];
 // Evaluaciones Indicadores (Seleccionan las id y cargos respectivos distintos para ser evaluados)
 $eval_ind = "SELECT DISTINCT tipo_id,evaluado_id, cargo_id, ciclo_id, asignatura_id, evaluador_id, cargo_sup, ciclo_sup, asignatura_sup, estado

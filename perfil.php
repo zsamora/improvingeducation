@@ -28,14 +28,20 @@ include('navbar.php');
 	<table class ="table">
 		<thead>
 			<tr>
-				<th>Cambiar</th>
 				<th>Contraseña actual</th>
 				<th>Nueva Contraseña</th>
+				<th>Cambiar</th>
 			</tr>
 		</thead>
 		<tbody>
 			<form action='cambiopw.php' method="post">
 			<tr>
+				<?php
+					echo "<td>".$fila['password']."</td>";
+				 ?>
+				<td>
+	 				<input type="text" name="pw" class="form-control" placeholder="Contraseña nueva">
+	 			</td>
 				<td>
 					<div class="btn-group">
 						<button type="submit" class="btn btn-primary">
@@ -43,12 +49,6 @@ include('navbar.php');
 						</button>
 					</div>
 				</td>
-				<?php
-					echo "<td>".$fila['password']."</td>";
-				 ?>
-				<td>
-	 				<input type="text" name="pw" class="form-control" placeholder="Contraseña nueva">
-	 			</td>
 			</tr>
 		</tbody>
 	</table>
