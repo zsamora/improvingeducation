@@ -21,12 +21,13 @@ $('document').ready(function() {
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
           console.log(response);
-          window.history.back();
-          //window.location.replace("proceso.php?proceso_id="+response);
+          //window.history.back();
+          window.location.replace("proceso.php?proceso_id="+response);
         }
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          alert("Status: " + textStatus); alert("Error: " + errorThrown);
-        } 
+        error: function(response) {
+          window.location.replace("proceso.php?proceso_id="+response);
+          //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
       });
     }
   });
@@ -49,11 +50,12 @@ $('document').ready(function() {
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
           console.log(response);
-          window.history.back();
-          //window.location.replace("proceso.php?proceso_id="+response);
+          //window.history.back();
+          window.location.replace("proceso.php?proceso_id="+response);
         }
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        error: function(response) {
+          window.location.replace("proceso.php?proceso_id="+response);
+          //alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
     }
