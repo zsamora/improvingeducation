@@ -273,6 +273,9 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
         type : 'POST',
         url  : 'enviar.php',
         data : {id_result: id_result, seleccion_result: seleccion_result},
+				beforeSend: function () {
+          console.log("a punto de enviar");
+				},
         success : function(response){
           console.log(response);
           window.location.replace("proceso.php?proceso_id="+response);
