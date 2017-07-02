@@ -9,13 +9,17 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
-    $.ajax({
-			type : 'POST',
-			url  : 'enviar.php',
-			data : {id_result: id_result, seleccion_result: seleccion_result},
-      success : function(response){
-      }
-    });
+    if (elements.length > 1) {
+      $.ajax({
+        type : 'POST',
+        url  : 'enviar.php',
+        data : {id_result: id_result, seleccion_result: seleccion_result},
+        success : function(response){
+          //console.log(response);
+          window.location.replace("proceso.php?proceso_id="+response);
+        }
+      });
+    }
   });
   $('#send_button2').click(function() {
     var val = $('input:checked').serialize();
@@ -27,12 +31,16 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
-    $.ajax({
-      type : 'POST',
-      url  : 'enviar2.php',
-      data : {id_result: id_result, seleccion_result: seleccion_result},
-      success : function(response){
-      }
-    });
+    if (elements.length > 1) {
+      $.ajax({
+        type : 'POST',
+        url  : 'enviar2.php',
+        data : {id_result: id_result, seleccion_result: seleccion_result},
+        success : function(response){
+          //console.log(response);
+          window.location.replace("proceso.php?proceso_id="+response);
+        }
+      });
+    }
   });
 });
