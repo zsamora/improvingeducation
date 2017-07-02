@@ -9,7 +9,6 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
-    window.location.replace("proceso.php?proceso_id=1");
     if (elements.length >= 1 && elements[0] != "") {
       $.ajax({
         type : 'POST',
@@ -17,16 +16,12 @@ $('document').ready(function() {
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
           console.log(response);
-          //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          console.log("error");
-          console.log(errorThrown);
-          console.log(textStatus);
-          alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
+    }
+    else {
+        console.log("Algo paso");
     }
   });
   $('#send_button2').click(function() {
@@ -46,15 +41,12 @@ $('document').ready(function() {
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
           console.log(response);
-          //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          console.log(errorThrown);
-          console.log(textStatus);
-          alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
+    }
+    else {
+      console.log("Algo paso");
     }
   });
 });
