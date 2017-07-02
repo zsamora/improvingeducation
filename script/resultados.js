@@ -24,9 +24,8 @@ $('document').ready(function() {
           //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
         },
-        error: function(response) {
-          window.location.replace("proceso.php?proceso_id="+response);
-          //alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
     }
@@ -53,10 +52,9 @@ $('document').ready(function() {
           //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
         },
-          error: function(response) {
-          window.location.replace("proceso.php?proceso_id="+response);
-          //alert("Status: " + textStatus); alert("Error: " + errorThrown);
-        }
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }  
       });
     }
   });
