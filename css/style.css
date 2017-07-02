@@ -40,6 +40,7 @@ body {
 /* Color de textos */
 .navbar-default .navbar-brand {
     color: white;
+		padding-left: 20px;
 }
 /* Color cuando el mouse está encima */
 .navbar-default:hover .navbar-brand:hover {

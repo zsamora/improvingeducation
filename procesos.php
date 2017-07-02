@@ -145,10 +145,10 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 						</button>
 						<ul class="dropdown-menu" role="menu">
 							<li>
-								<?php echo "<li><a href='eliminar6.php?id_el=" . $fila["p_id"]. "'>Eliminar</a></li>"?>
+								<?php echo "<li><a href='habilitar2.php?id=" . $fila["p_id"]. "'>Habilitar</a></li>"?>
 							</li>
 							<li>
-								<?php echo "<li><a href='habilitar2.php?id=" . $fila["p_id"]. "'>Habilitar</a></li>"?>
+								<?php echo "<li><a href='eliminar6.php?id_el=" . $fila["p_id"]. "'>Eliminar</a></li>"?>
 							</li>
 						</ul>
 					</div>

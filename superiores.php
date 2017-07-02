@@ -3,6 +3,7 @@ session_start();
 if($_SESSION['id']!=1){ // Poner aquí las id de quien puede tener acceso
 	header("Location: index.php");
 }
+$_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
 include('header.php');
 include_once("db_connect.php");
 include('navbar.php');
