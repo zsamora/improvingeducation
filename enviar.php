@@ -17,4 +17,5 @@ for ($i = 0 ; $i < count($ids) ; $i++){
         $update_result = $conn->query($update_sql) or die ("database error:". $conn->error);
       }
 }
+sleep(1);
 ?>
