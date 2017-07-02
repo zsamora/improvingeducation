@@ -9,12 +9,7 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
-    console.log(elements);
     if (elements.length >= 1 && elements[0] != "") {
-      console.log("id_result");
-      console.log(id_result);
-      console.log("seleccion_result");
-      console.log(seleccion_result);
       $.ajax({
         type : 'POST',
         url  : 'enviar.php',
@@ -26,6 +21,7 @@ $('document').ready(function() {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           console.log(errorThrown);
+          console.log(textStatus);
           alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
@@ -41,9 +37,7 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
-    console.log(elements);
     if (elements.length >= 1 && elements[0] != "") {
-      console.log("cumple condicion");
       $.ajax({
         type : 'POST',
         url  : 'enviar2.php',
@@ -55,6 +49,7 @@ $('document').ready(function() {
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           console.log(errorThrown);
+          console.log(textStatus);
           alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
