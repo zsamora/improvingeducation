@@ -271,7 +271,8 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
       $.ajax({
         type : 'POST',
         url  : 'enviar.php',
-        data : {id_result: id_result, seleccion_result: seleccion_result}
+        data : {id_result: id_result, seleccion_result: seleccion_result},
+				async: false
 				/*beforeSend: function () {
           console.log("A punto de enviar");
 				},
