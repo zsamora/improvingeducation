@@ -260,6 +260,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 	    var elements = val.split("&");
 	    var id_result = []
 	    var seleccion_result = []
+			var proceso = 0;
 	    for (var i = 0; i < elements.length; i++){
 	      var x = elements[i].split("=");
 	      id_result.push(parseInt(x[0]));
@@ -270,15 +271,17 @@ $tipo_row = $tipo_res->fetch_assoc();
 	        type : 'POST',
 	        url  : 'enviar2.php',
 	        data : {id_result: id_result, seleccion_result: seleccion_result},
-					async: false,
 	        success : function(response){
 	          console.log(response);
-	          window.location.replace("proceso.php?proceso_id="+response);
+						proceso = 0;
+	          //window.location.replace("proceso.php?proceso_id="+response);
 	        }
-	      });
+	      }).done(function() {
+	        remove_overlay();
+    		});
 	    }
 	    else {
-	      console.log("Algo paso");
+	      console.log("No se ha enviado información");
 	    }
 	  });
 	</script>

@@ -261,6 +261,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
     var elements = val.split("&");
     var id_result = []
     var seleccion_result = []
+		var proceso = 0;
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
@@ -273,19 +274,19 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
         type : 'POST',
         url  : 'enviar.php',
         data : {id_result: id_result, seleccion_result: seleccion_result},
-				async: false,
 				beforeSend: function () {
-          console.log("a punto de enviar");
+          console.log("A punto de enviar");
 				},
         success : function(response){
-					console.log("Enviado");
           console.log(response);
-          window.location.replace("proceso.php?proceso_id="+response);
         },
     		error: function(){
         	alert('something bad happened');
     		}
-      });
+      }).done(function() {
+				window.location.replace("proceso.php?proceso_id="+proceso);
+				remove_overlay();
+			});
     }
     else {
         console.log("Algo paso");
