@@ -25,7 +25,8 @@ $('document').ready(function() {
           window.location.replace("proceso.php?proceso_id="+response);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+          console.log(errorThrown);
+          alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
       });
     }
@@ -53,8 +54,9 @@ $('document').ready(function() {
           window.location.replace("proceso.php?proceso_id="+response);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                  alert("Status: " + textStatus); alert("Error: " + errorThrown);
-        }  
+          console.log(errorThrown);
+          alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
       });
     }
   });
