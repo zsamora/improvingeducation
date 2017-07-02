@@ -9,6 +9,7 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
+    console.log(elements);
     if (elements.length >= 1 && elements[0]!= "") {
       $.ajax({
         type : 'POST',
@@ -30,6 +31,7 @@ $('document').ready(function() {
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
+    console.log(elements);
     if (elements.length >= 1 && elements[0]!= "") {
       $.ajax({
         type : 'POST',
