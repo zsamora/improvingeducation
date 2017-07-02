@@ -1,29 +1,43 @@
 <div class="navbar navbar-default navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <?php
-      if ($_SESSION['id'] == 1)
-        { ?>
-            <button style="background-color:rgba(0,0,0,0);border:0px;" class="navbar-brand" type="button" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-menu-hamburger"></span>
-            </button>
-              <ul style="left:135px;background-color:#0C1D46; width:60px;" class="dropdown-menu">
-                <li style="padding-left:10px;"><a href='usuarios.php' class='navbar-brand'> Usuarios </a></li>
-                <li style="padding-left:10px;"><a href='cargos.php' class='navbar-brand'> Cargos </a></li>
-                <li style="padding-left:10px;"><a href='ciclos.php' class='navbar-brand'> Ciclos </a></li>
-                <li style="padding-left:10px;"><a href='perfiles.php' class='navbar-brand'> Perfiles </a></li>
-                <li style="padding-left:10px;"><a href='asignaturas.php' class='navbar-brand'> Asignaturas </a></li>
-                <li style="padding-left:10px;"><a href='trabaja.php' class='navbar-brand'> Trabajos </a></li>
-                <li style="padding-left:10px;"><a href='superiores.php' class='navbar-brand'> Superiores </a></li>
-                <li style="padding-left:10px;"><a href="procesos.php" class="navbar-brand"> Procesos </a></li>
-                <li style="padding-left:10px;"><a href="competencias.php" class="navbar-brand"> Competencias </a></li>
-                <li style="padding-left:10px;"><a href="criterios.php" class="navbar-brand"> Criterios </a></li>
-                <li style="padding-left:10px;"><a href="metas.php" class="navbar-brand"> Metas </a></li>
-                <li style="padding-left:10px;"><a href="indicadores.php" class="navbar-brand"> Indicadores </a></li>
-              </ul>
-      <?php }
-        //<a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
-      ?>
+      <div class="dropdown navbar-brand">
+        <?php
+        if ($_SESSION['id'] == 1)
+          { ?>
+              <button style="background-color:rgba(0,0,0,0);border:0px;" type="button" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+              </button>
+                <ul style="background-color:#0C1D46; width:60px;" class="dropdown-menu">
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='usuarios.php'> Usuarios </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='cargos.php'> Cargos </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='ciclos.php'> Ciclos </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='perfiles.php'> Perfiles </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='asignaturas.php'> Asignaturas </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='trabaja.php'> Trabajos </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href='superiores.php'> Superiores </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="procesos.php"> Procesos </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="competencias.php"> Competencias </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="criterios.php"> Criterios </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="metas.php"> Metas </a></li>
+                  <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
+                         onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="indicadores.php"> Indicadores </a></li>
+                </ul>
+        <?php }
+          //<a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
+        ?>
+      </div>
       <a href="welcome.php" class="navbar-brand"> Inicio </a>
       <?php session_start();
       if ($_SESSION['proceso_id'] != 0 and $_SESSION['id'] != 1) { echo "<a href='proceso.php?proceso_id=".$_SESSION['proceso_id']."' class='navbar-brand'> Evaluaciones </a>"; }
