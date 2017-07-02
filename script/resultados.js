@@ -4,6 +4,7 @@ $('document').ready(function() {
     var elements = val.split("&");
     var id_result = []
     var seleccion_result = []
+    console.log(elements);
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
@@ -15,7 +16,7 @@ $('document').ready(function() {
         url  : 'enviar.php',
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
-          //console.log(response);
+          console.log(response);
           window.location.replace("proceso.php?proceso_id="+response);
         }
       });
@@ -26,6 +27,7 @@ $('document').ready(function() {
     var elements = val.split("&");
     var id_result = []
     var seleccion_result = []
+    console.log(elements);
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
@@ -37,7 +39,7 @@ $('document').ready(function() {
         url  : 'enviar2.php',
         data : {id_result: id_result, seleccion_result: seleccion_result},
         success : function(response){
-          //console.log(response);
+          console.log(response);
           window.location.replace("proceso.php?proceso_id="+response);
         }
       });
