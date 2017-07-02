@@ -277,6 +277,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
           console.log("a punto de enviar");
 				},
         success : function(response){
+					console.log("Enviado");
           console.log(response);
           window.location.replace("proceso.php?proceso_id="+response);
         },
