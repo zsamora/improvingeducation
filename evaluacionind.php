@@ -256,8 +256,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 		$(this).siblings().css( "background-color",'white');
 		$(this).find('input').prop('checked',true);
 	});
-	$('document').ready(function() {
-	  $('#send_button1').click(function() {
+	$('#send_button1').click(function() {
 	    var val = $('input:checked').serialize();
 	    var elements = val.split("&");
 	    var id_result = []
@@ -287,5 +286,4 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 	      });
 	    }
 	  });
-	});
 </script>
