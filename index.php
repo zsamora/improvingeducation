@@ -23,7 +23,6 @@ include_once("db_connect.php");
 		</div>
 		<div class="form-group">
 			<input type="text" class="form-control" placeholder="Usuario" name="user_name" id="user_name"/>
-			<span id="check-e"></span>
 		</div>
 		<div class="form-group">
 			<input type="password" class="form-control" placeholder="Contraseña" name="password" id="password" />
