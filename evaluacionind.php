@@ -266,6 +266,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
+		window.location.replace("proceso.php?proceso_id=1");
     if (elements.length >= 1 && elements[0] != "") {
       $.ajax({
         type : 'POST',
