@@ -14,7 +14,7 @@ $proceso = $_SESSION['proceso_id'];
 ?>
 <div class="container">
 	<?php include('sessionbar.php'); ?>
-<h2>Resultados</h2>
+<h2>Informes</h2>
 </div>
 <br>
 <div class="container">

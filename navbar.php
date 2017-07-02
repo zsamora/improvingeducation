@@ -9,17 +9,17 @@
       if ($_SESSION['id'] == 1)
         { ?>
           <a href='usuarios.php' class='navbar-brand'> Usuarios </a>
+          <a href='cargos.php' class='navbar-brand'> Cargos </a>
+          <a href='ciclos.php' class='navbar-brand'> Ciclos </a>
+          <a href='perfiles.php' class='navbar-brand'> Perfiles </a>
+          <a href='asignaturas.php' class='navbar-brand'> Asignaturas </a>
           <a href='trabaja.php' class='navbar-brand'> Trabajos </a>
           <a href='superiores.php' class='navbar-brand'> Superiores </a>
-          <a href="procesos.php" class="navbar-brand"> Proceso </a>
+          <a href="procesos.php" class="navbar-brand"> Procesos </a>
           <a href="competencias.php" class="navbar-brand"> Competencias </a>
           <a href="criterios.php" class="navbar-brand"> Criterios </a>
           <a href="metas.php" class="navbar-brand"> Metas </a>
           <a href="indicadores.php" class="navbar-brand"> Indicadores </a>
-          <a href='perfiles.php' class='navbar-brand'> Perfiles </a>
-          <a href='cargos.php' class='navbar-brand'> Cargos </a>
-          <a href='ciclos.php' class='navbar-brand'> Ciclos </a>
-          <a href='asignaturas.php' class='navbar-brand'> Asignaturas </a>
       <?php }
         //<a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
       ?>

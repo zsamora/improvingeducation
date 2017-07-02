@@ -66,7 +66,8 @@ $tipo_row = $tipo_res->fetch_assoc();
 ?>
 <div class="container">
 	<?php include('sessionbar.php'); ?>
-	<h3> Evaluación de Metas e Indicadores</h3>
+	<h2> Evaluación de Metas e Indicadores</h2>
+	<br>
 <div class="table-responsive">
 	<table class="table">
 		<thead>

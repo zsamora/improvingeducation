@@ -63,7 +63,7 @@ $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
       <tr>
 				<th>Acciones</th>
         <th>ID</th>
-        <th>Meta</th>
+        <th>Cargo</th>
         <th>Perfil</th>
       </tr>
     </thead>
