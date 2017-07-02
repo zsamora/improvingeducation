@@ -238,9 +238,13 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 </div>
 <?php }?>
 <br>
+	<div class="form-group">
+		<center>
 			<button type="submit" class="btn btn-default" name="send_button1" id="send_button1">
 				<span class="glyphicon glyphicon-send"></span> &nbsp; Enviar Resultados (Guardar)
 			</button>
+		</center>
+	</div>
 </form>
 </div>
 <?php include('footer.php');?>
