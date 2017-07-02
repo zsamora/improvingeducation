@@ -3,7 +3,6 @@ session_start();
 include_once("db_connect.php");
 $ids = $_POST['id_result'];
 $selecciones = $_POST['seleccion_result'];
-echo "LOCO, que wea";
 for ($i = 0 ; $i < count($ids) ; $i++){
       $eval_id = $ids[$i];
       $sel_id = $selecciones[$i];
