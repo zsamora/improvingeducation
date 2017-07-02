@@ -273,6 +273,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
         type : 'POST',
         url  : 'enviar.php',
         data : {id_result: id_result, seleccion_result: seleccion_result},
+				async: false,
 				beforeSend: function () {
           console.log("a punto de enviar");
 				},

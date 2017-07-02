@@ -270,6 +270,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 	        type : 'POST',
 	        url  : 'enviar2.php',
 	        data : {id_result: id_result, seleccion_result: seleccion_result},
+					async: false,
 	        success : function(response){
 	          console.log(response);
 	          window.location.replace("proceso.php?proceso_id="+response);
