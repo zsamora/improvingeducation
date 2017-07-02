@@ -17,12 +17,6 @@ $proceso = $_SESSION['proceso_id'];
 <h2>Resultados</h2>
 </div>
 <br>
-<?php
-$users = "SELECT *
-						FROM trabaja
-						WHERE usuario_id != 1";
-$user_result = $conn->query($users) or die("database error:". $conn->error);
-?>
 <div class="container">
 <div class="table-responsive">
 	<table class="table">
@@ -37,7 +31,12 @@ $user_result = $conn->query($users) or die("database error:". $conn->error);
       </tr>
     </thead>
 		<tbody>
-			<?php while($fila_user = $user_result->fetch_assoc()){
+			<?php
+			$users = "SELECT *
+									FROM trabaja
+									WHERE usuario_id != 1";
+			$user_result = $conn->query($users) or die("database error:". $conn->error);
+			while($fila_user = $user_result->fetch_assoc()){
 					$usuario_id = $fila_user['usuario_id'];
 					$perfil_id = $fila_user['perfil_id'];
 					$cargo_id = $fila_user['cargo_id'];

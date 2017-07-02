@@ -38,7 +38,9 @@ include('navbar.php');
 	</table>
 </div>
 <?php
-$metas = "SELECT id, descripcion FROM metas";
+$metas = "SELECT id, descripcion
+						FROM metas
+				ORDER BY id";
 $metas_result = $conn->query($metas) or die ("database error:".$conn->error);
 ?>
 <div>

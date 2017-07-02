@@ -61,7 +61,8 @@ include('navbar.php');
 		</tbody>
 	</table>
 </div>
-<h3> Habilitados </h3>
+<h2> Habilitados </h2>
+<br>
 <div class="table-responsive">
   <table class="table table-hover" id="editable">
     <thead>
@@ -91,7 +92,7 @@ include('navbar.php');
                       FROM usuarios
 											WHERE id != 1
 												AND habilitado = 1
-                      ORDER BY u_id";
+                   ORDER BY u_id";
          $usuarios_result = $conn->query($usuarios) or die("database error:". $conn->error);
          while($fila_usuarios = $usuarios_result->fetch_assoc()) { ?>
            <tr>
@@ -126,7 +127,8 @@ include('navbar.php');
     </tbody>
   </table>
 </div>
-<h3> Inhabilitados </h3>
+<h2> Inhabilitados </h2>
+<br>
 <div class="table-responsive">
   <table class="table table-hover" id="editable">
     <thead>
@@ -156,7 +158,7 @@ include('navbar.php');
                       FROM usuarios
 											WHERE id != 1
 												AND habilitado = 0
-                      ORDER BY u_id";
+                   ORDER BY u_id";
          $usuarios_result = $conn->query($usuarios) or die("database error:". $conn->error);
          while($fila_usuarios = $usuarios_result->fetch_assoc()) { ?>
            <tr>
@@ -191,5 +193,6 @@ include('navbar.php');
     </tbody>
   </table>
 </div>
+<br><br>
 </div>
 <?php include('footer.php');?>

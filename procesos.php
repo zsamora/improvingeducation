@@ -58,13 +58,15 @@ include('navbar.php');
 		</tbody>
 	</table>
 </div>
-<h3> En curso </h3>
+<h2> En Curso </h2>
+<br>
 <?php
 $procesos = "SELECT procesos.id as p_id, procesos.nombre as p_nombre, finicio, ftermino,
 										establecimiento_id, establecimiento.nombre as e_nombre
                FROM procesos, establecimiento
 							WHERE procesos.establecimiento_id = establecimiento.id
-								AND habilitado = 1";
+								AND habilitado = 1
+					 ORDER BY p_id";
 $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -109,13 +111,15 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 		</tbody>
 	</table>
 </div>
-<h3> Cerrados </h3>
+<h2> Cerrados </h2>
+<br>
 <?php
 $procesos = "SELECT procesos.id as p_id, procesos.nombre as p_nombre, finicio, ftermino,
 										establecimiento_id, establecimiento.nombre as e_nombre
                FROM procesos, establecimiento
 							WHERE procesos.establecimiento_id = establecimiento.id
-							  AND habilitado = 0";
+							  AND habilitado = 0
+					 ORDER BY p_id";
 $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -160,6 +164,9 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 		</tbody>
 	</table>
 </div>
+<br><br>
+<h2>Asociar Competencia a Proceso</h2>
+<br>
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -217,7 +224,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 			$comp_perfil = "SELECT competencia_id, proceso_id, competencias.nombre as comp, procesos.nombre as proc
 												FROM proc_comp, competencias, procesos
 											 WHERE proc_comp.competencia_id = competencias.id
-											 	 AND proc_comp.proceso_id = procesos.id";
+											 	 AND proc_comp.proceso_id = procesos.id
+										ORDER BY competencia_id";
 			$result = $conn->query($comp_perfil) or die("database error:". $conn->error);
 			while ($fila = $result->fetch_assoc()){
 			?>
@@ -242,6 +250,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 	</table>
 </div>
 <div class="table-responsive">
+	<h2>Asociar Indicador a Proceso</h2>
+	<br>
 	<table class="table">
 		<thead>
 			<tr>
@@ -298,7 +308,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 			$proc_ind = "SELECT indicador_id, proceso_id, indicadores.descripcion as ind, procesos.nombre as proc
 												FROM proc_ind, indicadores, procesos
 											 WHERE proc_ind.indicador_id = indicadores.id
-											 	 AND proc_ind.proceso_id = procesos.id";
+											 	 AND proc_ind.proceso_id = procesos.id
+									  ORDER BY indicador_id";
 			$result = $conn->query($proc_ind) or die("database error:". $conn->error);
 			while ($fila = $result->fetch_assoc()){
 			?>

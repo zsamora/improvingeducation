@@ -42,7 +42,8 @@ include('navbar.php');
 	</table>
 </div>
 <?php
-$competencias = "SELECT id, nombre, descripcion FROM competencias";
+$competencias = "SELECT id, nombre, descripcion
+									 FROM competencias";
 $comp_result = $conn->query($competencias) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -78,6 +79,8 @@ $comp_result = $conn->query($competencias) or die ("database error:".$conn->erro
 		</tbody>
 	</table>
 </div>
+<h2>Asociar Competencia - Perfil</h2>
+<br>
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -107,7 +110,7 @@ $comp_result = $conn->query($competencias) or die ("database error:".$conn->erro
 			<td>
 				<select name='comp' class="custom-select mb-2 mr-sm-2 mb-sm-0">
 				 <?php while($fila_comp = $comp_result->fetch_assoc()) {
-					 echo "<option value=".$fila_comp['id'].">".$fila_comp['nombre']."</option>";
+					 echo "<option value=".$fila_comp['id'].">" . $fila_comp["id"].") ".$fila_comp['nombre']."</option>";
 				 } ?>
 			 </select>
 			</td>
@@ -135,7 +138,8 @@ $comp_result = $conn->query($competencias) or die ("database error:".$conn->erro
 			$comp_perfil = "SELECT competencia_id, perfil_id, competencias.nombre as comp, perfiles.nombre as perf
 												FROM comp_perfiles, competencias, perfiles
 											 WHERE comp_perfiles.competencia_id = competencias.id
-											 	 AND comp_perfiles.perfil_id = perfiles.id";
+											 	 AND comp_perfiles.perfil_id = perfiles.id
+										ORDER BY competencia_id";
 			$result = $conn->query($comp_perfil) or die("database error:". $conn->error);
 			while ($fila = $result->fetch_assoc()){
 			?>
@@ -152,7 +156,7 @@ $comp_result = $conn->query($competencias) or die ("database error:".$conn->erro
 					</div>
 				</td>
 			<?php
-				echo "<td>" . $fila["comp"] . "</td>";
+				echo "<td>" . $fila["competencia_id"].") ".$fila["comp"] . "</td>";
 				echo "<td>" . $fila["perf"] . "</td>";
     		echo "</tr>";
 			} ?>

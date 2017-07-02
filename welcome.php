@@ -3,13 +3,15 @@ session_start();
 if(!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
+$id = $_SESSION['id'];
 $_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
 include('header.php');
 include_once("db_connect.php");
 $procesos = "SELECT DISTINCT  id, nombre, finicio, ftermino, habilitado
 							 					FROM procesos, trabaja
 											 WHERE trabaja.establecimiento_id = procesos.establecimiento_id
-											 	 AND usuario_id = ".$_SESSION['id']."";
+											 	 AND usuario_id = $id
+									  ORDER BY id DESC";
 $proc_result = $conn->query($procesos);
 include('navbar.php');
 ?>

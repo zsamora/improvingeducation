@@ -38,7 +38,9 @@ include('navbar.php');
 	</table>
 </div>
 <?php
-$ciclos = "SELECT id, nombre FROM ciclos";
+$ciclos = "SELECT id, nombre
+						 FROM ciclos
+				 ORDER BY id";
 $ciclos_result = $conn->query($ciclos) or die ("database error:".$conn->error);
 ?>
 <div>

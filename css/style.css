@@ -162,3 +162,7 @@ input[type="checkbox"]{
 .container-relative {
 	position:relative;
 }
+.evaluado, .evaluador {
+	width: 50%;
+	background-color: red;
+}

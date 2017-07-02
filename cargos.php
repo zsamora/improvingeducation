@@ -16,7 +16,8 @@ include('navbar.php');
 <div class="table-responsive">
   <?php
     $perfiles = "SELECT id, nombre
-                   FROM perfiles";
+                   FROM perfiles
+							 ORDER BY id";
     $perfiles_result = $conn->query($perfiles) or die("database error:". $conn->error);
    ?>
 	<table class="table">
@@ -52,7 +53,8 @@ include('navbar.php');
 <?php
 $cargos = "SELECT cargos.id as id, cargos.nombre as nombre, perfiles.nombre as perfil
              FROM cargos, perfiles
-            WHERE perfiles.id = cargos.perfil_id";
+            WHERE perfiles.id = cargos.perfil_id
+				 ORDER BY id";
 $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -88,6 +90,9 @@ $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
 		</tbody>
 	</table>
 </div>
+<br>
+<h2>Asociar Cargo - Indicador</h2>
+<br>
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -147,7 +152,7 @@ $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
                       FROM indicador_cargos, indicadores, cargos
                       WHERE indicador_cargos.indicador_id = indicadores.id
                       AND indicador_cargos.cargo_id = cargos.id
-											ORDER BY cid";
+								 ORDER BY cargo";
         $result = $conn->query($indcargos) or die ("database error:".$conn->error);
       while($fila = $result->fetch_assoc()) {
       ?>
@@ -166,7 +171,7 @@ $cargos_result = $conn->query($cargos) or die ("database error:".$conn->error);
 			<?php
 				echo "<td>" . $fila["cargo"] . "</td>";
 				echo "<td>" . $fila['iid']. ") ". $fila["ind"] . "</td>";
-				echo "<td>" . $fila["pond"] . "</td>";
+				echo "<td>" . $fila["pond"] . "%</td>";
     		echo "</tr>";
 			} ?>
 			<

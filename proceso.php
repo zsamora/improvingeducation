@@ -32,7 +32,7 @@ include('navbar.php');
 <div class="container">
 	<?php include('sessionbar.php'); ?>
 <div class="table-responsive">
-	<h3> Evaluaciones de Metas e Indicadores </h3>
+	<h2> Evaluaciones de Metas e Indicadores </h2>
 	<table class="table">
 		<thead>
       <tr>
@@ -176,7 +176,7 @@ include('navbar.php');
 	</table>
 </div>
 <div class="table-responsive">
-	<h3> Evaluaciones de Competencia </h3>
+	<h2> Evaluaciones de Competencia </h2>
 	<table class="table">
 		<thead>
       <tr>

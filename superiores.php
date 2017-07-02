@@ -45,7 +45,7 @@ include('navbar.php');
 													 							FROM usuarios, trabaja
 													 						 WHERE id != 1
 													 					     AND usuarios.id = trabaja.usuario_id
-													 					ORDER BY u_id";
+													 					ORDER BY u_ap";
 								$usuarios_result = $conn->query($usuarios) or die("database error:". $conn->error);
 								while($fila_usuarios = $usuarios_result->fetch_assoc()) {
 									$id = $fila_usuarios['u_id'];
@@ -91,7 +91,7 @@ include('navbar.php');
 																			FROM usuarios, trabaja
 																		 WHERE id != 1
 																			 AND usuarios.id = trabaja.usuario_id
-																	ORDER BY u_nombre";
+																	ORDER BY u_ap";
 							$superiores_result = $conn->query($superiores) or die("database error:". $conn->error);
 							while($fila_superiores = $superiores_result->fetch_assoc()) {
 								$id2 = $fila_superiores['u_id'];
@@ -120,7 +120,7 @@ include('navbar.php');
 																 WHERE $asignatura2 = asignaturas.id";
 								$asignaturas_result = $conn->query($asignaturas) or die("database error:". $conn->error);
 								$fila_asig = $asignaturas_result->fetch_assoc();
-							 echo "<option value='".$id2."-".$perfil2."-".$cargo2."-".$ciclo2."-".$asignatura2."'>".$fila_nombre['nombre']." ".$fila_nombre['apellido']." - ".$fila_cargo['nombre']." - ".$fila_ciclo['nombre']." - ".$fila_asig['nombre']."</option>";
+							 echo "<option class='evaluador' value='".$id2."-".$perfil2."-".$cargo2."-".$ciclo2."-".$asignatura2."'>".$fila_nombre['nombre']." ".$fila_nombre['apellido']." - ".$fila_cargo['nombre']." - ".$fila_ciclo['nombre']." - ".$fila_asig['nombre']."</option>";
 						 	} ?>
 							</select>
 					</td>
@@ -161,7 +161,8 @@ include('navbar.php');
 															 superiores_id.asignatura2_id as sup_asig
 	                      FROM superiores_id, usuarios u1, usuarios u2
 	                      WHERE u1.id = superiores_id.usuario_id
-													AND u2.id = superiores_id.superior_id";
+													AND u2.id = superiores_id.superior_id
+										 ORDER BY sup_ap";
 	         $usuarios_result = $conn->query($usuarios) or die("database error:". $conn->error);
 	         while($fila_usuarios = $usuarios_result->fetch_assoc()) { ?>
 	           <tr>

@@ -34,8 +34,9 @@ include('navbar.php');
                           usuarios.nombre as u_nombre,
                           usuarios.apellidop as u_ap,
                           usuarios.apellidom as u_am
-                   FROM usuarios
-                   WHERE id != 1";
+                   	 FROM usuarios
+                    WHERE u_id != 1
+								 ORDER BY u_id";
       $usuarios_result = $conn->query($usuarios) or die("database error:". $conn->error);
       while($fila_usuarios = $usuarios_result->fetch_assoc()) { ?>
 				<tr>

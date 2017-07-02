@@ -71,7 +71,9 @@ include('navbar.php');
 	</table>
 </div>
 <?php
-$indicadores = "SELECT * FROM indicadores";
+$indicadores = "SELECT *
+ 									FROM indicadores
+							ORDER BY meta_id ,id";
 $ind_result = $conn->query($indicadores) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -79,8 +81,8 @@ $ind_result = $conn->query($indicadores) or die ("database error:".$conn->error)
 		<thead>
       <tr>
 				<th>Acciones</th>
-        <th>ID</th>
-        <th>Meta(ID)</th>
+        <th>Meta (ID)</th>
+				<th>Indicador (ID)</th>
 				<th>Descripción</th>
         <th>No Cumplido</th>
         <th>Mínimo</th>
@@ -104,14 +106,14 @@ $ind_result = $conn->query($indicadores) or die ("database error:".$conn->error)
 					</div>
 				</td>
 			<?php
-			echo "<td>" . $fila["id"] . "</td>";
 			echo "<td>" . $fila["meta_id"] . "</td>";
+			echo "<td>" . $fila["id"] . "</td>";
       echo "<td>" . $fila["descripcion"] . "</td>";
       echo "<td>" . $fila["no_cumplido"] . "</td>";
       echo "<td>" . $fila["minimo"] . "</td>";
       echo "<td>" . $fila["esperado"] . "</td>";
       echo "<td>" . $fila["sobre_esperado"] . "</td>";
-      echo "<td>" . $fila["ponderacion"] . "</td>";
+      echo "<td>" . $fila["ponderacion"] . "%</td>";
     	echo "</tr>";
 			} ?>
 		</tbody>

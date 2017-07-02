@@ -36,19 +36,19 @@ include('navbar.php');
 				</div>
 			</td>
 			<td>
-        <input type="text" name="descripcion" class="form-control" placeholder="Descripcion">
+        <input style="height:100px;" type="text" name="descripcion" class="form-control" placeholder="Descripcion">
 			</td>
 			<td>
-        <input type="text" name="minimo" class="form-control" placeholder="Mínimo">
+        <input style="height:100px;" type="text" name="minimo" class="form-control" placeholder="Mínimo">
 			</td>
       <td>
-        <input type="text" name="en_desarrollo" class="form-control" placeholder="En Desarrollo">
+        <input style="height:100px;" type="text" name="en_desarrollo" class="form-control" placeholder="En Desarrollo">
 			</td>
       <td>
-				<input type="text" name="desarrollado" class="form-control" placeholder="Desarrollado">
+				<input style="height:100px;" type="text" name="desarrollado" class="form-control" placeholder="Desarrollado">
 			</td>
       <td>
-				<input type="text" name="superior" class="form-control" placeholder="Superior">
+				<input style="height:100px;" type="text" name="superior" class="form-control" placeholder="Superior">
 			</td>
       <td>
 				<input type="number" name="ponderacion" class="form-control" placeholder="Ponderación">
@@ -58,7 +58,9 @@ include('navbar.php');
 	</table>
 </div>
 <?php
-$criterios = "SELECT id, descripcion, minimo, en_desarrollo, desarrollado, superior, ponderacion FROM criterios";
+$criterios = "SELECT id, descripcion, minimo, en_desarrollo, desarrollado, superior, ponderacion
+								FROM criterios
+						ORDER BY id";
 $crit_result = $conn->query($criterios) or die ("database error:".$conn->error);
 ?>
 <div>
@@ -96,12 +98,15 @@ $crit_result = $conn->query($criterios) or die ("database error:".$conn->error);
       echo "<td>" . $fila["en_desarrollo"] . "</td>";
       echo "<td>" . $fila["desarrollado"] . "</td>";
       echo "<td>" . $fila["superior"] . "</td>";
-      echo "<td>" . $fila["ponderacion"] . "</td>";
+      echo "<td>" . $fila["ponderacion"] . "%</td>";
     	echo "</tr>";
 			} ?>
 		</tbody>
 	</table>
 </div>
+<br>
+<h2>Asociar Competencia - Criterio</h2>
+<br>
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -131,7 +136,7 @@ $crit_result = $conn->query($criterios) or die ("database error:".$conn->error);
       <td>
 				<select name='comp' class="custom-select mb-2 mr-sm-2 mb-sm-0">
 				 <?php while($fila_comp = $comp_result->fetch_assoc()) {
-					 echo "<option value=".$fila_comp['id'].">".$fila_comp['nombre']."</option>";
+					 echo "<option value=".$fila_comp['id'].">".$fila_comp['id'].") ".$fila_comp['nombre']."</option>";
 				 } ?>
 			 </select>
       </td>
@@ -162,7 +167,7 @@ $crit_result = $conn->query($criterios) or die ("database error:".$conn->error);
 												FROM comp_crit, competencias, criterios
 											 WHERE comp_crit.competencia_id = competencias.id
 											 	 AND comp_crit.criterio_id = criterios.id
-                    ORDER BY competencia_id";
+                    ORDER BY competencia_id, criterio_id";
 			$result = $conn->query($comp_crit) or die("database error:". $conn->error);
 			while ($fila = $result->fetch_assoc()){
 			?>
@@ -179,9 +184,9 @@ $crit_result = $conn->query($criterios) or die ("database error:".$conn->error);
 					</div>
 				</td>
 			<?php
-				echo "<td>" . $fila["comp"] . "</td>";
+				echo "<td>" . $fila["competencia_id"] .") ". $fila["comp"] . "</td>";
 				echo "<td>" . $fila["criterio_id"].") ". $fila["crit"] . "</td>";
-        echo "<td>" . $fila["pond"] . "</td>";
+        echo "<td>" . $fila["pond"] . "%</td>";
     		echo "</tr>";
 			} ?>
 		</tbody>
