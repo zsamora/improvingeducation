@@ -11,6 +11,7 @@ $('document').ready(function() {
     }
     console.log(elements);
     if (elements.length >= 1 && elements[0] != "") {
+      console.log("cumple condicion");
       $.ajax({
         type : 'POST',
         url  : 'enviar.php',
@@ -34,6 +35,7 @@ $('document').ready(function() {
     }
     console.log(elements);
     if (elements.length >= 1 && elements[0] != "") {
+      console.log("cumple condicion");
       $.ajax({
         type : 'POST',
         url  : 'enviar2.php',
