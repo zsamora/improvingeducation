@@ -11,7 +11,10 @@ $('document').ready(function() {
     }
     console.log(elements);
     if (elements.length >= 1 && elements[0] != "") {
-      console.log("cumple condicion");
+      console.log("id_result");
+      console.log(id_result);
+      console.log("seleccion_result");
+      console.log(seleccion_result);
       $.ajax({
         type : 'POST',
         url  : 'enviar.php',
