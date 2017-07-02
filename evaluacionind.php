@@ -259,9 +259,9 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 	$('#send_button1').click(function() {
     var val = $('input:checked').serialize();
     var elements = val.split("&");
-    var id_result = []
-    var seleccion_result = []
-		var proceso = 0;
+    var id_result = [];
+    var seleccion_result = [];
+		var proceso = <?php echo $proceso ?>;
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
@@ -282,8 +282,8 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
     		error: function(){
         	alert('something bad happened');
     		}*/
-				}).done(function(response) {
-					window.location.replace("proceso.php?proceso_id="+response);
+				}).done(function() {
+					window.location.replace("proceso.php?proceso_id="+proceso);
 				});
     }
     else {

@@ -258,9 +258,9 @@ $tipo_row = $tipo_res->fetch_assoc();
 		$('#send_button2').click(function() {
 	    var val = $('input:checked').serialize();
 	    var elements = val.split("&");
-	    var id_result = []
-	    var seleccion_result = []
-			var proceso = 0;
+	    var id_result = [];
+	    var seleccion_result = [];
+			var proceso = <?php echo $proceso; ?>;
 	    for (var i = 0; i < elements.length; i++){
 	      var x = elements[i].split("=");
 	      id_result.push(parseInt(x[0]));
@@ -271,13 +271,13 @@ $tipo_row = $tipo_res->fetch_assoc();
 	        type : 'POST',
 	        url  : 'enviar2.php',
 	        data : {id_result: id_result, seleccion_result: seleccion_result},
-	        success : function(response){
+	        /*success : function(response){
 	          console.log(response);
 						proceso = 0;
 	          //window.location.replace("proceso.php?proceso_id="+response);
-	        }
-	      }).done(function() {
-	        remove_overlay();
+	        }*/
+	      	}).done(function() {
+	        	window.location.replace("proceso.php?proceso_id="+proceso);
     		});
 	    }
 	    else {
