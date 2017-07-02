@@ -3,6 +3,8 @@ session_start();
 include_once("db_connect.php");
 $ids = $_POST['id_result'];
 $selecciones = $_POST['seleccion_result'];
+$proceso = $_SESSION['proceso_id'];
+echo $proceso;
 $i = 0;
 for ($i = 0 ; $i < count($ids) ; $i++){
       $eval_id = $ids[$i];
@@ -20,5 +22,4 @@ for ($i = 0 ; $i < count($ids) ; $i++){
         //$update_result = $conn->query($update_sql) or die ("database error:". $conn->error);
       //}
 }
-echo $_SESSION['proceso_id'];
 ?>
