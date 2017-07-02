@@ -4,12 +4,13 @@ $('document').ready(function() {
     var elements = val.split("&");
     var id_result = []
     var seleccion_result = []
-    console.log(elements);
+
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
+    console.log(id_result);
     if (elements.length > 1) {
       $.ajax({
         type : 'POST',
@@ -27,12 +28,12 @@ $('document').ready(function() {
     var elements = val.split("&");
     var id_result = []
     var seleccion_result = []
-    console.log(elements);
     for (var i = 0; i < elements.length; i++){
       var x = elements[i].split("=");
       id_result.push(parseInt(x[0]));
       seleccion_result.push(parseInt(x[1]));
     }
+    console.log(id_result)
     if (elements.length > 1) {
       $.ajax({
         type : 'POST',
