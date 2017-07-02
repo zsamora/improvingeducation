@@ -268,28 +268,26 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
       seleccion_result.push(parseInt(x[1]));
     }
     if (elements.length >= 1 && elements[0] != "") {
-			console.log(id_result);
-			console.log(seleccion_result);
       $.ajax({
         type : 'POST',
         url  : 'enviar.php',
-        data : {id_result: id_result, seleccion_result: seleccion_result},
-				beforeSend: function () {
+        data : {id_result: id_result, seleccion_result: seleccion_result}
+				/*beforeSend: function () {
           console.log("A punto de enviar");
 				},
-        success : function(response){
-          console.log(response);
+        success : function(){
+          //console.log(response);
+					//proceso = response;
         },
     		error: function(){
         	alert('something bad happened');
-    		}
-      }).done(function() {
-				window.location.replace("proceso.php?proceso_id="+proceso);
-				remove_overlay();
-			});
+    		}*/
+				}).done(function(response) {
+					window.location.replace("proceso.php?proceso_id="+response);
+				});
     }
     else {
-        console.log("Algo paso");
+        console.log("No se envió información");
     }
   });
 </script>
