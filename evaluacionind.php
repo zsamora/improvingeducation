@@ -276,7 +276,10 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
         success : function(response){
           console.log(response);
           window.location.replace("proceso.php?proceso_id="+response);
-        }
+        },
+    		error: function(){
+        	alert('something bad happened');
+    		}
       });
     }
     else {
