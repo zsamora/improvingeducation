@@ -67,9 +67,18 @@ $evalcomp3 = "INSERT INTO `evaluaciones_comp`(`tipo_id`, `competencia_id`, `crit
                      AND comp_perfiles.competencia_id = comp_crit.competencia_id
                      AND proc_comp.proceso_id = $id
                      AND comp_perfiles.competencia_id = proc_comp.competencia_id";
+$resind = "INSERT INTO resultados_ind
+								SELECT id, 0
+									FROM evaluaciones_ind";
+$rescomp = "INSERT INTO resultados_comp
+				         SELECT id, 0
+									 FROM evaluaciones_comp";
 if ($conn->query($evalind) && $conn->query($evalcomp1) && $conn->query($evalcomp2) && $conn->query($evalcomp3)) {
-	header("Location: procesos.php");
-} else {
+	if ($conn->query($resind) && $conn->query($rescomp)){
+		header("Location: procesos.php");
+	}
+}
+else {
     echo "Error: " . $agregar . "<br>" . $conn->error;
 }
 die();
