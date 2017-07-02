@@ -23,7 +23,7 @@ $('document').ready(function() {
           console.log(response);
           //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
-        }
+        },
         error: function(response) {
           window.location.replace("proceso.php?proceso_id="+response);
           //alert("Status: " + textStatus); alert("Error: " + errorThrown);
@@ -52,8 +52,8 @@ $('document').ready(function() {
           console.log(response);
           //window.history.back();
           window.location.replace("proceso.php?proceso_id="+response);
-        }
-        error: function(response) {
+        },
+          error: function(response) {
           window.location.replace("proceso.php?proceso_id="+response);
           //alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
