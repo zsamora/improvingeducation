@@ -1281,10 +1281,10 @@ $html.="</body>
 $dompdf = new Dompdf();
 $dompdf->load_html($html);
 $dompdf->render();
-$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
+//$dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
 //exit(0);
 // Descomentar para PDF descargable
-//$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
+$dompdf->stream("Informe - ".$nombre." ".$apellido.".pdf");
 ////////////////////////////////////
 
 /*$dompdf->load_html_file("'informe.php?usuario_id=".$usuario_id."
