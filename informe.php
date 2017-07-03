@@ -308,6 +308,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 			type: "POST",
 			url: 'saveimage.php',
 			data: {image1 : dataURL},
+			async:false,
 			success: function(respond){
 				console.log(respond);
 			}
@@ -1117,6 +1118,7 @@ else if ($respind_row['res'] == 0) { ?>
 					data: {image1 : dataURL,
 							 	 image2 : dataURL2,
 								 image3 : dataURL3},
+					async:false,
 					success: function(respond){
 						console.log(respond);
 					}
@@ -1133,6 +1135,7 @@ else if ($respind_row['res'] == 0) { ?>
 					data: {image1 : dataURL,
 								 image2 : dataURL4,
 								 image3 : dataURL5},
+					async: false,
 					success: function(respond){
 						console.log(respond);
 					}
@@ -2089,6 +2092,7 @@ options: {
 				data: {image1 : dataURL,
 							 image2 : dataURL2,
 							 image3 : dataURL3},
+				async:false,
 				success: function(respond){
 					console.log(respond);
 				}
@@ -2105,6 +2109,7 @@ options: {
 				data: {image1 : dataURL,
 							 image2 : dataURL4,
 							 image3 : dataURL5},
+				async: false,
 				success: function(respond){
 					console.log(respond);
 				}

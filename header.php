@@ -11,7 +11,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="script/validation.min.js"></script>
 <script type="text/javascript" src="script/login.js"></script>
-<script type="text/javascript" src="script/resultados.js"></script>
 <script type="text/javascript" src="script/desplegable.js"></script>
 <script type="text/javascript" src="script/tabla.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
