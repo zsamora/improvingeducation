@@ -132,7 +132,7 @@ include('navbar.php');
 		echo "<td>" . $ciclo_row["ciclo2"] . "</td>";
 		echo "<td>" . $asignatura_row["asignatura2"]  . "</td>";
 		if ($neval_row['res'] == 0){
-			echo "<td> Finalizada </td>";
+			echo "<td> No Disponible </td>";
 		}
 		else if ($nresp_row['res']==$neval_row['res']){
 			echo "<td> <a href='evaluacionind.php?
@@ -275,7 +275,7 @@ include('navbar.php');
 		echo "<td>" . $ciclo_row["ciclo2"] . "</td>";
 		echo "<td>" . $asignatura_row["asignatura2"]  . "</td>";
 		if ($neval_row['res'] == 0){
-			echo "<td> Finalizada </td>";
+			echo "<td> No Disponible </td>";
 		}
 		else if ($nresp_row['res']==$neval_row['res']){
 			echo "<td> <a href='evaluacioncomp.php?

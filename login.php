@@ -6,7 +6,8 @@ if(isset($_POST['login_button'])) {
 	$user_password = trim($_POST['password']);
 	$sql = "SELECT id, username, password, nombre, apellidop, establecimiento_id
 						FROM usuarios, trabaja
-						WHERE username='$user_name'";
+						WHERE username='$user_name'
+							AND habilitado = 1";
 	$resultset = $conn->query($sql) or die("database error:". $conn->error);
 	$row = $resultset->fetch_assoc();
 	if($row['password']==$user_password){

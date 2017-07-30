@@ -22,6 +22,8 @@ include('navbar.php');
 				<th>Nombre</th>
 				<th>Fecha de Inicio</th>
         <th>Fecha de Término</th>
+				<th>Metas (%)</th>
+				<th>Competencias (%)</th>
 				<th>Establecimiento</th>
 			</tr>
 		</thead>
@@ -50,10 +52,17 @@ include('navbar.php');
 				<input type="date" name="ftermino" class="form-control">
 			</td>
 			<td>
+				<input type="number" name="pondmeta" class="form-control" placeholder="Ponderación">
+			</td>
+			<td>
+				<input type="number" name="pondomp" class="form-control" placeholder="Ponderación">
+			</td>
+			<td>
 				<select name='est' class="custom-select mb-2 mr-sm-2 mb-sm-0">
 				 <?php while($fila_procesos = $proc_result->fetch_assoc()) {
 					 echo "<option value=".$fila_procesos['establecimiento_id'].">".$fila_procesos['e_nombre']."</option>";
 				 } ?>
+			 	</select>
 			</td>
 			</form>
 		</tbody>
@@ -63,7 +72,7 @@ include('navbar.php');
 <br>
 <?php
 $procesos = "SELECT procesos.id as p_id, procesos.nombre as p_nombre, finicio, ftermino,
-										establecimiento_id, establecimiento.nombre as e_nombre
+										establecimiento_id, establecimiento.nombre as e_nombre, pondmeta, pondcomp
                FROM procesos, establecimiento
 							WHERE procesos.establecimiento_id = establecimiento.id
 								AND habilitado = 1
@@ -79,6 +88,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 				<th>Nombre</th>
         <th>Fecha Inicio</th>
         <th>Fecha Término</th>
+				<th>Metas (%)</th>
+				<th>Competencias (%)</th>
 				<th>Establecimiento</th>
       </tr>
     </thead>
@@ -106,6 +117,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 			echo "<td>" . $fila["p_nombre"] . "</td>";
 			echo "<td>" . $fila["finicio"] . "</td>";
       echo "<td>" . $fila["ftermino"] . "</td>";
+			echo "<td>" . $fila["pondmeta"] . "%</td>";
+      echo "<td>" . $fila["pondcomp"] . "%</td>";
 			echo "<td>" . $fila["e_nombre"] . "</td>";
     	echo "</tr>";
 			} ?>
@@ -116,7 +129,7 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 <br>
 <?php
 $procesos = "SELECT procesos.id as p_id, procesos.nombre as p_nombre, finicio, ftermino,
-										establecimiento_id, establecimiento.nombre as e_nombre
+										establecimiento_id, establecimiento.nombre as e_nombre, pondmeta, pondcomp
                FROM procesos, establecimiento
 							WHERE procesos.establecimiento_id = establecimiento.id
 							  AND habilitado = 0
@@ -132,6 +145,8 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 				<th>Nombre</th>
         <th>Fecha Inicio</th>
         <th>Fecha Término</th>
+				<th>Metas (%)</th>
+				<th>Competencias (%)</th>
 				<th>Establecimiento</th>
       </tr>
     </thead>
@@ -159,12 +174,59 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 			echo "<td>" . $fila["p_nombre"] . "</td>";
 			echo "<td>" . $fila["finicio"] . "</td>";
       echo "<td>" . $fila["ftermino"] . "</td>";
+			echo "<td>" . $fila["pondmeta"] . "%</td>";
+      echo "<td>" . $fila["pondcomp"] . "%</td>";
 			echo "<td>" . $fila["e_nombre"] . "</td>";
     	echo "</tr>";
 			} ?>
 		</tbody>
 	</table>
 </div>
+<br><br>
+<h2>Cambiar Ponderación de Evaluaciones</h2>
+<br>
+<?php
+$procesos = "SELECT procesos.id as p_id, procesos.nombre as p_nombre, pondmeta, pondcomp
+               FROM procesos
+					 ORDER BY p_id";
+$proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
+?>
+<div>
+	<table class ="table table-hover">
+		<thead>
+			<tr>
+				<th>Cambiar</th>
+				<th>Proceso</th>
+				<th>Metas (%)</th>
+				<th>Competencias (%)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<form action='cambiopond.php' method="post">
+				<tr>
+				<td>
+					<div class="btn-group">
+						<button type="submit" class="btn btn-primary">
+							<span class="glyphicon glyphicon glyphicon-pencil"></span>
+						</button>
+					</div>
+				</td>
+				<td>
+					<select name='proc' class="custom-select mb-2 mr-sm-2 mb-sm-0">
+				 	<?php while($fila_procesos = $proc_result->fetch_assoc()) {
+					 	echo "<option value=".$fila_procesos['p_id'].">".$fila_procesos['p_nombre']."</option>";
+				 	} ?>
+					</select>
+				</td>
+				<td>
+	 				<input type="number" name="pondmeta" class="form-control" placeholder="Nueva Ponderación">
+	 			</td>
+				<td>
+	 				<input type="number" name="pondcomp" class="form-control" placeholder="Nueva Ponderación">
+	 			</td>
+			</tr>
+		</tbody>
+	</table>
 <br><br>
 <h2>Asociar Competencia a Proceso</h2>
 <br>

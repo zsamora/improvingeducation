@@ -71,6 +71,32 @@ h1 {
   right: 0;
   margin: auto;
 }
+/* Subtitulo: Fecha */
+.date {
+  color:black;
+  font-size: 160%;
+  width: 500px;
+  height: 100px;
+  position: absolute;
+  top:440;
+  bottom: 0;
+  left: 96;
+  right: 0;
+  margin: auto;
+}
+/* Subtitulo: Fecha: Nombre */
+.date-name {
+  color:black;
+  font-size: 160%;
+  width: 500px;
+  height: 100px;
+  position: absolute;
+  top:440;
+  bottom: 0;
+  left: 153;
+  right: 0;
+  margin: auto;
+}
 /* Firmas */
 .signature1 {
   text-align: center;

@@ -262,12 +262,12 @@ else if ($respcomp_row['res'] == 0) { ?>
 				datasets: [{
 						data: [metas, general],
 						backgroundColor: [
-								'rgba(113, 171, 21, 0.5)',
-								'rgba(255, 80, 0, 0.5)'
+								'rgba(255, 255, 0, 0.7)',
+								'rgba(0, 203, 71, 0.7)'
 						],
 						borderColor: [
-							'rgba(113, 171, 21, 1)',
-							'rgba(255, 80, 0, 1)'
+							'rgba(255, 255, 0, 1)',
+							'rgba(0, 203, 71, 1)'
 						],
 						borderWidth: 2
 				}]
@@ -823,13 +823,13 @@ else if ($respind_row['res'] == 0) { ?>
 				datasets: [{
 						data: [competencias, general],
 						backgroundColor: [
-								'rgba(41, 230, 220, 0.5)',
-								'rgba(255, 80, 0, 0.5)'
-							],
-							borderColor: [
-								'rgba(41, 230, 220, 1)',
-								'rgba(255, 80, 0, 1)'
-							],
+								'rgba(255, 14, 44, 0.7)',
+								'rgba(0, 203, 71, 0.7)'
+						],
+						borderColor: [
+							'rgba(255, 14, 44, 1)',
+							'rgba(0, 203, 71, 1)'
+						],
 							borderWidth: 2
 						}]
 					},
@@ -874,16 +874,16 @@ else if ($respind_row['res'] == 0) { ?>
 		datasets: [{
 				data: [competencias,autoeval,superior,colaborador],
 				backgroundColor: [
-						'rgba(129, 20, 112, 0.5)',
-						'rgba(255, 99, 132, 0.5)',
-						'rgba(54, 162, 235, 0.5)',
-						'rgba(54, 50, 235, 0.5)'
+						'rgba(255, 14, 44, 0.7)',
+						'rgba(255, 255, 0, 0.7)',
+						'rgba(0, 153, 255, 0.7)',
+						'rgba(0, 203, 71, 0.7)'
 				],
 				borderColor: [
-						'rgba(129, 20, 112, 1)',
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(54, 50, 235, 1)'
+						'rgba(255, 14, 44, 1)',
+						'rgba(255, 255, 0, 1)',
+						'rgba(0, 153, 255, 1)',
+						'rgba(0, 203, 71, 1)'
 				],
 				borderWidth: 2
 		}]
@@ -933,26 +933,26 @@ else if ($respind_row['res'] == 0) { ?>
 		datasets: [{
 			label: "General",
 			data: suma_arr,
-			backgroundColor: 'rgba(129, 20, 112, 0.5)',
-			borderColor: 'rgba(129, 20, 112, 1)',
+			backgroundColor: 'rgba(255, 14, 44, 0.7)',
+			borderColor: 'rgba(255, 14, 44, 1)',
 			borderWidth: 2
 			}, {
 			label: "Auto-Evaluación",
 			data: autoeval_arr,
-			backgroundColor: 'rgba(255, 99, 132, 0.5)',
-			borderColor: 'rgba(255, 99, 132, 1)',
+			backgroundColor: 'rgba(255, 255, 0, 0.7)',
+			borderColor: 'rgba(255, 255, 0, 1)',
 			borderWidth: 2
 			}, {
 			label: "Superior",
 			data: superior_arr,
-			backgroundColor: 'rgba(54, 162, 235, 0.5)',
-			borderColor: 'rgba(54, 162, 235, 1)',
+			backgroundColor: 'rgba(0, 153, 255, 0.7)',
+			borderColor: 'rgba(0, 153, 255, 1)',
 			borderWidth: 2
 			}, {
 			label: "Colaborador",
 			data: colaborador_arr,
-			backgroundColor: 'rgba(54, 50, 235, 0.5)',
-			backgroundColor: 'rgba(54, 50, 235, 1)',
+			backgroundColor: 'rgba(0, 203, 71, 0.7)',
+			backgroundColor: 'rgba(0, 203, 71, 1)',
 			borderWidth: 2
 			},
 		]
@@ -999,14 +999,14 @@ else if ($respind_row['res'] == 0) { ?>
 	datasets: [{
 			data: [competencias,autoeval,superior],
 			backgroundColor: [
-					'rgba(129, 20, 112, 0.5)',
-					'rgba(255, 99, 132, 0.5)',
-					'rgba(54, 162, 235, 0.5)'
+					'rgba(255, 14, 44, 0.7)',
+					'rgba(255, 255, 0, 0.7)',
+					'rgba(0, 153, 255, 0.7)'
 			],
 			borderColor: [
-					'rgba(129, 20, 112, 1)',
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)'
+					'rgba(255, 14, 44, 1)',
+					'rgba(255, 255, 0, 1)',
+					'rgba(0, 153, 255, 1)'
 			],
 			borderWidth: 2
 	}]
@@ -1055,20 +1055,20 @@ else if ($respind_row['res'] == 0) { ?>
 		datasets: [{
 			label: "General",
 			data: suma_arr,
-			backgroundColor: 'rgba(129, 20, 112, 0.5)',
-			borderColor: 'rgba(129, 20, 112, 1)',
+			backgroundColor: 'rgba(255, 14, 44, 0.7)',
+			borderColor: 'rgba(255, 14, 44, 1)',
 			borderWidth: 2
 			}, {
 			label: "Auto-Evaluación",
 			data: autoeval_arr,
-			backgroundColor: 'rgba(255, 99, 132, 0.5)',
-			borderColor: 'rgba(255, 99, 132, 1)',
+			backgroundColor: 'rgba(255, 255, 0, 0.7)',
+			borderColor: 'rgba(255, 255, 0, 1)',
 			borderWidth: 2
 			}, {
 			label: "Superior",
 			data: superior_arr,
-			backgroundColor: 'rgba(54, 162, 235, 0.5)',
-			borderColor: 'rgba(54, 162, 235, 1)',
+			backgroundColor: 'rgba(0, 153, 255, 0.7)',
+			borderColor: 'rgba(0, 153, 255, 1)',
 			borderWidth: 2
 			},
 		]
@@ -1163,10 +1163,15 @@ else {
 	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 	$fila_col = $colaborador_result->fetch_assoc();
 	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+	$pond = "SELECT pondmeta, pondcomp
+						 FROM procesos
+						WHERE procesos.id = $proceso";
+	$pond_result = $conn->query($pond) or die ("database error: " . $conn->error);
+	$pond_row = $pond_result->fetch_assoc();
 	if (!$verificador) {
 		$respuesta_info = "SELECT comp_table.resultado as comp_result,
 															 meta_table.resultado as meta_result,
-															 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+															 ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
 											 	FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 															FROM
 																(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
@@ -1201,12 +1206,13 @@ else {
 																					  GROUP BY competencia_id, tipo_id
 																					) as tabla, ponderacion_tipo2
 																				  WHERE ponderacion_tipo2.id = tipo_id
-																		   GROUP BY competencia_id) as tablita) as comp_table";
+																		   GROUP BY competencia_id) as tablita) as comp_table, procesos
+																			 		WHERE procesos.id = $proceso";
 	}
 	else {
 		$respuesta_info = "SELECT comp_table.resultado as comp_result,
 															 meta_table.resultado as meta_result,
-															 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+															 ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
 												FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 															FROM
 																(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
@@ -1241,7 +1247,8 @@ else {
 																						GROUP BY competencia_id, tipo_id
 																					) as tabla, ponderacion_tipo
 																					WHERE ponderacion_tipo.id = tipo_id
-																			 GROUP BY competencia_id) as tablita) as comp_table";
+																			 GROUP BY competencia_id) as tablita) as comp_table, procesos
+																			 		WHERE procesos.id = $proceso";
 	}
 $respuesta_result = $conn->query($respuesta_info) or die("database error:". $conn->error);
 $resultado = $respuesta_result->fetch_assoc();
@@ -1253,8 +1260,8 @@ $prom_general = $resultado['total_result'];
 	<table class="table">
 		<thead>
       <tr>
-				<th class="titulo-meta">Resultado Metas (50%)</th>
-        <th class="titulo-comp">Resultado Competencias (50%)</th>
+				<th class="titulo-meta">Resultado Metas (<?php echo $pond_row['pondmeta'] ?>%)</th>
+        <th class="titulo-comp">Resultado Competencias (<?php echo $pond_row['pondcomp'] ?>%)</th>
 				<th class="titulo-gen">Resultado General</th>
       </tr>
     </thead>
@@ -1796,14 +1803,14 @@ window.onload = function(){
 			datasets: [{
 					data: [metas, competencias, general],
 					backgroundColor: [
-							'rgba(113, 171, 21, 0.5)',
-							'rgba(41, 230, 220, 0.5)',
-							'rgba(255, 80, 0, 0.5)'
+							'rgba(255, 255, 0, 0.7)',
+							'rgba(255, 14, 44, 0.7)',
+							'rgba(0, 203, 71, 0.7)'
 					],
 					borderColor: [
-						'rgba(113, 171, 21, 1)',
-						'rgba(41, 230, 220, 1)',
-						'rgba(255, 80, 0, 1)'
+						'rgba(255, 255, 0, 1)',
+						'rgba(255, 14, 44, 1)',
+						'rgba(0, 203, 71, 1)'
 					],
 					borderWidth: 2
 			}]
@@ -1849,16 +1856,16 @@ window.onload = function(){
 	datasets: [{
 			data: [competencias,autoeval,superior,colaborador],
 			backgroundColor: [
-					'rgba(129, 20, 112, 0.5)',
-					'rgba(255, 99, 132, 0.5)',
-					'rgba(54, 162, 235, 0.5)',
-					'rgba(54, 50, 235, 0.5)'
+					'rgba(255, 14, 44, 0.7)',
+					'rgba(255, 255, 0, 0.7)',
+					'rgba(0, 153, 255, 0.7)',
+					'rgba(0, 203, 71, 0.7)'
 			],
 			borderColor: [
-					'rgba(129, 20, 112, 1)',
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 50, 235, 1)'
+					'rgba(255, 14, 44, 1)',
+					'rgba(255, 255, 0, 1)',
+					'rgba(0, 153, 255, 1)',
+					'rgba(0, 203, 71, 1)'
 			],
 			borderWidth: 2
 	}]
@@ -1908,26 +1915,26 @@ data: {
 	datasets: [{
 		label: "General",
 		data: suma_arr,
-		backgroundColor: 'rgba(129, 20, 112, 0.5)',
-		borderColor: 'rgba(129, 20, 112, 1)',
+		backgroundColor: 'rgba(255, 14, 44, 0.7)',
+		borderColor: 'rgba(255, 14, 44, 1)',
 		borderWidth: 2
 		}, {
 		label: "Auto-Evaluación",
 		data: autoeval_arr,
-		backgroundColor: 'rgba(255, 99, 132, 0.5)',
-		borderColor: 'rgba(255, 99, 132, 1)',
+		backgroundColor: 'rgba(255, 255, 0, 0.7)',
+		borderColor: 'rgba(255, 255, 0, 1)',
 		borderWidth: 2
 		}, {
 		label: "Superior",
 		data: superior_arr,
-		backgroundColor: 'rgba(54, 162, 235, 0.5)',
-		borderColor: 'rgba(54, 162, 235, 1)',
+		backgroundColor: 'rgba(0, 153, 255, 0.7)',
+		borderColor: 'rgba(0, 153, 255, 1)',
 		borderWidth: 2
 		}, {
 		label: "Colaborador",
 		data: colaborador_arr,
-		backgroundColor: 'rgba(54, 50, 235, 0.5)',
-		backgroundColor: 'rgba(54, 50, 235, 1)',
+		backgroundColor: 'rgba(0, 203, 71, 0.7)',
+		backgroundColor: 'rgba(0, 203, 71, 1)',
 		borderWidth: 2
 		},
 	]
@@ -1974,14 +1981,14 @@ labels: ["General","Auto-Evaluación","Superior"],
 datasets: [{
 		data: [competencias,autoeval,superior],
 		backgroundColor: [
-				'rgba(129, 20, 112, 0.5)',
-				'rgba(255, 99, 132, 0.5)',
-				'rgba(54, 162, 235, 0.5)'
+				'rgba(255, 14, 44, 0.7)',
+				'rgba(255, 255, 0, 0.7)',
+				'rgba(0, 153, 255, 0.7)'
 		],
 		borderColor: [
-				'rgba(129, 20, 112, 1)',
-				'rgba(255, 99, 132, 1)',
-				'rgba(54, 162, 235, 1)'
+				'rgba(255, 14, 44, 1)',
+				'rgba(255, 255, 0, 1)',
+				'rgba(0, 153, 255, 1)'
 		],
 		borderWidth: 2
 }]
@@ -2029,20 +2036,20 @@ data: {
 	datasets: [{
 		label: "General",
 		data: suma_arr,
-		backgroundColor: 'rgba(129, 20, 112, 0.5)',
-		borderColor: 'rgba(129, 20, 112, 1)',
+		backgroundColor: 'rgba(255, 14, 44, 0.7)',
+		borderColor: 'rgba(255, 14, 44, 1)',
 		borderWidth: 2
 		}, {
 		label: "Auto-Evaluación",
 		data: autoeval_arr,
-		backgroundColor: 'rgba(255, 99, 132, 0.5)',
-		borderColor: 'rgba(255, 99, 132, 1)',
+		backgroundColor: 'rgba(255, 255, 0, 0.7)',
+		borderColor: 'rgba(255, 255, 0, 1)',
 		borderWidth: 2
 		}, {
 		label: "Superior",
 		data: superior_arr,
-		backgroundColor: 'rgba(54, 162, 235, 0.5)',
-		borderColor: 'rgba(54, 162, 235, 1)',
+		backgroundColor: 'rgba(0, 153, 255, 0.7)',
+		borderColor: 'rgba(0, 153, 255, 1)',
 		borderWidth: 2
 		},
 	]

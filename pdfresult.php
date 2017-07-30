@@ -39,6 +39,7 @@ $nombre = $resultado['nombre'];
 $apellido = $resultado['apellido'];
 $cargo = $resultado['cargo'];
 $perfil = $resultado['perfil'];
+$text = date('d / m / Y');
 // Tabla información de usuario ?>
 <?php
 // $html guarda informe en html
@@ -52,6 +53,7 @@ $html.='<div>
 				</div>';
 $html.="<h1>Evaluación del Desempeño </h1><br><p class='func'>Funcionario:</p>";
 $html.="<p class='func-name'>".$nombre." ".$apellido."</p><p class='cargo'>Cargo: </p><p class='cargo-name'>".$cargo."</p>";
+$html.="<p class='date'> Fecha: </p><p class='date-name'>".$text."</p>";
 $html.='<p class="signature1">___________________________________</p>';
 $html.='<p class="signature2">___________________________________</p>';
 $html.='<p class="name1">'.$nombre." ".$apellido.'</p>';
@@ -719,11 +721,16 @@ $colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
 									 AND tipo_id = 3";
 $colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 $fila_col = $colaborador_result->fetch_assoc();
+$pond = "SELECT pondmeta, pondcomp
+					 FROM procesos
+					WHERE procesos.id = $proceso";
+$pond_result = $conn->query($pond) or die ("database error: " . $conn->error);
+$pond_row = $pond_result->fetch_assoc();
 $verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
 if (!$verificador) {
 	$respuesta_info = "SELECT comp_table.resultado as comp_result,
 														 meta_table.resultado as meta_result,
-														 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+														 ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
 											FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 														FROM
 															(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
@@ -758,12 +765,13 @@ if (!$verificador) {
 																					GROUP BY competencia_id, tipo_id
 																				) as tabla, ponderacion_tipo2
 																				WHERE ponderacion_tipo2.id = tipo_id
-																		 GROUP BY competencia_id) as tablita) as comp_table";
+																		 GROUP BY competencia_id) as tablita) as comp_table, procesos
+																				WHERE procesos.id = $proceso";
 }
 else {
 	$respuesta_info = "SELECT comp_table.resultado as comp_result,
 														 meta_table.resultado as meta_result,
-														 ROUND (comp_table.resultado * 0.5 + meta_table.resultado * 0.5 , 2) as total_result
+														 ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
 											FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 														FROM
 															(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
@@ -798,7 +806,8 @@ else {
 																					GROUP BY competencia_id, tipo_id
 																				) as tabla, ponderacion_tipo
 																				WHERE ponderacion_tipo.id = tipo_id
-																		 GROUP BY competencia_id) as tablita) as comp_table";
+																		 GROUP BY competencia_id) as tablita) as comp_table, procesos
+																		 		WHERE procesos.id = $proceso";
 }
 $respuesta_result = $conn->query($respuesta_info) or die("database error:". $conn->error);
 $resultado = $respuesta_result->fetch_assoc();
@@ -810,9 +819,9 @@ $html.='
 	<table class="table">
 		<thead>
       <tr>
-				<th>Resultado Metas (50%)</th>
-        <th>Resultado Competencias (50%)</th>
-				<th>Resultado General (100%)</th>
+				<th>Resultado Metas ('.$pond_row['pondmeta'].'%)</th>
+        <th>Resultado Competencias ('.$pond_row['pondcomp'].'%)</th>
+				<th>Resultado General</th>
       </tr>
     </thead>
 		<tbody>
