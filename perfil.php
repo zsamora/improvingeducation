@@ -3,7 +3,7 @@ session_start();
 if(!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
-$_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
+$_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa al Perfil*/
 include('header.php');
 include_once("db_connect.php");
 $usuario = $_SESSION['id'];

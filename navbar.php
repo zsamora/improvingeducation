@@ -34,16 +34,16 @@
                   <li><a onmouseover="this.style='background-color:rgba(0,0,0,0);color:red';"
                          onmouseout="this.style='background-color:rgba(0,0,0,0);color:white';" style="color:white" href="indicadores.php"> Indicadores </a></li>
                 </ul>
-        <?php }
-          //<a href="logout.php" class="navbar-brand"> Cerrar Sesión </a>
-        ?>
+        <?php } ?>
       </div>
       <a href="welcome.php" class="navbar-brand"> Inicio </a>
-      <?php session_start();
-      if ($_SESSION['proceso_id'] != 0 and $_SESSION['id'] != 1) { echo "<a href='proceso.php?proceso_id=".$_SESSION['proceso_id']."' class='navbar-brand'> Evaluaciones </a>"; }
-      if ($_SESSION['id'] == 1 && $_SESSION['proceso_id'] != 0)
-        { echo "<a href='resultados.php?proceso_id=".$_SESSION['proceso_id']."' class='navbar-brand'> Resultados </a>"; }
-      ?>
+      <?php
+      if ($_SESSION['proceso_id'] != 0 and $_SESSION['id'] != 1) {
+        echo "<a href='proceso.php?proceso_id=".$_SESSION['proceso_id']."' class='navbar-brand'> Evaluaciones </a>";
+      }
+      if ($_SESSION['id'] == 1 && $_SESSION['proceso_id'] != 0) {
+        echo "<a href='resultados.php?proceso_id=".$_SESSION['proceso_id']."' class='navbar-brand'> Resultados </a>";
+      } ?>
     </div>
   </div>
 </div>

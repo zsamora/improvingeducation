@@ -35,7 +35,7 @@ include('navbar.php');
 <?php while($fila = $proc_result->fetch_assoc()){
 		echo "<tr>";
 		if ($fila["habilitado"]) {
-				echo "<td id='proceso-link'><a href='proceso.php?proceso_id=".$fila['id']."'>". $fila["nombre"] ."</a></td>";
+				echo "<td><a href='proceso.php?proceso_id=".$fila['id']."'>". $fila["nombre"] ."</a></td>";
 				echo "<td>En Curso</td>";
 		}
 		else {

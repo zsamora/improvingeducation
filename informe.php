@@ -21,8 +21,6 @@ $cargo_id = $_SESSION['car_id'];
 $ciclo_id = $_SESSION['cic_id'];
 $asi_id = $_SESSION['asi_id'];
 $proceso = $_SESSION['proceso_id'];
-require_once 'dompdf/autoload.inc.php';
-use Dompdf\Dompdf;
 // Información del Usuario
 $usuario_info = "SELECT usuarios.nombre as nombre, usuarios.apellidop as apellido,
 												cargos.nombre as cargo, ciclos.nombre as ciclo,
