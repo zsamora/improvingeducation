@@ -16,6 +16,7 @@ if(isset($_POST['login_button'])) {
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['nombre'] = $row['nombre'];
 		$_SESSION['apellidop'] = $row['apellidop'];
+		$_SESSION['proceso_id'] = 0;
 	} else {
 		echo "Usuario o Contraseña incorrectos";
 	}

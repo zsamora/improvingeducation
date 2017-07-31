@@ -44,7 +44,7 @@ $text = date('d / m / Y');
 <?php
 // $html guarda informe en html
 $html="";
-$html.='<link rel="stylesheet" media="screen" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">'; // VER QUE HACER CON BOOTSTRAP
+$html.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
 $html.='<link href="css/styleprint.css" rel="stylesheet" type="text/css" media="screen">';
 $html.='<div>
 				<div class="col-md-1"></div>

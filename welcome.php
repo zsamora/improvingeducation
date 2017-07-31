@@ -4,7 +4,7 @@ if(!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
 $id = $_SESSION['id'];
-$_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
+//$_SESSION['proceso_id'] = 0; /*Proceso se hace cero cuando se ingresa a la pág de procesos*/
 include('header.php');
 include_once("db_connect.php");
 $procesos = "SELECT DISTINCT  id, nombre, finicio, ftermino, habilitado
@@ -34,7 +34,7 @@ include('navbar.php');
 		<tbody>
 <?php while($fila = $proc_result->fetch_assoc()){
 		echo "<tr>";
-		if ($fila["habilitado"]) {
+		if ($fila["habilitado"] || $_SESSION['id'] == 1) {
 				echo "<td><a href='proceso.php?proceso_id=".$fila['id']."'>". $fila["nombre"] ."</a></td>";
 				echo "<td>En Curso</td>";
 		}

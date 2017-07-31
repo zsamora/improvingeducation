@@ -1,10 +1,6 @@
 <?php
 session_start();
 $_SESSION['proceso_id'] = $_GET['proceso_id'];
-$_SESSION['proceso_id'] = 1;
-$_SESSION['id'] = 30;
-echo "proceso ".$_SESSION['proceso_id']." ";
-echo "id ".$_SESSION['id'];
 if(!isset($_SESSION['id'])){
 	header("Location: index.php");
 }

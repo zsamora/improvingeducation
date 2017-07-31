@@ -1,7 +1,5 @@
 <?php
 session_start();
-echo "proceso ".$_SESSION['proceso_id']." ";
-echo "id ".$_SESSION['id'];
 $_SESSION['eval_id'] = $_GET['eval_id'];
 $_SESSION['car_id'] = $_GET['car_id'];
 $_SESSION['cic_id'] = $_GET['cic_id'];
