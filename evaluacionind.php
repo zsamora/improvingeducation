@@ -147,6 +147,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
         <th>Esperado</th>
 				<th>Sobre lo Esperado</th>
 				<th>Ponderación</th>
+				<th>Porcentaje</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -218,6 +219,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 			}
 			echo ">" . $info_row["sobre_esperado"]."</td>";
 			echo "<td>". $info_row["ponderacion"]."%</td>";
+			echo "<td id='porcentaje'> %</td>";
 			echo "</tr>";
 		}
 		else {
@@ -229,6 +231,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 			echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["esperado"]."</td>";
 			echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["sobre_esperado"]."</td>";
 			echo "<td>". $info_row["ponderacion"]." %</td>";
+			echo "<td id='porcentaje'> %</td>";
 			echo "</tr>";
 		}
 
@@ -254,6 +257,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 	$('td#select').click(function(){
 		$(this).css('background-color','lightblue');
 		$(this).siblings().css( "background-color",'white');
+		$(this).siblings('[porcentaje]').html("aa");
 		$(this).find('input').prop('checked',true);
 	});
 	$('#send_button1').click(function() {

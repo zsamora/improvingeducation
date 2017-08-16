@@ -145,7 +145,7 @@ include('navbar.php');
 				&cic2_id=".$fila_ind['ciclo_sup']."
 				&asi2_id=".$fila_ind['asignatura_sup']."
 				&tipo_eval=".$fila_ind['tipo_id']."
-				'> Respondida </a></td>";
+				'> Terminado </a></td>";
 		}
 		else if ($nresp_row['res']==0){
 			echo "<td> <a href='evaluacionind.php?
@@ -157,7 +157,7 @@ include('navbar.php');
 				&cic2_id=".$fila_ind['ciclo_sup']."
 				&asi2_id=".$fila_ind['asignatura_sup']."
 				&tipo_eval=".$fila_ind['tipo_id']."
-				'> Disponible </a></td>";
+				'> No Iniciada </a></td>";
 		}
 		else if ($nresp_row['res'] <= $neval_row['res']){
 			echo "<td> <a href='evaluacionind.php?
@@ -169,7 +169,7 @@ include('navbar.php');
 				&cic2_id=".$fila_ind['ciclo_sup']."
 				&asi2_id=".$fila_ind['asignatura_sup']."
 				&tipo_eval=".$fila_ind['tipo_id']."
-				'> Continuar </a></td>";
+				'> Pendiente </a></td>";
 		}
     echo "</tr>";
 } ?>
@@ -288,7 +288,7 @@ include('navbar.php');
 				&cic2_id=".$fila_comp['ciclo_sup']."
 				&asi2_id=".$fila_comp['asignatura_sup']."
 				&tipo_eval=".$fila_comp['tipo_id']."
-				'> Respondida </a></td>";
+				'> Terminado </a></td>";
 		}
 		else if ($nresp_row['res']==0) {
 			echo "<td> <a href='evaluacioncomp.php?
@@ -300,7 +300,7 @@ include('navbar.php');
 						&cic2_id=".$fila_comp['ciclo_sup']."
 						&asi2_id=".$fila_comp['asignatura_sup']."
 						&tipo_eval=".$fila_comp['tipo_id']."
-					'> Disponible </a></td>";
+					'> No Iniciado </a></td>";
 		}
 		else if ($nresp_row['res'] <= $neval_row['res']){
 			echo "<td> <a href='evaluacioncomp.php?
@@ -312,7 +312,7 @@ include('navbar.php');
 						&cic2_id=".$fila_comp['ciclo_sup']."
 						&asi2_id=".$fila_comp['asignatura_sup']."
 						&tipo_eval=".$fila_comp['tipo_id']."
-					'> Continuar </a></td>";
+					'> Pendiente </a></td>";
 		}
     echo "</tr>";
 		} ?>

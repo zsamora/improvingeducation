@@ -35,11 +35,16 @@ $usuario_info = "SELECT usuarios.nombre as nombre, usuarios.apellidop as apellid
 									AND perfiles.id = trabaja.perfil_id";
 $usuario_result = $conn->query($usuario_info) or die("database error:". $conn->error);
 $resultado = $usuario_result->fetch_assoc();
+$fecha_info = "SELECT ftermino
+								 FROM procesos
+								WHERE id = $proceso";
+$fecha_result = $conn->query($fecha_info) or die("database error:". $conn->error);
+$resultado_fecha = $fecha_result->fetch_assoc();
 $nombre = $resultado['nombre'];
 $apellido = $resultado['apellido'];
 $cargo = $resultado['cargo'];
 $perfil = $resultado['perfil'];
-$text = date('d / m / Y');
+$fecha = $resultado_fecha['ftermino'];
 // Tabla información de usuario ?>
 <?php
 // $html guarda informe en html
@@ -53,7 +58,7 @@ $html.='<div>
 				</div>';
 $html.="<h1>Evaluación del Desempeño </h1><br><p class='func'>Funcionario:</p>";
 $html.="<p class='func-name'>".$nombre." ".$apellido."</p><p class='cargo'>Cargo: </p><p class='cargo-name'>".$cargo."</p>";
-$html.="<p class='date'> Fecha: </p><p class='date-name'>".$text."</p>";
+$html.="<p class='date'> Fecha: </p><p class='date-name'>".$fecha."</p>";
 $html.='<p class="signature1">___________________________________</p>';
 $html.='<p class="signature2">___________________________________</p>';
 $html.='<p class="name1">'.$nombre." ".$apellido.'</p>';
@@ -180,6 +185,10 @@ else if ($respcomp_row['res'] == 0) {
 							<td> Sobre lo esperado </td>
 							<td> 133.32% </td>
 						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
 					</tbody>
 				</table>
 				<p class="saltodepagina">';
@@ -225,7 +234,8 @@ else if ($respcomp_row['res'] == 0) {
 						while ($fila_indicador = $indicador_result->fetch_assoc()){
 							$indicador = $fila_indicador["id"];
 							$ponderacion = $fila_indicador['ponderacion'];
-							$evaluacion = "SELECT ROUND(SUM(valor)/COUNT(valor),2) as resultado
+							$evaluacion = "SELECT valor as resultado,
+																		resultados_ind.respuesta as resp
 															 FROM resultados_ind, evaluaciones_ind, valores
 															WHERE resultados_ind.evaluacion_id = evaluaciones_ind.id
 																AND resultados_ind.respuesta = valores.id
@@ -239,14 +249,39 @@ else if ($respcomp_row['res'] == 0) {
 							$fila_evaluacion = $evaluacion_result->fetch_assoc();
 							$html.='
 								<tr>
-								<td class="chica">'.$fila_indicador['descripcion'].'</td>
+								<td class="chica">'.$fila_indicador['descripcion'].'</td>';
+							if ($fila_evaluacion['resp'] == 1) {
+								$html.='
+								<td style="background-color:lightblue" class="chica">'.$fila_indicador['no_cumplido'].'</td>
+								<td class="chica">'.$fila_indicador['minimo'].'</td>
+								<td class="chica">'.$fila_indicador['esperado'].'</td>
+								<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+							}
+							else if ($fila_evaluacion['resp'] == 2) {
+								$html.='
+								<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
+								<td style="background-color:lightblue" class="chica">'.$fila_indicador['minimo'].'</td>
+								<td class="chica">'.$fila_indicador['esperado'].'</td>
+								<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+							}
+							else if ($fila_evaluacion['resp'] == 3) {
+								$html.='
+								<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
+								<td class="chica">'.$fila_indicador['minimo'].'</td>
+								<td style="background-color:lightblue" class="chica">'.$fila_indicador['esperado'].'</td>
+								<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+							}
+							else if ($fila_evaluacion['resp'] == 4) {
+								$html.='
 								<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
 								<td class="chica">'.$fila_indicador['minimo'].'</td>
 								<td class="chica">'.$fila_indicador['esperado'].'</td>
-								<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>
-								<td>'.$ponderacion.'%</td>
-								<td>'.$fila_evaluacion['resultado'].'%</td>
-								</tr>';
+								<td style="background-color:lightblue" class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+							}
+							$html.='
+							<td>'.$ponderacion.'%</td>
+							<td>'.$fila_evaluacion['resultado'].'%</td>
+							</tr>';
 							//$html.='</div><p class="saltodepagina"/>';
 							$total += $fila_evaluacion['resultado'] * ($ponderacion / 100.0);
 							}
@@ -390,6 +425,12 @@ else if ($respind_row['res'] == 0) {
 					<td></td>
 					<td> Nivel esperado </td>
 					<td> 3 </td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
 					<td></td>
 				</tr>
 			</tbody>
@@ -652,42 +693,67 @@ else if ($respind_row['res'] == 0) {
 						<th> Evaluador </th>
 						<th> Peso opinante </th>
 						<th> Porcentaje </th>
+						<th> Nivel </th>
 					</tr>
 			</thead>
 			<tbody>
 					<tr>
 					<td>Auto-Evaluación</td>
 					<td>10%</td>
-					<td>'.$fila_autoeval['resultado'].'%</td>
-					</tr>';
+					<td>'.$fila_autoeval['resultado'].'%</td>';
+					if ($fila_autoeval['resultado'] <= 33.33) { $html.='<td>1</td>';}
+					elseif ($fila_autoeval['resultado'] <= 66.66) { $html.='<td>2</td>';}
+					elseif ($fila_autoeval['resultado'] <= 99.99) { $html.='<td>3</td>';}
+					else { $html.='<td>4</td>';}
+					$html.='</tr>';
 					if ($verificador){
 						$html.='<tr>
 											<td>Superior</td>
 											<td>75%</td>
-											<td>'.$fila_sup['resultado'].'%</td>
-										</tr>
-										<tr>
+											<td>'.$fila_sup['resultado'].'%</td>';
+											if ($fila_sup['resultado'] <= 33.33) { $html.='<td>1</td>';}
+											elseif ($fila_sup['resultado'] <= 66.66) { $html.='<td>2</td>';}
+											elseif ($fila_sup['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											else { $html.='<td>4</td>';}
+						$html.='</tr>';
+						$html.='<tr>
 											<td>Colaboradores</td>
 											<td>15%</td>
-											<td>'.$fila_col['resultado'].'%</td>
-										</tr>
+											<td>'.$fila_col['resultado'].'%</td>';
+											if ($fil_col['resultado'] <= 33.33) { $html.='<td>1</td>';}
+											elseif ($fil_col['resultado'] <= 66.66) { $html.='<td>2</td>';}
+											elseif ($fil_col['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											else { $html.='<td>4</td>';}
+						$html.='</tr>
 										<tr>
 											<td>Total</td>
 											<td>100%</td>
-											<td>'.ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2).'%</td>
-										</tr>';
+											<td>'.ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2).'%</td>';
+											if (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { $html.='<td>1</td>';}
+											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.66) { $html.='<td>2</td>';}
+											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 99.99) { $html.='<td>3</td>';}
+											else { $html.='<td>4</td>';}
+						$html.='</tr>';
 					}
 					else {
 						$html.='<tr>
 											<td>Superior</td>
 											<td>90%</td>
-											<td>'.$fila_sup['resultado'].'%</td>
-										</tr>
+											<td>'.$fila_sup['resultado'].'%</td>';
+											if ($fila_sup['resultado'] <= 33.33) { $html.='<td>1</td>';}
+											elseif ($fila_sup['resultado'] <= 66.66) { $html.='<td>2</td>';}
+											elseif ($fila_sup['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											else { $html.='<td>4</td>';}
+						$html.='</tr>
 										<tr>
 											<td>Total</td>
 											<td>100%</td>
-											<td>'.ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2).'%</td>
-										</tr>';
+											<td>'.ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2).'%</td>';
+											if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { $html.='<td>1</td>';}
+											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.66) { $html.='<td>2</td>';}
+											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 99.99) { $html.='<td>3</td>';}
+											else { $html.='<td>4</td>';}
+						$html.='</tr>';
 					}
 			$html.='</tbody>
 							</table>
@@ -695,6 +761,11 @@ else if ($respind_row['res'] == 0) {
 							<br><br><br><br><br><br><br>';
 			}
 	}
+	$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).' % - Nivel: ';
+	if (ROUND($comp_general,2) <= 33.33) { $html.='1 </h4>'; }
+	else if (ROUND($comp_general,2) <= 66.67) {$html.='2 </h4>'; }
+	else if (ROUND($comp_general,2) <= 100.00) {$html.='3 </h4>'; }
+	else { $html.='4 </h4>';}
 	//$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	//$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 	//$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
@@ -863,6 +934,10 @@ $html.="<p class='saltodepagina'/>
 				<td> Sobre lo esperado </td>
 				<td> 133.32 % </td>
 			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table><p class='saltodepagina'/>";
 $meta = "SELECT DISTINCT metas.descripcion as meta_desc,
@@ -891,7 +966,7 @@ while($fila_meta = $meta_result->fetch_assoc()){
 									 AND indicador_cargos.indicador_id = indicadores.id";
 $indicador_result = $conn->query($indicador) or die ("database error:". $conn->error);
 $html.="<h4 class='meta'>Meta N°".$meta." ".$meta_desc."</h4>
-<table class='table'>
+<table class='table table-bordered'>
 	<thead>
 		<tr>
 			<th>Indicador</th>
@@ -907,7 +982,8 @@ $html.="<h4 class='meta'>Meta N°".$meta." ".$meta_desc."</h4>
 while ($fila_indicador = $indicador_result->fetch_assoc()){
 		$indicador = $fila_indicador["id"];
 		$ponderacion = $fila_indicador['ponderacion'];
-		$evaluacion = "SELECT ROUND(SUM(valor)/COUNT(valor),2) as resultado
+		$evaluacion = "SELECT valor as resultado,
+													resultados_ind.respuesta as resp
 										 FROM resultados_ind, evaluaciones_ind, valores
 										WHERE resultados_ind.evaluacion_id = evaluaciones_ind.id
 											AND resultados_ind.respuesta = valores.id
@@ -921,11 +997,36 @@ while ($fila_indicador = $indicador_result->fetch_assoc()){
 		$fila_evaluacion = $evaluacion_result->fetch_assoc();
 $html.="
 		<tr>
-		<td class='chica'>".$fila_indicador['descripcion']."</td>
-		<td class='chica'>".$fila_indicador['no_cumplido']."</td>
-		<td class='chica'>".$fila_indicador['minimo']."</td>
-		<td class='chica'>".$fila_indicador['esperado']."</td>
-		<td class='chica'>".$fila_indicador['sobre_esperado']."</td>
+		<td class='chica'>".$fila_indicador['descripcion']."</td>";
+		if ($fila_evaluacion['resp'] == 1) {
+			$html.='
+			<td style="background-color:lightblue" class="chica">'.$fila_indicador['no_cumplido'].'</td>
+			<td class="chica">'.$fila_indicador['minimo'].'</td>
+			<td class="chica">'.$fila_indicador['esperado'].'</td>
+			<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+		}
+		else if ($fila_evaluacion['resp'] == 2) {
+			$html.='
+			<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
+			<td style="background-color:lightblue" class="chica">'.$fila_indicador['minimo'].'</td>
+			<td class="chica">'.$fila_indicador['esperado'].'</td>
+			<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+		}
+		else if ($fila_evaluacion['resp'] == 3) {
+			$html.='
+			<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
+			<td class="chica">'.$fila_indicador['minimo'].'</td>
+			<td style="background-color:lightblue" class="chica">'.$fila_indicador['esperado'].'</td>
+			<td class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+		}
+		else if ($fila_evaluacion['resp'] == 4) {
+			$html.='
+			<td class="chica">'.$fila_indicador['no_cumplido'].'</td>
+			<td class="chica">'.$fila_indicador['minimo'].'</td>
+			<td class="chica">'.$fila_indicador['esperado'].'</td>
+			<td style="background-color:lightblue" class="chica">'.$fila_indicador['sobre_esperado'].'</td>';
+		}
+		$html.="
 		<td>".$ponderacion."%</td>
 		<td>".$fila_evaluacion['resultado']."%</td>
 		</tr>";
@@ -975,6 +1076,12 @@ $html.="<h3> Competencias del Perfil: ".$perfil."</h3>
 		<td></td>
 		<td> Nivel esperado </td>
 		<td> 3 </td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
 		<td></td>
 	</tr>
 </tbody>
@@ -1232,41 +1339,69 @@ $html.="
 				<th> Evaluador </th>
 				<th> Peso opinante </th>
 				<th> Porcentaje </th>
+				<th> Nivel </th>
 			</tr>
 	</thead>
 	<tbody>
 		<tr>
 		<td>Auto-Evaluación</td>
 		<td>10%</td>
-		<td>".$fila_autoeval['resultado']."%</td>
-		</tr>";
+		<td>".$fila_autoeval['resultado']."%</td>";
+		if ($fila_autoeval['resultado'] <= 33.33) { $html.="<td>1</td>";}
+		elseif ($fila_autoeval['resultado'] <= 66.66) { $html.="<td>2</td>";}
+		elseif ($fila_autoeval['resultado'] <= 99.99) { $html.="<td>3</td>";}
+		else { $html.="<td>4</td>"; }
+		$html.="</tr>";
 		if ($verificador){
 				$html.="<tr>
 				<td>Superior</td>
 				<td>75%</td>
-				<td>".$fila_sup['resultado']."%</td>
+				<td>".$fila_sup['resultado']."%</td>";
+				if ($fila_sup['resultado'] <= 33.33) { $html.="<td>1</td>";}
+				elseif ($fila_sup['resultado'] <= 66.66) { $html.="<td>2</td>";}
+				elseif ($fila_sup['resultado'] <= 99.99) { $html.="<td>3</td>";}
+				else { $html.="<td>4</td>"; }
+				$html.="
 				</tr>
 				<tr>
 				<td>Colaboradores</td>
 				<td>15%</td>
-				<td>".$fila_col['resultado']."%</td>
-				</tr>
+				<td>".$fila_col['resultado']."%</td>";
+				if ($fila_col['resultado'] <= 33.33) { $html.="<td>1</td>";}
+				elseif ($fila_col['resultado'] <= 66.66) { $html.="<td>2</td>";}
+				elseif ($fila_col['resultado'] <= 99.99) { $html.="<td>3</td>";}
+				else { $html.="<td>4</td>"; }
+				$html.="</tr>
 				<tr>
 				<td>Total</td>
 				<td>100%</td>
-				<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>
-				</tr>";
+				<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>";
+				if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { $html.="<td>1</td>";}
+				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.66) { $html.="<td>2</td>";}
+				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 99.99) { $html.="<td>3</td>";}
+				else { $html.="<td>4</td>"; }
+				$html.="</tr>";
 			}
 		else {
 			$html.="<tr>
 			<td>Superior</td>
 			<td>90%</td>
-			<td>".$fila_sup['resultado']."%</td>
+			<td>".$fila_sup['resultado']."%</td>";
+			if ($fila_sup['resultado'] <= 33.33) { $html.="<td>1</td>";}
+			elseif ($fila_sup['resultado'] <= 66.66) { $html.="<td>2</td>";}
+			elseif ($fila_sup['resultado'] <= 99.99) { $html.="<td>3</td>";}
+			else { $html.="<td>4</td>"; }
+			$html.="
 			</tr>
 			<tr>
 			<td>Total</td>
 			<td>100%</td>
-			<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>
+			<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>";
+			if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { $html.="<td>1</td>";}
+			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.66) { $html.="<td>2</td>";}
+			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 99.99) { $html.="<td>3</td>";}
+			else { $html.="<td>4</td>"; }
+			$html.="
 			</tr>";
 		}
 		$html.="</tbody>
@@ -1274,6 +1409,12 @@ $html.="
 						<br><br><br><br><br><br><br>";
 	}
 }
+$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).' % - Nivel: ';
+if (ROUND($comp_general,2) <= 33.33) { $html.='1 </h4>'; }
+else if (ROUND($comp_general,2) <= 66.67) {$html.='2 </h4>'; }
+else if (ROUND($comp_general,2) <= 100.00) {$html.='3 </h4>'; }
+else { $html.='4 </h4>';}
+
 //$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 //$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 //$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);

@@ -196,7 +196,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 													FROM indicadores, indicador_cargos
 												 WHERE indicadores.meta_id = $meta
 												 	 AND indicador_cargos.cargo_id = $cargo_id
-													 AND indicador_cargos.indicador_id = indicadores.id";
+													 AND indicador_cargos.indicador_id = indicadores.id
+											ORDER BY indicadores.id";
 					$indicador_result = $conn->query($indicador) or die ("database error:". $conn->error);?>
 					<div class="table-responsive">
 					<h4 class="meta"><?php echo "Meta N°".$meta." : ".$meta_desc; ?></h4>
@@ -250,6 +251,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 	include('footer.php'); ?>
 	<script type="text/javascript">
 	window.onload = function(){
+		Chart.defaults.global.defaultFontStyle = 'bold';
 		var metas = <?php echo $meta_general ?>;
 		var general = <?php echo $prom_general ?>;
 		var ctx = document.getElementById("myChart");
@@ -257,6 +259,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 		type: 'bar',
 		data: {
 				labels: ["Metas","General"],
+				scaleFontStyle: "bold",
 				datasets: [{
 						data: [metas, general],
 						backgroundColor: [
@@ -441,8 +444,8 @@ else if ($respind_row['res'] == 0) { ?>
 				<tr>
 					<td> Destacado </td>
 					<td> 4 </td>
-					<td> 133.32 % </td>
-					<td> 100 - 133.32 %</td>
+					<td> 133.33 % </td>
+					<td> 100 - 133.33 %</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -499,7 +502,8 @@ else if ($respind_row['res'] == 0) { ?>
 											AND cargo_id = $cargo_id
 											AND ciclo_id = $ciclo_id
 											AND asignatura_id = $asi_id
-											AND competencias.id = competencia_id";
+											AND competencias.id = competencia_id
+								 ORDER BY competencias.id";
 	$comp_result = $conn->query($comp) or die("database error:". $conn->error);
 	$resultado_autoeval2 = 0;
 	$resultado_superior2 = 0;
@@ -811,6 +815,7 @@ else if ($respind_row['res'] == 0) { ?>
 	?>
 	<script type="text/javascript">
 	window.onload = function(){
+		Chart.defaults.global.defaultFontStyle = 'bold';
 		var competencias = <?php echo $comp_general ?>;
 		var general = <?php echo $prom_general ?>;
 		var ctx = document.getElementById("myChart");
@@ -1333,7 +1338,8 @@ $prom_general = $resultado['total_result'];
 												FROM indicadores, indicador_cargos
 											 WHERE indicadores.meta_id = $meta
 											 	 AND indicador_cargos.cargo_id = $cargo_id
-												 AND indicador_cargos.indicador_id = indicadores.id";
+												 AND indicador_cargos.indicador_id = indicadores.id
+										ORDER BY indicadores.id";
 				$indicador_result = $conn->query($indicador) or die ("database error:". $conn->error);?>
 				<div class="table-responsive">
 				<h4 class="meta"><?php echo "Meta N°".$meta." : ".$meta_desc; ?></h4>
@@ -1417,8 +1423,8 @@ $prom_general = $resultado['total_result'];
 				<tr>
 					<td> Destacado </td>
 					<td> 4 </td>
-					<td> 133.32 % </td>
-					<td> 100 - 133.32 %</td>
+					<td> 133.33 % </td>
+					<td> 100 - 133.33 %</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -1790,6 +1796,7 @@ include('footer.php');
 ?>
 <script type="text/javascript">
 window.onload = function(){
+	Chart.defaults.global.defaultFontStyle = 'bold';
 	var competencias = <?php echo $comp_general ?>;
 	var metas = <?php echo $meta_general ?>;
 	var general = <?php echo $prom_general ?>;
