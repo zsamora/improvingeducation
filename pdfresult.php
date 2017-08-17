@@ -117,10 +117,8 @@ if ($respind_row['res'] == 0 && $respcomp_row['res'] == 0){
 					</html>";
 }
 
-
 // Caso solo Indicadores
 else if ($respcomp_row['res'] == 0) {
-	//$html.='<h3>Solo hay respuestas de indicadores (o no tiene evaluaciones de competencias)</h3><br>';
 	$respuesta = "SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 									FROM (SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
 					 								FROM evaluaciones_ind, resultados_ind, indicadores, valores
@@ -141,8 +139,8 @@ else if ($respcomp_row['res'] == 0) {
 		<table class="table">
 			<thead>
 	      <tr>
-					<th>Resultado Metas (100%)</th>
-					<th>Resultado General (100%)</th>
+					<th> Resultado Metas (100%) </th>
+					<th> Resultado General </th>
 	      </tr>
 	    </thead>
 			<tbody>
@@ -158,6 +156,7 @@ else if ($respcomp_row['res'] == 0) {
 		$html.='<img width=740 src='.$img.' /><br><br><br><br>';;
 	}
 	// Tabla con resultados generales de Metas
+	$html.="<p class='saltodepagina'/>";
 	$html.='
 				<h3> Metas del Cargo: '.$cargo.'</h3>
 				<br>
@@ -171,19 +170,19 @@ else if ($respcomp_row['res'] == 0) {
 					<tbody>
 						<tr>
 							<td> No Cumplido </td>
-							<td> 33.33 % </td>
+							<td> 33.33% </td>
 						</tr>
 						<tr>
 							<td> Mínimo </td>
-							<td> 66.66 % </td>
+							<td> 66.67% </td>
 						</tr>
 						<tr>
 							<td> Esperado </td>
-							<td> 99.99 % </td>
+							<td> 100.00% </td>
 						</tr>
 						<tr>
 							<td> Sobre lo esperado </td>
-							<td> 133.32% </td>
+							<td> 133.33% </td>
 						</tr>
 						<tr>
 							<td></td>
@@ -214,11 +213,12 @@ else if ($respcomp_row['res'] == 0) {
 														FROM indicadores, indicador_cargos
 													 WHERE indicadores.meta_id = $meta
 														 AND indicador_cargos.cargo_id = $cargo_id
-														 AND indicador_cargos.indicador_id = indicadores.id";
+														 AND indicador_cargos.indicador_id = indicadores.id
+											  ORDER BY indicadores.id";
 						$indicador_result = $conn->query($indicador) or die ("database error:". $conn->error);
 						$html.='<div class="table-responsive">
-						<h4 class="meta"> Meta N°'.$meta." ".$meta_desc.'</h4>';
-						$html.='<table class="table">
+						<h4 class="meta"> Meta N°'.$meta." ".$meta_desc.'</h4><br>';
+						$html.='<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th>Indicador</th>
@@ -249,7 +249,7 @@ else if ($respcomp_row['res'] == 0) {
 							$fila_evaluacion = $evaluacion_result->fetch_assoc();
 							$html.='
 								<tr>
-								<td class="chica">'.$fila_indicador['descripcion'].'</td>';
+								<td class="chica">N°'.$indicador.": ".$fila_indicador['descripcion'].'</td>';
 							if ($fila_evaluacion['resp'] == 1) {
 								$html.='
 								<td style="background-color:lightblue" class="chica">'.$fila_indicador['no_cumplido'].'</td>
@@ -287,7 +287,7 @@ else if ($respcomp_row['res'] == 0) {
 							}
 							$html.='</tbody></table><br>';
 						}
-						$html.='<h4 class="total"> Total: '.ROUND($total,2).' %</h4>';
+						$html.='<h4 class="total"> Total: '.ROUND($total,2).'%</h4>';
 						$html.="</body>
 										</html>";
 }
@@ -368,7 +368,7 @@ else if ($respind_row['res'] == 0) {
 			<thead>
 	      <tr>
 	        <th>Resultado Competencias (100%)</th>
-					<th>Resultado General (100%)</th>
+					<th>Resultado General</th>
 	      </tr>
 	    </thead>
 			<tbody>
@@ -400,26 +400,26 @@ else if ($respind_row['res'] == 0) {
 				<tr>
 					<td> Mínimo </td>
 					<td> 1 </td>
-					<td> 33.33 % </td>
-					<td> 0 - 33.33 %</td>
+					<td> 33.33% </td>
+					<td> 0 - 33.33%</td>
 				</tr>
 				<tr>
 					<td> En Desarrollo </td>
 					<td> 2 </td>
-					<td> 66.66 % </td>
-					<td> 33.34 - 66.66 %</td>
+					<td> 66.67% </td>
+					<td> 33.34 - 66.67%</td>
 				</tr>
 				<tr>
 					<td> Desarrollado </td>
 					<td> 3 </td>
-					<td> 99.99 % </td>
-					<td> 66.67 - 99.99 %</td>
+					<td> 100.00% </td>
+					<td> 66.67 - 100.00%</td>
 				</tr>
 				<tr>
 					<td> Destacado </td>
 					<td> 4 </td>
-					<td> 133.32 % </td>
-					<td> 100 - 133.32 %</td>
+					<td> 133.33% </td>
+					<td> 100 - 133.33%</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -576,8 +576,8 @@ else if ($respind_row['res'] == 0) {
 					<td>10%</td>
 					<td>'.$resultado_autoeval.'%</td>';
 					if ($resultado_autoeval <= 33.33) { $html.='<td>1</td>';}
-					elseif ($resultado_autoeval <= 66.66) { $html.='<td>2</td>';}
-					elseif ($resultado_autoeval <= 99.99) { $html.='<td>3</td>';}
+					elseif ($resultado_autoeval <= 66.67) { $html.='<td>2</td>';}
+					elseif ($resultado_autoeval <= 100.00) { $html.='<td>3</td>';}
 					else { $html.='<td>4</td>';}
 					$html.='</tr>';
 					if ($verificador){
@@ -586,8 +586,8 @@ else if ($respind_row['res'] == 0) {
 						<td>75%</td>
 						<td>'.$resultado_superior.'%</td>';
 						if ($resultado_superior <= 33.33) { $html.='<td>1</td>';}
-						elseif ($resultado_superior <= 66.66) { $html.='<td>2</td>';}
-						elseif ($resultado_superior <= 99.99) { $html.='<td>3</td>';}
+						elseif ($resultado_superior <= 66.67) { $html.='<td>2</td>';}
+						elseif ($resultado_superior <= 100.00) { $html.='<td>3</td>';}
 						else { $html.='<td>4</td>';}
 						$html.='</tr>
 						<tr>
@@ -595,16 +595,16 @@ else if ($respind_row['res'] == 0) {
 						<td>15%</td>
 						<td>'.$resultado_colaborador.'%</td>';
 						if ($resultado_colaborador <= 33.33) { $html.='<td>1</td>';}
-						elseif ($resultado_colaborador <= 66.66) { $html.='<td>2</td>';}
-						elseif ($resultado_colaborador <= 99.99) { $html.='<td>3</td>';}
+						elseif ($resultado_colaborador <= 66.67) { $html.='<td>2</td>';}
+						elseif ($resultado_colaborador <= 100.00) { $html.='<td>3</td>';}
 						else { $html.='<td>4</td>';}
 						$html.='</tr><tr>
 						<td>Total</td>
 						<td>100%</td>
 						<td>'.$resultado_competencia.'%</td>';
 						if ($resultado_competencia <= 33.33) { $html.='<td>1</td>';}
-						elseif ($resultado_competencia <= 66.66) { $html.='<td>2</td>';}
-						elseif ($resultado_competencia <= 99.99) { $html.='<td>3</td>';}
+						elseif ($resultado_competencia <= 66.67) { $html.='<td>2</td>';}
+						elseif ($resultado_competencia <= 100.00) { $html.='<td>3</td>';}
 						else { $html.='<td>4</td>';}
 						$html.='</tr>';
 					}
@@ -615,8 +615,8 @@ else if ($respind_row['res'] == 0) {
 						<td>90%</td>
 						<td>'.$resultado_superior.'%</td>';
 						if ($resultado_superior <= 33.33) { $html.='<td>1</td>';}
-						elseif ($resultado_superior <= 66.66) { $html.='<td>2</td>';}
-						elseif ($resultado_superior <= 99.99) { $html.='<td>3</td>';}
+						elseif ($resultado_superior <= 66.67) { $html.='<td>2</td>';}
+						elseif ($resultado_superior <= 100.00) { $html.='<td>3</td>';}
 						else { $html.='<td>4</td>';}
 						$html.='</tr>
 						<tr>
@@ -624,8 +624,8 @@ else if ($respind_row['res'] == 0) {
 						<td>100%</td>
 						<td>'.$resultado_competencia.'%</td>';
 						if ($resultado_competencia <= 33.33) { $html.='<td>1</td>';}
-						elseif ($resultado_competencia <= 66.66) { $html.='<td>2</td>';}
-						elseif ($resultado_competencia <= 99.99) { $html.='<td>3</td>';}
+						elseif ($resultado_competencia <= 66.67) { $html.='<td>2</td>';}
+						elseif ($resultado_competencia <= 100.00) { $html.='<td>3</td>';}
 						else { $html.='<td>4</td>';}
 						$html.='</tr>';
 					}
@@ -702,8 +702,8 @@ else if ($respind_row['res'] == 0) {
 					<td>10%</td>
 					<td>'.$fila_autoeval['resultado'].'%</td>';
 					if ($fila_autoeval['resultado'] <= 33.33) { $html.='<td>1</td>';}
-					elseif ($fila_autoeval['resultado'] <= 66.66) { $html.='<td>2</td>';}
-					elseif ($fila_autoeval['resultado'] <= 99.99) { $html.='<td>3</td>';}
+					elseif ($fila_autoeval['resultado'] <= 66.67) { $html.='<td>2</td>';}
+					elseif ($fila_autoeval['resultado'] <= 100.00) { $html.='<td>3</td>';}
 					else { $html.='<td>4</td>';}
 					$html.='</tr>';
 					if ($verificador){
@@ -712,8 +712,8 @@ else if ($respind_row['res'] == 0) {
 											<td>75%</td>
 											<td>'.$fila_sup['resultado'].'%</td>';
 											if ($fila_sup['resultado'] <= 33.33) { $html.='<td>1</td>';}
-											elseif ($fila_sup['resultado'] <= 66.66) { $html.='<td>2</td>';}
-											elseif ($fila_sup['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											elseif ($fila_sup['resultado'] <= 66.67) { $html.='<td>2</td>';}
+											elseif ($fila_sup['resultado'] <= 100.00) { $html.='<td>3</td>';}
 											else { $html.='<td>4</td>';}
 						$html.='</tr>';
 						$html.='<tr>
@@ -721,8 +721,8 @@ else if ($respind_row['res'] == 0) {
 											<td>15%</td>
 											<td>'.$fila_col['resultado'].'%</td>';
 											if ($fil_col['resultado'] <= 33.33) { $html.='<td>1</td>';}
-											elseif ($fil_col['resultado'] <= 66.66) { $html.='<td>2</td>';}
-											elseif ($fil_col['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											elseif ($fil_col['resultado'] <= 66.67) { $html.='<td>2</td>';}
+											elseif ($fil_col['resultado'] <= 100.00) { $html.='<td>3</td>';}
 											else { $html.='<td>4</td>';}
 						$html.='</tr>
 										<tr>
@@ -730,8 +730,8 @@ else if ($respind_row['res'] == 0) {
 											<td>100%</td>
 											<td>'.ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2).'%</td>';
 											if (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { $html.='<td>1</td>';}
-											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.66) { $html.='<td>2</td>';}
-											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 99.99) { $html.='<td>3</td>';}
+											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.67) { $html.='<td>2</td>';}
+											elseif (ROUND($fila_autoeval['resultado'] * 0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 100.00) { $html.='<td>3</td>';}
 											else { $html.='<td>4</td>';}
 						$html.='</tr>';
 					}
@@ -741,8 +741,8 @@ else if ($respind_row['res'] == 0) {
 											<td>90%</td>
 											<td>'.$fila_sup['resultado'].'%</td>';
 											if ($fila_sup['resultado'] <= 33.33) { $html.='<td>1</td>';}
-											elseif ($fila_sup['resultado'] <= 66.66) { $html.='<td>2</td>';}
-											elseif ($fila_sup['resultado'] <= 99.99) { $html.='<td>3</td>';}
+											elseif ($fila_sup['resultado'] <= 66.67) { $html.='<td>2</td>';}
+											elseif ($fila_sup['resultado'] <= 100.00) { $html.='<td>3</td>';}
 											else { $html.='<td>4</td>';}
 						$html.='</tr>
 										<tr>
@@ -750,8 +750,8 @@ else if ($respind_row['res'] == 0) {
 											<td>100%</td>
 											<td>'.ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2).'%</td>';
 											if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { $html.='<td>1</td>';}
-											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.66) { $html.='<td>2</td>';}
-											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 99.99) { $html.='<td>3</td>';}
+											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.67) { $html.='<td>2</td>';}
+											elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 100.00) { $html.='<td>3</td>';}
 											else { $html.='<td>4</td>';}
 						$html.='</tr>';
 					}
@@ -761,7 +761,7 @@ else if ($respind_row['res'] == 0) {
 							<br><br><br><br><br><br><br>';
 			}
 	}
-	$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).' % - Nivel: ';
+	$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).'% - Nivel: ';
 	if (ROUND($comp_general,2) <= 33.33) { $html.='1 </h4>'; }
 	else if (ROUND($comp_general,2) <= 66.67) {$html.='2 </h4>'; }
 	else if (ROUND($comp_general,2) <= 100.00) {$html.='3 </h4>'; }
@@ -920,19 +920,19 @@ $html.="<p class='saltodepagina'/>
 		<tbody>
 			<tr>
 				<td> No Cumplido </td>
-				<td> 33.33 % </td>
+				<td> 33.33% </td>
 			</tr>
 			<tr>
 				<td> Mínimo </td>
-				<td> 66.66 % </td>
+				<td> 66.67% </td>
 			</tr>
 			<tr>
 				<td> Esperado </td>
-				<td> 99.99 % </td>
+				<td> 100.00% </td>
 			</tr>
 			<tr>
 				<td> Sobre lo esperado </td>
-				<td> 133.32 % </td>
+				<td> 133.33% </td>
 			</tr>
 			<tr>
 				<td></td>
@@ -997,7 +997,7 @@ while ($fila_indicador = $indicador_result->fetch_assoc()){
 		$fila_evaluacion = $evaluacion_result->fetch_assoc();
 $html.="
 		<tr>
-		<td class='chica'>".$fila_indicador['descripcion']."</td>";
+		<td class='chica'>N°".$indicador.": ".$fila_indicador['descripcion']."</td>";
 		if ($fila_evaluacion['resp'] == 1) {
 			$html.='
 			<td style="background-color:lightblue" class="chica">'.$fila_indicador['no_cumplido'].'</td>
@@ -1051,26 +1051,26 @@ $html.="<h3> Competencias del Perfil: ".$perfil."</h3>
 	<tr>
 		<td> Mínimo </td>
 		<td> 1 </td>
-		<td> 33.33 % </td>
-		<td> 0 - 33.33 %</td>
+		<td> 33.33% </td>
+		<td> 0 - 33.33%</td>
 	</tr>
 	<tr>
 		<td> En Desarrollo </td>
 		<td> 2 </td>
-		<td> 66.66 % </td>
-		<td> 33.34 - 66.66 %</td>
+		<td> 66.67% </td>
+		<td> 33.34 - 66.67%</td>
 	</tr>
 	<tr>
 		<td> Desarrollado </td>
 		<td> 3 </td>
-		<td> 99.99 % </td>
-		<td> 66.67 - 99.99 %</td>
+		<td> 100.00% </td>
+		<td> 66.67 - 100.00%</td>
 	</tr>
 	<tr>
 		<td> Destacado </td>
 		<td> 4 </td>
-		<td> 133.32 % </td>
-		<td> 100 - 133.32 %</td>
+		<td> 133.33% </td>
+		<td> 100 - 133.33%</td>
 	</tr>
 	<tr>
 		<td></td>
@@ -1208,7 +1208,7 @@ $fila_autoeval2 = $autoeval2_result->fetch_assoc();*/
 		$resultado_competencia = ROUND($resultado_autoeval * 0.1 + $resultado_superior * 0.9,2);
 	}
 $html.="<p class='saltodepagina'/>
-	<h4 class='comp'>Competencia N° ".$competencia_id." : ".$competencia_nombre."</h4>
+	<h4 class='comp'>Competencia N°".$competencia_id." : ".$competencia_nombre."</h4>
 	<table class='tablelight table-condensed'>
 		<thead>
 				<tr>
@@ -1224,8 +1224,8 @@ $html.="<p class='saltodepagina'/>
 			<td>10%</td>
 			<td>".$resultado_autoeval."%</td>";
 			if ($resultado_autoeval <= 33.33) { $html.="<td>1</td>"; }
-			elseif ($resultado_autoeval <= 66.66) { $html.="<td>2</td>";}
-			elseif ($resultado_autoeval <= 99.99) { $html.="<td>3</td>";}
+			elseif ($resultado_autoeval <= 66.67) { $html.="<td>2</td>";}
+			elseif ($resultado_autoeval <= 100.00) { $html.="<td>3</td>";}
 			else { $html.="<td>4</td>";}
 			$html.="</tr>";
 			if ($verificador){
@@ -1234,8 +1234,8 @@ $html.="<p class='saltodepagina'/>
 					<td>75%</td>
 					<td>".$resultado_superior."%</td>";
 				if ($resultado_superior <= 33.33) { $html.="<td>1</td>";}
-				elseif ($resultado_superior <= 66.66) { $html.="<td>2</td>";}
-				elseif ($resultado_superior <= 99.99) { $html.="<td>3</td>";}
+				elseif ($resultado_superior <= 66.67) { $html.="<td>2</td>";}
+				elseif ($resultado_superior <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>";}
 				$html.="</tr>
 					<tr>
@@ -1243,16 +1243,16 @@ $html.="<p class='saltodepagina'/>
 					<td>15%</td>
 					<td>".$resultado_colaborador."%</td>";
 				if ($resultado_colaborador <= 33.33) { $html.="<td>1</td>";}
-				elseif ($resultado_colaborador <= 66.66) { $html.="<td>2</td>";}
-				elseif ($resultado_colaborador <= 99.99) { $html.="<td>3</td>";}
+				elseif ($resultado_colaborador <= 66.67) { $html.="<td>2</td>";}
+				elseif ($resultado_colaborador <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>";}
 				$html.="</tr><tr>
 					<td>Total</td>
 					<td>100%</td>
 					<td>".$resultado_competencia."%</td>";
 				if ($resultado_competencia <= 33.33) { $html.="<td>1</td>";}
-				elseif ($resultado_competencia <= 66.66) { $html.="<td>2</td>";}
-				elseif ($resultado_competencia <= 99.99) { $html.="<td>3</td>";}
+				elseif ($resultado_competencia <= 66.67) { $html.="<td>2</td>";}
+				elseif ($resultado_competencia <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>";}
 				$html.="</tr>";
 			}
@@ -1263,8 +1263,8 @@ $html.="<p class='saltodepagina'/>
 					<td>90%</td>
 					<td>".$resultado_superior."%</td>";
 				if ($resultado_superior <= 33.33) { $html.="<td>1</td>";}
-				elseif ($resultado_superior <= 66.66) { $html.="<td>2</td>";}
-				elseif ($resultado_superior <= 99.99) { $html.="<td>3</td>";}
+				elseif ($resultado_superior <= 66.67) { $html.="<td>2</td>";}
+				elseif ($resultado_superior <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>";}
 				$html.="</tr>
 					<tr>
@@ -1272,8 +1272,8 @@ $html.="<p class='saltodepagina'/>
 					<td>100%</td>
 					<td>".$resultado_competencia."%</td>";
 				if ($resultado_competencia <= 33.33) { $html.="<td>1</td>";}
-				elseif ($resultado_competencia <= 66.66) { $html.="<td>2</td>";}
-				elseif ($resultado_competencia <= 99.99) { $html.="<td>3</td>";}
+				elseif ($resultado_competencia <= 66.67) { $html.="<td>2</td>";}
+				elseif ($resultado_competencia <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>"; }
 				$html.="</tr>";
 			}
@@ -1348,8 +1348,8 @@ $html.="
 		<td>10%</td>
 		<td>".$fila_autoeval['resultado']."%</td>";
 		if ($fila_autoeval['resultado'] <= 33.33) { $html.="<td>1</td>";}
-		elseif ($fila_autoeval['resultado'] <= 66.66) { $html.="<td>2</td>";}
-		elseif ($fila_autoeval['resultado'] <= 99.99) { $html.="<td>3</td>";}
+		elseif ($fila_autoeval['resultado'] <= 66.67) { $html.="<td>2</td>";}
+		elseif ($fila_autoeval['resultado'] <= 100.00) { $html.="<td>3</td>";}
 		else { $html.="<td>4</td>"; }
 		$html.="</tr>";
 		if ($verificador){
@@ -1358,8 +1358,8 @@ $html.="
 				<td>75%</td>
 				<td>".$fila_sup['resultado']."%</td>";
 				if ($fila_sup['resultado'] <= 33.33) { $html.="<td>1</td>";}
-				elseif ($fila_sup['resultado'] <= 66.66) { $html.="<td>2</td>";}
-				elseif ($fila_sup['resultado'] <= 99.99) { $html.="<td>3</td>";}
+				elseif ($fila_sup['resultado'] <= 66.67) { $html.="<td>2</td>";}
+				elseif ($fila_sup['resultado'] <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>"; }
 				$html.="
 				</tr>
@@ -1368,8 +1368,8 @@ $html.="
 				<td>15%</td>
 				<td>".$fila_col['resultado']."%</td>";
 				if ($fila_col['resultado'] <= 33.33) { $html.="<td>1</td>";}
-				elseif ($fila_col['resultado'] <= 66.66) { $html.="<td>2</td>";}
-				elseif ($fila_col['resultado'] <= 99.99) { $html.="<td>3</td>";}
+				elseif ($fila_col['resultado'] <= 66.67) { $html.="<td>2</td>";}
+				elseif ($fila_col['resultado'] <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>"; }
 				$html.="</tr>
 				<tr>
@@ -1377,8 +1377,8 @@ $html.="
 				<td>100%</td>
 				<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>";
 				if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { $html.="<td>1</td>";}
-				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.66) { $html.="<td>2</td>";}
-				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 99.99) { $html.="<td>3</td>";}
+				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.67) { $html.="<td>2</td>";}
+				elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 100.00) { $html.="<td>3</td>";}
 				else { $html.="<td>4</td>"; }
 				$html.="</tr>";
 			}
@@ -1388,8 +1388,8 @@ $html.="
 			<td>90%</td>
 			<td>".$fila_sup['resultado']."%</td>";
 			if ($fila_sup['resultado'] <= 33.33) { $html.="<td>1</td>";}
-			elseif ($fila_sup['resultado'] <= 66.66) { $html.="<td>2</td>";}
-			elseif ($fila_sup['resultado'] <= 99.99) { $html.="<td>3</td>";}
+			elseif ($fila_sup['resultado'] <= 66.67) { $html.="<td>2</td>";}
+			elseif ($fila_sup['resultado'] <= 100.00) { $html.="<td>3</td>";}
 			else { $html.="<td>4</td>"; }
 			$html.="
 			</tr>
@@ -1398,8 +1398,8 @@ $html.="
 			<td>100%</td>
 			<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>";
 			if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { $html.="<td>1</td>";}
-			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.66) { $html.="<td>2</td>";}
-			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 99.99) { $html.="<td>3</td>";}
+			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.67) { $html.="<td>2</td>";}
+			elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 100.00) { $html.="<td>3</td>";}
 			else { $html.="<td>4</td>"; }
 			$html.="
 			</tr>";
@@ -1409,7 +1409,7 @@ $html.="
 						<br><br><br><br><br><br><br>";
 	}
 }
-$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).' % - Nivel: ';
+$html.='<br><br><br><h4 class="total"> Total: '.ROUND($comp_general,2).'% - Nivel: ';
 if (ROUND($comp_general,2) <= 33.33) { $html.='1 </h4>'; }
 else if (ROUND($comp_general,2) <= 66.67) {$html.='2 </h4>'; }
 else if (ROUND($comp_general,2) <= 100.00) {$html.='3 </h4>'; }

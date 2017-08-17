@@ -73,15 +73,15 @@ $tipo_row = $tipo_res->fetch_assoc();
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Tipo de Evaluación</th>
-					<th>Evaluado</th>
-					<th>Cargo</th>
-					<th>Ciclo</th>
-					<th>Asignatura </th>
-	        <th>Evaluador</th>
-					<th>Cargo</th>
-					<th>Ciclo</th>
-					<th>Asignatura</th>
+					<th> Tipo de Evaluación </th>
+					<th id='desc'> Evaluado </th>
+					<th id='desc'> Cargo </th>
+					<th id='desc'> Ciclo </th>
+					<th id='desc'> Asignatura </th>
+	        <th> Evaluador </th>
+					<th> Cargo </th>
+					<th> Ciclo </th>
+					<th> Asignatura </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -115,15 +115,16 @@ $tipo_row = $tipo_res->fetch_assoc();
 											AND ciclo_sup = $evaluador_ciclo
 											AND asignatura_sup = $evaluador_asig
 											AND tipo_id = $tipo_eval
-											AND competencias.id = competencia_id";
+											AND competencias.id = competencia_id
+								 ORDER BY competencia_id";
 	$comp_result = $conn->query($comp) or die("database error:". $conn->error);
 	while($fila_comp = $comp_result->fetch_assoc()){ ?>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
 					<tr>
-						<th id='desc'>Competencia</th>
-						<th>Descripción </th>
+						<th id='desc'> Competencia </th>
+						<th> Descripción </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -132,7 +133,7 @@ $tipo_row = $tipo_res->fetch_assoc();
 					$comp_nombre = $fila_comp['nombre'];
 					$comp_desc = $fila_comp['descripcion'];
 					echo "<tr>";
-					echo "<td>".$comp_nombre."</td>";
+					echo "<td> N°".$comp_id.": ".$comp_nombre."</td>";
 					echo "<td>".$comp_desc."</td>";
 					echo "</tr>"; ?>
 				</tbody>
@@ -142,13 +143,13 @@ $tipo_row = $tipo_res->fetch_assoc();
 		<table class="table">
 			<thead>
 				<tr>
-					<!--<th>Evaluacion ID</th>-->
-					<th id='desc'>Criterios </th>
-					<th>Mínimo</th>
-					<th>En Desarrollo</th>
-	        <th>Desarrollado</th>
-					<th>Superior</th>
-					<th>Ponderación</th>
+					<th id='desc'> Criterios </th>
+					<th> Mínimo </th>
+					<th> En Desarrollo </th>
+	        <th> Desarrollado </th>
+					<th> Superior </th>
+					<th> Ponderación </th>
+					<th> Porcentaje </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -167,7 +168,8 @@ $tipo_row = $tipo_res->fetch_assoc();
 								AND ciclo_sup = $evaluador_ciclo
 								AND asignatura_sup = $evaluado_asig
 								AND tipo_id = $tipo_eval
-								AND competencia_id = $comp_id";
+								AND competencia_id = $comp_id
+					 ORDER BY criterio_id";
 			$crit_result = $conn->query($crit) or die("database error:". $conn->error);
 			while($fila_crit = $crit_result->fetch_assoc()){
 				$eval_id = $fila_crit['id'];
@@ -185,59 +187,60 @@ $tipo_row = $tipo_res->fetch_assoc();
 				if ($estado == 1) {
 					$resultado_row = $resultado_result->fetch_assoc();
 					echo "<tr>";
-					//echo "<td>".$eval_id."</td>";
-					echo "<td>".$info_row["crit_desc"]."</td>";
+					echo "<td> N°".$crit_id.": ".$info_row["crit_desc"]."</td>";
 					// Primer cuadro
 					if ($resultado_row['respuesta'] == 1) {
-						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='1' checked='checked'";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='1' checked='checked'>" . $info_row["minimo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
+						echo "<td>". $info_row["ponderacion"]."%</td>";
+						echo "<td id='porcentaje'> 33.33%</td>";
 					}
-					else {
-						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'";
-					}
-					echo ">" . $info_row["minimo"]."</td>";
 					// Segundo cuadro
-					if ($resultado_row['respuesta'] == 2) {
-						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='2' checked='checked'";
+					else if ($resultado_row['respuesta'] == 2) {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='2' checked='checked'>" . $info_row["en_desarrollo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
+						echo "<td>". $info_row["ponderacion"]."%</td>";
+						echo "<td id='porcentaje'> 66.67%</td>";
 					}
-					else {
-						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'";
-					}
-					echo ">" . $info_row["en_desarrollo"]."</td>";
 					// Tercer cuadro
-					if ($resultado_row['respuesta'] == 3) {
-						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='3' checked='checked'";
+					else if ($resultado_row['respuesta'] == 3) {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='3' checked='checked'>" . $info_row["desarrollado"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
+						echo "<td>". $info_row["ponderacion"]."%</td>";
+						echo "<td id='porcentaje'> 100.00%</td>";
 					}
-					else {
-						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'";
-					}
-					echo ">" . $info_row["desarrollado"]."</td>";
 					// Cuarto cuadro
-					if ($resultado_row['respuesta'] == 4) {
-						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='4' checked='checked'";
+					else if ($resultado_row['respuesta'] == 4) {
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
+						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
+						echo "<td id='select' style='background-color:lightblue'><input type='radio' name='".$eval_id."' value ='4' checked='checked'>" . $info_row["superior"]."</td>";
+						echo "<td>". $info_row["ponderacion"]."%</td>";
+						echo "<td id='porcentaje'> 133.33%</td>";
 					}
-					else {
-						echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'";
-					}
-					echo ">" . $info_row["superior"]."</td>";
-					echo "<td>". $info_row["ponderacion"]."%</td>";
-					echo "</tr>";
 				}
 				else {
 					echo "<tr>";
-					//echo "<td>".$eval_id."</td>";
-					echo "<td>".$info_row["crit_desc"]."</td>";
+					echo "<td> N°".$crit_id.": ".$info_row["crit_desc"]."</td>";
 					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='1'>" . $info_row["minimo"]."</td>";
 					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='2'>" . $info_row["en_desarrollo"]."</td>";
 					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='3'>" . $info_row["desarrollado"]."</td>";
 					echo "<td id='select'><input type='radio' name='".$eval_id."' value ='4'>" . $info_row["superior"]."</td>";
 					echo "<td>". $info_row["ponderacion"]."%</td>";
-					echo "</tr>";
+					echo "<td id='porcentaje'> %</td>";
 				}
-				}?>
+				echo "</tr>";
+				} ?>
 			</tbody>
 		</table>
 	</div>
-	<?php }?>
+	<?php } ?>
 	<br>
 		<div class="form-group">
 			<center>
@@ -254,6 +257,20 @@ $tipo_row = $tipo_res->fetch_assoc();
 			$(this).css('background-color','lightblue');
 			$(this).siblings().css( "background-color",'white');
 			$(this).find('input').prop('checked',true);
+			var siblings = $(this).siblings();
+			var value = $(this).find('input').attr('value');
+			if (value == 1) {
+					siblings[5].innerHTML = "33.33%";
+			}
+			else if (value == 2) {
+					siblings[5].innerHTML = "66.67%";
+			}
+			else if (value == 3) {
+					siblings[5].innerHTML = "100.00%";
+			}
+			else {
+					siblings[5].innerHTML = "133.33%";
+			}
 		});
 		$('#send_button2').click(function() {
 	    var val = $('input:checked').serialize();

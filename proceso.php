@@ -145,7 +145,7 @@ include('navbar.php');
 				&cic2_id=".$fila_ind['ciclo_sup']."
 				&asi2_id=".$fila_ind['asignatura_sup']."
 				&tipo_eval=".$fila_ind['tipo_id']."
-				'> Terminado </a></td>";
+				'> Terminada </a></td>";
 		}
 		else if ($nresp_row['res']==0){
 			echo "<td> <a href='evaluacionind.php?
@@ -288,7 +288,7 @@ include('navbar.php');
 				&cic2_id=".$fila_comp['ciclo_sup']."
 				&asi2_id=".$fila_comp['asignatura_sup']."
 				&tipo_eval=".$fila_comp['tipo_id']."
-				'> Terminado </a></td>";
+				'> Terminada </a></td>";
 		}
 		else if ($nresp_row['res']==0) {
 			echo "<td> <a href='evaluacioncomp.php?

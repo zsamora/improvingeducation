@@ -25,13 +25,13 @@ $proceso = $_SESSION['proceso_id'];
 $usuario_info = "SELECT usuarios.nombre as nombre, usuarios.apellidop as apellido,
 												cargos.nombre as cargo, ciclos.nombre as ciclo,
 												asignaturas.nombre as asignatura, perfiles.nombre as perfil
-									FROM cargos, ciclos, asignaturas, usuarios, trabaja, perfiles
+									 FROM cargos, ciclos, asignaturas, usuarios, trabaja, perfiles
 									WHERE cargos.id = $cargo_id
-									AND ciclos.id = $ciclo_id
-									AND asignaturas.id = $asi_id
-									AND usuarios.id = $usuario_id
-									AND trabaja.usuario_id = $usuario_id
-									AND perfiles.id = trabaja.perfil_id";
+										AND ciclos.id = $ciclo_id
+										AND asignaturas.id = $asi_id
+										AND usuarios.id = $usuario_id
+										AND trabaja.usuario_id = $usuario_id
+										AND perfiles.id = trabaja.perfil_id";
 $usuario_result = $conn->query($usuario_info) or die("database error:". $conn->error);
 $resultado = $usuario_result->fetch_assoc();
 // Tabla información de usuario ?>
@@ -48,11 +48,11 @@ $resultado = $usuario_result->fetch_assoc();
 	<table class="table">
 		<thead>
       <tr>
-				<th>Nombre</th>
-				<th>Apellido</th>
-        <th>Cargo</th>
-				<th>Ciclo</th>
-				<th>Asignatura</th>
+				<th> Nombre </th>
+				<th> Apellido </th>
+        <th> Cargo </th>
+				<th> Ciclo </th>
+				<th> Asignatura </th>
       </tr>
     </thead>
 		<tbody>
@@ -123,8 +123,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-					<th class="titulo-meta">Resultado Metas (100%)</th>
-					<th class="titulo-gen">Resultado General (100%)</th>
+					<th class="titulo-meta"> Resultado Metas (100%) </th>
+					<th class="titulo-gen"> Resultado General </th>
 	      </tr>
 	    </thead>
 			<tbody style="text-align:center">
@@ -155,19 +155,19 @@ else if ($respcomp_row['res'] == 0) { ?>
 				<tbody>
 					<tr>
 						<td> No Cumplido </td>
-						<td> 33 % </td>
+						<td> 33.33% </td>
 					</tr>
 					<tr>
 						<td> Mínimo </td>
-						<td> 67 % </td>
+						<td> 66.67% </td>
 					</tr>
 					<tr>
 						<td> Esperado </td>
-						<td> 100 % </td>
+						<td> 100.00% </td>
 					</tr>
 					<tr>
 						<td> Sobre lo esperado </td>
-						<td> 133 % </td>
+						<td> 133.33% </td>
 					</tr>
 				</tbody>
 			</table>
@@ -204,13 +204,13 @@ else if ($respcomp_row['res'] == 0) { ?>
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Indicador</th>
-								<th>No Cumplido</th>
-								<th>Mínimo</th>
-								<th>Esperado </th>
-				        <th>Sobre lo esperado</th>
-								<th>Ponderación</th>
-								<th>Cumplimiento</th>
+								<th> Indicador </th>
+								<th> No Cumplido </th>
+								<th> Mínimo </th>
+								<th> Esperado </th>
+				        <th> Sobre lo esperado </th>
+								<th> Ponderación </th>
+								<th> Cumplimiento </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -218,7 +218,8 @@ else if ($respcomp_row['res'] == 0) { ?>
 					while ($fila_indicador = $indicador_result->fetch_assoc()){
 						$indicador = $fila_indicador["id"];
 						$ponderacion = $fila_indicador['ponderacion'];
-						$evaluacion = "SELECT ROUND(SUM(valor)/COUNT(valor),2) as resultado
+						$evaluacion = "SELECT valor as resultado,
+																	resultados_ind.respuesta as resp
 						  							 FROM resultados_ind, evaluaciones_ind, valores
 														WHERE resultados_ind.evaluacion_id = evaluaciones_ind.id
 														  AND resultados_ind.respuesta = valores.id
@@ -231,11 +232,31 @@ else if ($respcomp_row['res'] == 0) { ?>
 						$evaluacion_result = $conn->query($evaluacion) or die("database error:". $conn->error);
 						$fila_evaluacion = $evaluacion_result->fetch_assoc();
 						echo "<tr>";
-						echo "<td>".$fila_indicador['descripcion']."</td>";
-						echo "<td>".$fila_indicador['no_cumplido']."</td>";
-						echo "<td>".$fila_indicador['minimo']."</td>";
-						echo "<td>".$fila_indicador['esperado']."</td>";
-						echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+						echo "<td> N°".$indicador.": ".$fila_indicador['descripcion']."</td>";
+						if ($fila_evaluacion['resp'] == 1) {
+							echo "<td style='background-color:lightblue'>".$fila_indicador['no_cumplido']."</td>";
+							echo "<td>".$fila_indicador['minimo']."</td>";
+							echo "<td>".$fila_indicador['esperado']."</td>";
+							echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+						}
+						else if ($fila_evaluacion['resp'] == 2) {
+							echo "<td>".$fila_indicador['no_cumplido']."</td>";
+							echo "<td style='background-color:lightblue'>".$fila_indicador['minimo']."</td>";
+							echo "<td>".$fila_indicador['esperado']."</td>";
+							echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+						}
+						else if ($fila_evaluacion['resp'] == 3) {
+							echo "<td>".$fila_indicador['no_cumplido']."</td>";
+							echo "<td>".$fila_indicador['minimo']."</td>";
+							echo "<td style='background-color:lightblue'>".$fila_indicador['esperado']."</td>";
+							echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+						}
+						else if ($fila_evaluacion['resp'] == 4) {
+							echo "<td>".$fila_indicador['no_cumplido']."</td>";
+							echo "<td>".$fila_indicador['minimo']."</td>";
+							echo "<td>".$fila_indicador['esperado']."</td>";
+							echo "<td style='background-color:lightblue'>".$fila_indicador['sobre_esperado']."</td>";
+						}
 						echo "<td>".$ponderacion."%</td>";
 						echo "<td>".$fila_evaluacion['resultado']."%</td>";
 						echo "</tr>";
@@ -245,7 +266,7 @@ else if ($respcomp_row['res'] == 0) { ?>
 						echo "</table>";
 					}
 					?>
-					<h3 class="total"> Total: <?php echo ROUND($total,2); ?> %</h3>
+					<br><h3 class="total"> Total: <?php echo ROUND($total,2); ?>%</h3>
 				</div>
 <?php
 	include('footer.php'); ?>
@@ -317,11 +338,9 @@ else if ($respcomp_row['res'] == 0) { ?>
 	});
 	};
 	</script>
-
 <?php
 }
-
-// Caso Solo respuestas de competencia
+// Caso solo respuestas de competencia
 else if ($respind_row['res'] == 0) { ?>
 	<h2>Solo hay respuestas de competencias (o no tiene evaluaciones de indicadores)</h2>
 	<br>
@@ -339,6 +358,7 @@ else if ($respind_row['res'] == 0) { ?>
 	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 	$fila_col = $colaborador_result->fetch_assoc();
 	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+	// No hay colaborador
 	if (!$verificador) {
 		$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
 										FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
@@ -362,6 +382,7 @@ else if ($respind_row['res'] == 0) { ?>
 									WHERE ponderacion_tipo2.id = tipo_id
 							 GROUP BY competencia_id) as tablita";
 	}
+	// Si hay colaborador
 	else {
 	$respuesta = "SELECT ROUND(SUM(resultado) / COUNT(resultado),2) as resultado
 		 							FROM (SELECT competencia_id, ROUND(SUM(tabla.resultado * (ponderacion / 100.0)),2) as resultado
@@ -394,8 +415,8 @@ else if ($respind_row['res'] == 0) { ?>
 		<table class="table">
 			<thead>
 	      <tr>
-	        <th class="titulo-comp">Resultado Competencias (100%)</th>
-					<th class="titulo-gen">Resultado General (100%)</th>
+	        <th class="titulo-comp"> Resultado Competencias (100%) </th>
+					<th class="titulo-gen"> Resultado General </th>
 	      </tr>
 	    </thead>
 			<tbody>
@@ -418,7 +439,7 @@ else if ($respind_row['res'] == 0) { ?>
 				<tr>
 					<th> Leyenda </th>
 					<th> Nivel </th>
-					<th> Porcentaje (%)</th>
+					<th> Porcentaje (%) </th>
 					<th> Rango de Evaluación </th>
 				</tr>
 			</thead>
@@ -426,26 +447,26 @@ else if ($respind_row['res'] == 0) { ?>
 				<tr>
 					<td> Mínimo </td>
 					<td> 1 </td>
-					<td> 33.33 % </td>
-					<td> 0 - 33.33 %</td>
+					<td> 33.33% </td>
+					<td> 0 - 33.33%</td>
 				</tr>
 				<tr>
 					<td> En Desarrollo </td>
 					<td> 2 </td>
-					<td> 66.66 % </td>
-					<td> 33.34 - 66.66 %</td>
+					<td> 66.67% </td>
+					<td> 33.34 - 66.67%</td>
 				</tr>
 				<tr>
 					<td> Desarrollado </td>
 					<td> 3 </td>
-					<td> 99.99 % </td>
-					<td> 66.67 - 99.99 %</td>
+					<td> 100.00% </td>
+					<td> 66.67 - 100.00%</td>
 				</tr>
 				<tr>
 					<td> Destacado </td>
 					<td> 4 </td>
-					<td> 133.33 % </td>
-					<td> 100 - 133.33 %</td>
+					<td> 133.33% </td>
+					<td> 100.00 - 133.33%</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -497,13 +518,12 @@ else if ($respind_row['res'] == 0) { ?>
 	// $comp_array[x][5] -> entrega general
 	$comp = "SELECT DISTINCT competencia_id, competencias.nombre as nombre
 											FROM evaluaciones_comp, competencias
-											WHERE proceso_id = $proceso
-											AND evaluado_id = $usuario_id
-											AND cargo_id = $cargo_id
-											AND ciclo_id = $ciclo_id
-											AND asignatura_id = $asi_id
-											AND competencias.id = competencia_id
-								 ORDER BY competencias.id";
+										 WHERE proceso_id = $proceso
+											 AND evaluado_id = $usuario_id
+											 AND cargo_id = $cargo_id
+											 AND ciclo_id = $ciclo_id
+											 AND asignatura_id = $asi_id
+											 AND competencias.id = competencia_id";
 	$comp_result = $conn->query($comp) or die("database error:". $conn->error);
 	$resultado_autoeval2 = 0;
 	$resultado_superior2 = 0;
@@ -543,29 +563,29 @@ else if ($respind_row['res'] == 0) { ?>
 		$autoeval_result = $conn->query($autoeval) or die("database error:". $conn->error);
 		$fila_autoeval = $autoeval_result->fetch_assoc();
 		$autoeval2 = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
-								 FROM resultados_comp, evaluaciones_comp, valores
-								WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
-									AND resultados_comp.respuesta = valores.id
-									AND evaluado_id = $usuario_id
-									AND cargo_id = $cargo_id
-									AND ciclo_id = $ciclo_id
-									AND asignatura_id = $asi_id
-									AND proceso_id = $proceso
-									AND criterio_id = $criterio
-									AND tipo_id = 1";
+								 		FROM resultados_comp, evaluaciones_comp, valores
+									 WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+									 	 AND resultados_comp.respuesta = valores.id
+										 AND evaluado_id = $usuario_id
+										 AND cargo_id = $cargo_id
+										 AND ciclo_id = $ciclo_id
+										 AND asignatura_id = $asi_id
+										 AND proceso_id = $proceso
+										 AND criterio_id = $criterio
+										 AND tipo_id = 1";
 	$autoeval2_result = $conn->query($autoeval2) or die("database error:". $conn->error);
 	$fila_autoeval2 = $autoeval2_result->fetch_assoc();
-		$superior = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
-									 FROM resultados_comp, evaluaciones_comp, valores
-									WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
-									  AND resultados_comp.respuesta = valores.id
-									  AND evaluado_id = $usuario_id
-				 					  AND cargo_id = $cargo_id
-				 					  AND ciclo_id = $ciclo_id
-				 					  AND asignatura_id = $asi_id
-									  AND proceso_id = $proceso
-										AND criterio_id = $criterio
-							 			AND tipo_id = 2";
+	$superior = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
+								 FROM resultados_comp, evaluaciones_comp, valores
+								WHERE resultados_comp.evaluacion_id = evaluaciones_comp.id
+								  AND resultados_comp.respuesta = valores.id
+								  AND evaluado_id = $usuario_id
+				 				  AND cargo_id = $cargo_id
+				 				  AND ciclo_id = $ciclo_id
+				 				  AND asignatura_id = $asi_id
+								  AND proceso_id = $proceso
+									AND criterio_id = $criterio
+							 		AND tipo_id = 2";
 		$superior_result = $conn->query($superior) or die("database error:". $conn->error);
 		$fila_sup = $superior_result->fetch_assoc();
 		$colaborador = "SELECT ROUND(SUM(valor) / COUNT(valor),2) as resultado
@@ -582,7 +602,7 @@ else if ($respind_row['res'] == 0) { ?>
 		$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 		$fila_col = $colaborador_result->fetch_assoc();
 		$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
-		if ($verificador){
+		if ($verificador) {
 			$resultado_autoeval += $fila_autoeval['resultado'];
 			$resultado_superior += $fila_sup['resultado'];
 			$resultado_colaborador += $fila_col['resultado'];
@@ -602,7 +622,7 @@ else if ($respind_row['res'] == 0) { ?>
 		$resultado_superior2 += $resultado_superior;
 		$resultado_colaborador = ROUND($resultado_colaborador/$contador,2);
 		$resultado_colaborador2 += $resultado_colaborador;
-		if ($verificador){
+		if ($verificador) {
 				$resultado_competencia = ROUND($resultado_autoeval * 0.1 + $resultado_superior * 0.75 + $resultado_colaborador * 0.15,2);
 				$comp_array->append(array($competencia_id,$competencia_nombre,$resultado_autoeval,$resultado_superior,$resultado_colaborador,$resultado_competencia));
 				$comp_nombres->append($competencia_nombre);
@@ -626,22 +646,21 @@ else if ($respind_row['res'] == 0) { ?>
 			<h4 class="comp"> <?php echo "Competencia N°".$competencia_id." : ".$competencia_nombre?> </h4>
 			<thead>
 					<tr>
-						<th>Evaluador </th>
-						<th>Peso opinante</th>
-						<th>Porcentaje </th>
-						<th>Nivel </th>
+						<th> Evaluador </th>
+						<th> Peso opinante </th>
+						<th> Porcentaje </th>
+						<th> Nivel </th>
 					</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<?php
-					echo "<tr>";
 					echo "<td>Auto-Evaluación</td>";
 					echo "<td>10%</td>";
 					echo "<td>".$resultado_autoeval."%</td>";
 					if ($resultado_autoeval <= 33.33) { echo "<td>1</td>";}
-					elseif ($resultado_autoeval <= 66.66) { echo "<td>2</td>";}
-					elseif ($resultado_autoeval <= 99.99) { echo "<td>3</td>";}
+					else if ($resultado_autoeval <= 66.67) { echo "<td>2</td>";}
+					else if ($resultado_autoeval <= 100.00) { echo "<td>3</td>";}
 					else { echo "<td>4</td>";}
 					echo "</tr>";
 					if ($verificador){
@@ -650,8 +669,8 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>75%</td>";
 						echo "<td>".$resultado_superior."%</td>";
 						if ($resultado_superior <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_superior <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_superior <= 99.99) { echo "<td>3</td>";}
+						else if ($resultado_superior <= 66.67) { echo "<td>2</td>";}
+						else if ($resultado_superior <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 						echo "<tr>";
@@ -659,16 +678,16 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>15%</td>";
 						echo "<td>".$resultado_colaborador."%</td>";
 						if ($resultado_colaborador <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_colaborador <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_colaborador <= 99.99) { echo "<td>3</td>";}
+						else if ($resultado_colaborador <= 66.67) { echo "<td>2</td>";}
+						else if ($resultado_colaborador <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
 						echo "<td>".$resultado_competencia."%</td>";
 						if ($resultado_competencia <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_competencia <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_competencia <= 99.99) { echo "<td>3</td>";}
+						else if ($resultado_competencia <= 66.67) { echo "<td>2</td>";}
+						else if ($resultado_competencia <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 					}
@@ -678,8 +697,8 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>90%</td>";
 						echo "<td>".$resultado_superior."%</td>";
 						if ($resultado_superior <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_superior <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_superior <= 99.99) { echo "<td>3</td>";}
+						else if ($resultado_superior <= 66.67) { echo "<td>2</td>";}
+						else if ($resultado_superior <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 						echo "<tr>";
@@ -687,8 +706,8 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>100%</td>";
 						echo "<td>".$resultado_competencia."%</td>";
 						if ($resultado_competencia <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_competencia <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_competencia <= 99.99) { echo "<td>3</td>";}
+						else if ($resultado_competencia <= 66.67) { echo "<td>2</td>";}
+						else if ($resultado_competencia <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
@@ -758,9 +777,10 @@ else if ($respind_row['res'] == 0) { ?>
 		<table class="table-condensed detalle">
 			<thead>
 					<tr>
-						<th>Evaluador </th>
-						<th>Peso opinante</th>
-						<th>Porcentaje </th>
+						<th> Evaluador </th>
+						<th> Peso opinante </th>
+						<th> Porcentaje </th>
+						<th> Nivel </th>
 					</tr>
 			</thead>
 			<tbody>
@@ -769,22 +789,38 @@ else if ($respind_row['res'] == 0) { ?>
 					echo "<td>Auto-Evaluación</td>";
 					echo "<td>10%</td>";
 					echo "<td>".$fila_autoeval['resultado']."%</td>";
+					if ($fila_autoeval['resultado'] <= 33.33) { echo "<td>1</td>"; }
+					else if ($fila_autoeval['resultado'] <= 66.67) { echo "<td>2</td>"; }
+					else if ($fila_autoeval['resultado'] <= 100.00) { echo "<td>3</td>"; }
+					else { echo "<td>4</td>"; }
 					echo "</tr>";
 					if ($verificador){
 						echo "<tr>";
 						echo "<td>Superior</td>";
 						echo "<td>75%</td>";
 						echo "<td>".$fila_sup['resultado']."%</td>";
+						if ($fila_sup['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						else if ($fila_sup['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						else if ($fila_sup['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Colaboradores</td>";
 						echo "<td>15%</td>";
 						echo "<td>".$fila_col['resultado']."%</td>";
+						if ($fila_col['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						else if ($fila_col['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						else if ($fila_col['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
 						echo "<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>";
+						if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { echo "<td>1</td>"; }
+						else if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.67) { echo "<td>2</td>"; }
+						else if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
 					else {
@@ -792,11 +828,19 @@ else if ($respind_row['res'] == 0) { ?>
 						echo "<td>Superior</td>";
 						echo "<td>90%</td>";
 						echo "<td>".$fila_sup['resultado']."%</td>";
+						if ($fila_sup['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						else if ($fila_sup['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						else if ($fila_sup['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
 						echo "<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>";
+						if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { echo "<td>1</td>"; }
+						else if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.67) { echo "<td>2</td>"; }
+						else if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
 				?>
@@ -804,7 +848,12 @@ else if ($respind_row['res'] == 0) { ?>
 		</table>
 	</div><br><br><br><br><br>
 		<?php }?>
-	<?php }
+	<?php }	?>
+	<br><h4 class="total"> Total: <?php echo ROUND($comp_general,2) ?>% - Nivel: <?php
+	if (ROUND($comp_general,2) <= 33.33) { echo "1 </h4>"; }
+	else if (ROUND($comp_general,2) <= 66.67) {echo "2 </h4>"; }
+	else if (ROUND($comp_general,2) <= 100.00) {echo "3 </h4>"; }
+	else { echo "4 </h4>";}
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 	$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
@@ -1165,16 +1214,17 @@ else {
 										 AND tipo_id = 3";
 	$colaborador_result = $conn->query($colaborador) or die("database error:". $conn->error);
 	$fila_col = $colaborador_result->fetch_assoc();
-	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay un valor
+	$verificador = ($fila_col['resultado'] != NULL); // Si es distinto de null, hay colaboradores
 	$pond = "SELECT pondmeta, pondcomp
 						 FROM procesos
 						WHERE procesos.id = $proceso";
 	$pond_result = $conn->query($pond) or die ("database error: " . $conn->error);
 	$pond_row = $pond_result->fetch_assoc();
+	// Sin Colaboradores
 	if (!$verificador) {
 		$respuesta_info = "SELECT comp_table.resultado as comp_result,
-															 meta_table.resultado as meta_result,
-															 ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
+															meta_table.resultado as meta_result,
+															ROUND (comp_table.resultado * (pondcomp / 100.0) + meta_table.resultado * (pondmeta / 100.0) , 2) as total_result
 											 	FROM (SELECT ROUND(SUM(result) / COUNT(result), 2) as resultado
 															FROM
 																(SELECT evaluador_id, ROUND(SUM(valores.valor * (ponderacion/100.0)),2) as result
@@ -1212,6 +1262,7 @@ else {
 																		   GROUP BY competencia_id) as tablita) as comp_table, procesos
 																			 		WHERE procesos.id = $proceso";
 	}
+	// Con colaboradores
 	else {
 		$respuesta_info = "SELECT comp_table.resultado as comp_result,
 															 meta_table.resultado as meta_result,
@@ -1263,9 +1314,9 @@ $prom_general = $resultado['total_result'];
 	<table class="table">
 		<thead>
       <tr>
-				<th class="titulo-meta">Resultado Metas (<?php echo $pond_row['pondmeta'] ?>%)</th>
-        <th class="titulo-comp">Resultado Competencias (<?php echo $pond_row['pondcomp'] ?>%)</th>
-				<th class="titulo-gen">Resultado General</th>
+				<th class="titulo-meta"> Resultado Metas (<?php echo $pond_row['pondmeta'] ?>%) </th>
+        <th class="titulo-comp"> Resultado Competencias (<?php echo $pond_row['pondcomp'] ?>%) </th>
+				<th class="titulo-gen"> Resultado General </th>
       </tr>
     </thead>
 		<tbody>
@@ -1297,19 +1348,19 @@ $prom_general = $resultado['total_result'];
 			<tbody>
 				<tr>
 					<td> No Cumplido </td>
-					<td> 33 % </td>
+					<td> 33.33% </td>
 				</tr>
 				<tr>
 					<td> Mínimo </td>
-					<td> 67 % </td>
+					<td> 66.67% </td>
 				</tr>
 				<tr>
 					<td> Esperado </td>
-					<td> 100 % </td>
+					<td> 100.00% </td>
 				</tr>
 				<tr>
 					<td> Sobre lo esperado </td>
-					<td> 133 % </td>
+					<td> 133.33% </td>
 				</tr>
 			</tbody>
 		</table>
@@ -1346,13 +1397,13 @@ $prom_general = $resultado['total_result'];
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Indicador</th>
-							<th>No Cumplido</th>
-							<th>Mínimo</th>
-							<th>Esperado </th>
-			        <th>Sobre lo esperado</th>
-							<th>Ponderación</th>
-							<th>Cumplimiento</th>
+							<th> Indicador </th>
+							<th> No Cumplido </th>
+							<th> Mínimo </th>
+							<th> Esperado </th>
+			        <th> Sobre lo esperado </th>
+							<th> Ponderación </th>
+							<th> Cumplimiento </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -1360,7 +1411,8 @@ $prom_general = $resultado['total_result'];
 				while ($fila_indicador = $indicador_result->fetch_assoc()){
 					$indicador = $fila_indicador["id"];
 					$ponderacion = $fila_indicador['ponderacion'];
-					$evaluacion = "SELECT ROUND(SUM(valor)/COUNT(valor),2) as resultado
+					$evaluacion = "SELECT valor as resultado,
+																resultados_ind.respuesta as resp
 					  							 FROM resultados_ind, evaluaciones_ind, valores
 													WHERE resultados_ind.evaluacion_id = evaluaciones_ind.id
 													  AND resultados_ind.respuesta = valores.id
@@ -1373,11 +1425,31 @@ $prom_general = $resultado['total_result'];
 					$evaluacion_result = $conn->query($evaluacion) or die("database error:". $conn->error);
 					$fila_evaluacion = $evaluacion_result->fetch_assoc();
 					echo "<tr>";
-					echo "<td>".$fila_indicador['descripcion']."</td>";
-					echo "<td>".$fila_indicador['no_cumplido']."</td>";
-					echo "<td>".$fila_indicador['minimo']."</td>";
-					echo "<td>".$fila_indicador['esperado']."</td>";
-					echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+					echo "<td> N°".$indicador.": ".$fila_indicador['descripcion']."</td>";
+					if ($fila_evaluacion['resp'] == 1) {
+						echo "<td style='background-color:lightblue'>".$fila_indicador['no_cumplido']."</td>";
+						echo "<td>".$fila_indicador['minimo']."</td>";
+						echo "<td>".$fila_indicador['esperado']."</td>";
+						echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+					}
+					else if ($fila_evaluacion['resp'] == 2) {
+						echo "<td>".$fila_indicador['no_cumplido']."</td>";
+						echo "<td style='background-color:lightblue'>".$fila_indicador['minimo']."</td>";
+						echo "<td>".$fila_indicador['esperado']."</td>";
+						echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+					}
+					else if ($fila_evaluacion['resp'] == 3) {
+						echo "<td>".$fila_indicador['no_cumplido']."</td>";
+						echo "<td>".$fila_indicador['minimo']."</td>";
+						echo "<td style='background-color:lightblue'>".$fila_indicador['esperado']."</td>";
+						echo "<td>".$fila_indicador['sobre_esperado']."</td>";
+					}
+					else if ($fila_evaluacion['resp'] == 4) {
+						echo "<td>".$fila_indicador['no_cumplido']."</td>";
+						echo "<td>".$fila_indicador['minimo']."</td>";
+						echo "<td>".$fila_indicador['esperado']."</td>";
+						echo "<td style='background-color:lightblue'>".$fila_indicador['sobre_esperado']."</td>";
+					}
 					echo "<td>".$ponderacion."%</td>";
 					echo "<td>".$fila_evaluacion['resultado']."%</td>";
 					echo "</tr>";
@@ -1387,7 +1459,8 @@ $prom_general = $resultado['total_result'];
 					echo "</table>";
 				}
 				?>
-				<h3 class="total"> Total: <?php echo ROUND($total,2); ?> %</h3>
+				<br>
+				<h3 class="total"> Total: <?php echo ROUND($total,2); ?>%</h3>
 			</div>
 		<br><br><br><br>
 		<h2> Competencias del Perfil: <?php echo $perfil; ?></h2>
@@ -1405,26 +1478,26 @@ $prom_general = $resultado['total_result'];
 				<tr>
 					<td> Mínimo </td>
 					<td> 1 </td>
-					<td> 33.33 % </td>
-					<td> 0 - 33.33 %</td>
+					<td> 33.33% </td>
+					<td> 0 - 33.33%</td>
 				</tr>
 				<tr>
 					<td> En Desarrollo </td>
 					<td> 2 </td>
-					<td> 66.66 % </td>
-					<td> 33.34 - 66.66 %</td>
+					<td> 66.67% </td>
+					<td> 33.34 - 66.67%</td>
 				</tr>
 				<tr>
 					<td> Desarrollado </td>
 					<td> 3 </td>
-					<td> 99.99 % </td>
-					<td> 66.67 - 99.99 %</td>
+					<td> 100.00% </td>
+					<td> 66.68 - 100.00%</td>
 				</tr>
 				<tr>
 					<td> Destacado </td>
 					<td> 4 </td>
-					<td> 133.33 % </td>
-					<td> 100 - 133.33 %</td>
+					<td> 133.33% </td>
+					<td> 100.00 - 133.33%</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -1605,10 +1678,10 @@ $prom_general = $resultado['total_result'];
 			<h4 class="comp"> <?php echo "Competencia N°".$competencia_id." : ".$competencia_nombre?> </h4>
 			<thead>
 					<tr>
-						<th>Evaluador </th>
-						<th>Peso opinante</th>
-						<th>Porcentaje </th>
-						<th>Nivel </th>
+						<th> Evaluador </th>
+						<th> Peso opinante </th>
+						<th> Porcentaje </th>
+						<th> Nivel </th>
 					</tr>
 			</thead>
 			<tbody>
@@ -1619,8 +1692,8 @@ $prom_general = $resultado['total_result'];
 					echo "<td>10%</td>";
 					echo "<td>".$resultado_autoeval."%</td>";
 					if ($resultado_autoeval <= 33.33) { echo "<td>1</td>";}
-					elseif ($resultado_autoeval <= 66.66) { echo "<td>2</td>";}
-					elseif ($resultado_autoeval <= 99.99) { echo "<td>3</td>";}
+					elseif ($resultado_autoeval <= 66.67) { echo "<td>2</td>";}
+					elseif ($resultado_autoeval <= 100.00) { echo "<td>3</td>";}
 					else { echo "<td>4</td>";}
 					echo "</tr>";
 					if ($verificador){
@@ -1629,8 +1702,8 @@ $prom_general = $resultado['total_result'];
 						echo "<td>75%</td>";
 						echo "<td>".$resultado_superior."%</td>";
 						if ($resultado_superior <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_superior <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_superior <= 99.99) { echo "<td>3</td>";}
+						elseif ($resultado_superior <= 66.67) { echo "<td>2</td>";}
+						elseif ($resultado_superior <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 						echo "<tr>";
@@ -1638,8 +1711,8 @@ $prom_general = $resultado['total_result'];
 						echo "<td>15%</td>";
 						echo "<td>".$resultado_colaborador."%</td>";
 						if ($resultado_colaborador <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_colaborador <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_colaborador <= 99.99) { echo "<td>3</td>";}
+						elseif ($resultado_colaborador <= 66.67) { echo "<td>2</td>";}
+						elseif ($resultado_colaborador <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 						echo "<tr>";
@@ -1647,8 +1720,8 @@ $prom_general = $resultado['total_result'];
 						echo "<td>100%</td>";
 						echo "<td>".$resultado_competencia."%</td>";
 						if ($resultado_competencia <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_competencia <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_competencia <= 99.99) { echo "<td>3</td>";}
+						elseif ($resultado_competencia <= 66.67) { echo "<td>2</td>";}
+						elseif ($resultado_competencia <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 					}
@@ -1658,8 +1731,8 @@ $prom_general = $resultado['total_result'];
 						echo "<td>90%</td>";
 						echo "<td>".$resultado_superior."%</td>";
 						if ($resultado_superior <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_superior <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_superior <= 99.99) { echo "<td>3</td>";}
+						elseif ($resultado_superior <= 66.67) { echo "<td>2</td>";}
+						elseif ($resultado_superior <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>";}
 						echo "</tr>";
 						echo "<tr>";
@@ -1667,8 +1740,8 @@ $prom_general = $resultado['total_result'];
 						echo "<td>100%</td>";
 						echo "<td>".$resultado_competencia."%</td>";
 						if ($resultado_competencia <= 33.33) { echo "<td>1</td>";}
-						elseif ($resultado_competencia <= 66.66) { echo "<td>2</td>";}
-						elseif ($resultado_competencia <= 99.99) { echo "<td>3</td>";}
+						elseif ($resultado_competencia <= 66.67) { echo "<td>2</td>";}
+						elseif ($resultado_competencia <= 100.00) { echo "<td>3</td>";}
 						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
@@ -1738,9 +1811,10 @@ $prom_general = $resultado['total_result'];
 		<table class="table-condensed detalle">
 			<thead>
 					<tr>
-						<th>Evaluador </th>
-						<th>Peso opinante</th>
-						<th>Porcentaje </th>
+						<th> Evaluador </th>
+						<th> Peso opinante </th>
+						<th> Porcentaje </th>
+						<th> Nivel </th>
 					</tr>
 			</thead>
 			<tbody>
@@ -1749,22 +1823,38 @@ $prom_general = $resultado['total_result'];
 					echo "<td>Auto-Evaluación</td>";
 					echo "<td>10%</td>";
 					echo "<td>".$fila_autoeval['resultado']."%</td>";
+					if ($fila_autoeval['resultado'] <= 33.33) { echo "<td>1</td>"; }
+					elseif ($fila_autoeval['resultado'] <= 66.67) { echo "<td>2</td>"; }
+					elseif ($fila_autoeval['resultado'] <= 100.00) { echo "<td>3</td>"; }
+					else { echo "<td>4</td>"; }
 					echo "</tr>";
 					if ($verificador){
 						echo "<tr>";
 						echo "<td>Superior</td>";
 						echo "<td>75%</td>";
 						echo "<td>".$fila_sup['resultado']."%</td>";
+						if ($fila_sup['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						elseif ($fila_sup['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						elseif ($fila_sup['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Colaboradores</td>";
 						echo "<td>15%</td>";
 						echo "<td>".$fila_col['resultado']."%</td>";
+						if ($fila_col['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						elseif ($fila_col['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						elseif ($fila_col['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
 						echo "<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2)."%</td>";
+						if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 33.33) { echo "<td>1</td>"; }
+						elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 66.67) { echo "<td>2</td>"; }
+						elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.75 + $fila_col['resultado'] * 0.15,2) <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
 					else {
@@ -1772,11 +1862,19 @@ $prom_general = $resultado['total_result'];
 						echo "<td>Superior</td>";
 						echo "<td>90%</td>";
 						echo "<td>".$fila_sup['resultado']."%</td>";
+						if ($fila_sup['resultado'] <= 33.33) { echo "<td>1</td>"; }
+						elseif ($fila_sup['resultado'] <= 66.67) { echo "<td>2</td>"; }
+						elseif ($fila_sup['resultado'] <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 						echo "<tr>";
 						echo "<td>Total</td>";
 						echo "<td>100%</td>";
 						echo "<td>".ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2)."%</td>";
+						if (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 33.33) { echo "<td>1</td>"; }
+						elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 66.67) { echo "<td>2</td>"; }
+						elseif (ROUND($fila_autoeval['resultado']*0.1 + $fila_sup['resultado'] * 0.9 ,2) <= 100.00) { echo "<td>3</td>"; }
+						else { echo "<td>4</td>"; }
 						echo "</tr>";
 					}
 				?>
@@ -1784,7 +1882,12 @@ $prom_general = $resultado['total_result'];
 		</table>
 		</div><br><br><br><br><br>
 		<?php }?>
-	<?php }
+	<?php } ?>
+	<br><h4 class="total"> Total: <?php echo ROUND($comp_general,2) ?>% - Nivel: <?php
+	if (ROUND($comp_general,2) <= 33.33) { echo "1 </h4>"; }
+	else if (ROUND($comp_general,2) <= 66.67) {echo "2 </h4>"; }
+	else if (ROUND($comp_general,2) <= 100.00) {echo "3 </h4>"; }
+	else { echo "4 </h4>";}
 	$resultado_autoeval2 = ROUND($resultado_autoeval2/$contador2,2);
 	$resultado_superior2 = ROUND($resultado_superior2/$contador2,2);
 	$resultado_colaborador2 = ROUND($resultado_colaborador2/$contador2,2);
