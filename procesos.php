@@ -55,7 +55,7 @@ include('navbar.php');
 				<input type="number" name="pondmeta" class="form-control" placeholder="Ponderación">
 			</td>
 			<td>
-				<input type="number" name="pondomp" class="form-control" placeholder="Ponderación">
+				<input type="number" name="pondcomp" class="form-control" placeholder="Ponderación">
 			</td>
 			<td>
 				<select name='est' class="custom-select mb-2 mr-sm-2 mb-sm-0">
@@ -225,6 +225,7 @@ $proc_result = $conn->query($procesos) or die ("database error:".$conn->error);
 	 				<input type="number" name="pondcomp" class="form-control" placeholder="Nueva Ponderación">
 	 			</td>
 			</tr>
+		</form>
 		</tbody>
 	</table>
 <br><br>

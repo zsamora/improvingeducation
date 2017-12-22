@@ -164,7 +164,7 @@ while($fila_meta = $meta_result->fetch_assoc()){ ?>
 										 AND evaluador_id = $evaluador
 										 AND cargo_sup = $evaluador_cargo
 										 AND ciclo_sup = $evaluador_ciclo
-										 AND asignatura_sup = $evaluado_asig
+										 AND asignatura_sup = $evaluador_asig
 										 AND tipo_id = $tipo_eval
 										 AND meta_id = $meta_id
 							  ORDER BY indicador_id";
